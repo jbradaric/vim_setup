@@ -1,0 +1,19 @@
+snippet ppr "more visible print" b
+print '+' * 50
+print ${1}
+print '-' * 50
+endsnippet
+
+snippet trace "print stack trace" b
+import traceback; traceback.print_stack()
+endsnippet
+
+snippet time "function runtime timer" b
+from profilehooks import timecall
+@timecall
+endsnippet
+
+snippet profile "profile function run" b
+from profilehooks import profile
+@profile(immediate=True)
+endsnippet
