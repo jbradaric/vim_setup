@@ -4,3 +4,5 @@
 .vim/local-config/*
 .vim/tags/*
 .vim/yankring/*
+.vim/notes/
+.vim/local-snippets/*
