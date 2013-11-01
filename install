@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ -e $HOME/.vimrc -o -e $HOME/.vim ]; then
+    echo "$HOME/.vimrc or $HOME/.vim already exist"
+    exit 1
+fi
+
+ln -s $PWD/.vim $HOME/.vim
+ln -s $PWD/.vimrc $HOME/.vimrc
