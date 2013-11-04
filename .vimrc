@@ -52,10 +52,6 @@ set autochdir                    " automatically cd into the directory that the 
 set complete+=k                  " scan the files given with the 'dictionary' option
 set history=1000                 " keep 1000 lines of command line history
 set undolevels=1000              " lots and lots of undo
-set incsearch                    " do incremental searching
-set ignorecase
-set smartcase
-set hlsearch                     " highlight all occurences of a word
 set listchars=tab:>.,trail:.     " strings to use in 'list' mode
 set mouse=a                      " enable the use of the mouse
 set nowrap                       " do not wrap lines
@@ -82,6 +78,13 @@ set splitright                   " split new vertical windows to the right of th
 set encoding=utf-8               " set the default encoding to UTF-8
 set scrolloff=3                  " always show at least 3 lines after the current one
 set ttyfast
+"-------------------------------------------------------------------------"}}}
+" Search settings
+"-------------------------------------------------------------------------"{{{
+set incsearch                    " do incremental searching
+set ignorecase                   " use case-insensitive search...
+set smartcase                    " ... unless there are upper-case characters
+set hlsearch                     " highlight all occurences of a word
 "-------------------------------------------------------------------------"}}}
 " Fix slow O inserts
 "-------------------------------------------------------------------------"{{{
