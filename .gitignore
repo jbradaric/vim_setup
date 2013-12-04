@@ -6,3 +6,5 @@
 .vim/yankring/*
 .vim/notes/
 .vim/local-snippets/*
+.vim/.netrwhist
+.vim/spell/*
