@@ -99,10 +99,6 @@ set foldlevel=99
 set foldnestmax=2
 nnoremap <Space> za
 "-------------------------------------------------------------------------"}}}
-" Reduce a sequence of blank (;b) lines into a single line
-"-------------------------------------------------------------------------"{{{
-map ;b        GoZ<Esc>:g/^$/.,/./-j<CR>Gdd
-"-------------------------------------------------------------------------"}}}
 " <export to html> settings
 "-------------------------------------------------------------------------"{{{
 let html_use_css        = 1     " Use stylesheet instead of inline style
