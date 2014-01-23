@@ -9,3 +9,7 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(os|o|so|pyc|pdf|png|txt|xml)$'
   \ }
 nnoremap <Leader>p :CtrlPBuffer<CR>
+
+if executable("ag")
+    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+endif
