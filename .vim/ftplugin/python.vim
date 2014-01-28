@@ -9,3 +9,6 @@ setlocal nowrap
 
 setlocal list
 setlocal listchars=tab:>.,trail:. " Show tabs and trailing spaces
+
+autocmd BufWinLeave * mkview
+autocmd BufWinEnter * silent loadview
