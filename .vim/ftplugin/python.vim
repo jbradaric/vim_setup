@@ -10,5 +10,8 @@ setlocal nowrap
 setlocal list
 setlocal listchars=tab:>.,trail:. " Show tabs and trailing spaces
 
-autocmd BufWinLeave *.py mkview
-autocmd BufWinEnter *.py silent loadview
+augroup PythonAutocommands
+    autocmd!
+    autocmd BufWinLeave *.py mkview
+    autocmd BufWinEnter *.py silent loadview
+augroup END
