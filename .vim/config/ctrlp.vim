@@ -11,5 +11,5 @@ let g:ctrlp_custom_ignore = {
 nnoremap <Leader>p :CtrlPBuffer<CR>
 
 if executable("ag")
-    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+    let g:ctrlp_user_command = 'ag %s --nocolor --hidden -g ""'
 endif

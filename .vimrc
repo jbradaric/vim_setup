@@ -23,6 +23,7 @@ if has("gui_running")
 else
     colorscheme desert256
 endif
+set previewheight=20 " Height of the preview window
 "-------------------------------------------------------------------------"}}}
 " Remap <Leader> to ,
 "-------------------------------------------------------------------------"{{{

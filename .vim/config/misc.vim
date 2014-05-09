@@ -7,7 +7,9 @@ nnoremap <Leader>c \\
 " -------------------------------------------------------------- }}}
 " Use ag instead of ack
 " -------------------------------------------------------------- {{{
-let g:ackprg = 'ag --nogroup --nocolor --column'
+" let g:ackprg = 'ag --nogroup --nocolor --column'
+let g:ackprg = 'ag'
+let g:ack_wildignore = 0
 " -------------------------------------------------------------- }}}
 " Quicker saving
 " -------------------------------------------------------------- {{{
@@ -27,7 +29,7 @@ cnoremap <C-w> <C-r><C-w>
 " Base64 encode/decode
 " -------------------------------------------------------------- {{{
 vnoremap <Leader>d64 c<C-R>=system('base64 --decode', @")<CR><ESC>
-vnoremap <Leader>e64 c<C-R>=system('base64 --encode', @")<CR><ESC>
+vnoremap <Leader>e64 c<C-R>=system('base64', @")<CR><ESC>
 " -------------------------------------------------------------- }}}
 " Always show the status line
 " -------------------------------------------------------------- {{{
