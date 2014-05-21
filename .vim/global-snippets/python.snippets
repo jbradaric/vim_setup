@@ -8,6 +8,10 @@ snippet trace "print stack trace" b
 import traceback; traceback.print_stack()
 endsnippet
 
+snippet pdb "set breakpoint" b
+import pdb; pdb.set_trace()
+endsnippet
+
 snippet time "function runtime timer" b
 from profilehooks import timecall
 @timecall
