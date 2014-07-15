@@ -19,5 +19,5 @@ endsnippet
 
 snippet profile "profile function run" b
 from profilehooks import profile
-@profile(immediate=True)
+@profile(immediate=True, sort=['time', 'calls', 'cumulative'])
 endsnippet
