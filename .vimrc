@@ -18,8 +18,8 @@ set t_Co=256
 if has("gui_running")
     colorscheme wombat
     set guifont=Consolas\ 11
-    set guioptions=a
-    set lines=78
+    set guioptions=ac
+    set lines=999
 else
     colorscheme desert256
 endif
@@ -79,6 +79,7 @@ set splitright                   " split new vertical windows to the right of th
 set encoding=utf-8               " set the default encoding to UTF-8
 set scrolloff=3                  " always show at least 3 lines after the current one
 set ttyfast
+set completeopt-=preview
 "-------------------------------------------------------------------------"}}}
 " Search settings
 "-------------------------------------------------------------------------"{{{
