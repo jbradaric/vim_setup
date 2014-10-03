@@ -8,7 +8,7 @@ nnoremap <Leader>c \\
 " Use ag instead of ack
 " -------------------------------------------------------------- {{{
 " let g:ackprg = 'ag --nogroup --nocolor --column'
-let g:ackprg = 'ag'
+let g:ackprg = 'ag -s'
 let g:ack_wildignore = 0
 " -------------------------------------------------------------- }}}
 " Quicker saving
@@ -59,3 +59,10 @@ nnoremap <C-W>] :call VSplitTag()<CR>
 
 nnoremap <C-W>f :vsplit<CR>gf
 " -------------------------------------------------------------- }}}
+" Python syntax settings
+" -------------------------------------------------------------- {{{
+" let g:python_highlight_exceptions = 1
+" let g:python_highlight_builtin_funcs = 1
+" let g:python_highlight_string_format = 1
+" let g:python_highlight_string_formatting = 1
+" let g:python_highlight_builtin_objs = 1
