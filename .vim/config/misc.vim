@@ -1,6 +1,7 @@
 " Miscellaneous options
 " -------------------------------------------------------------- {{{
 set viewoptions=cursor
+set gdefault
 nnoremap <C-s> :Gstatus<CR>
 nnoremap <silent><Leader><CR> :nohl<CR>
 nnoremap <Leader>c \\
