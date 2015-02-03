@@ -28,3 +28,8 @@ let g:rainbow#colors = {
 \     ['darkmagenta', 'darkviolet'    ]
 \   ]
 \ }
+
+augroup activate_rainbow
+    autocmd!
+    autocmd VimEnter * :RainbowParentheses
+augroup END
