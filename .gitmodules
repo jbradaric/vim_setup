@@ -118,3 +118,6 @@
 [submodule ".vim/bundle/vim-expand-region"]
 	path = .vim/bundle/vim-expand-region
 	url = https://github.com/terryma/vim-expand-region.git
+[submodule ".vim/bundle/rainbow_parentheses.vim"]
+	path = .vim/bundle/rainbow_parentheses.vim
+	url = https://github.com/junegunn/rainbow_parentheses.vim.git
