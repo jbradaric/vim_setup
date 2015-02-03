@@ -7,8 +7,8 @@ let g:yankring_clipboard_monitor = 0
 let g:yankring_manual_clipboard_check = 0
 let g:yankring_paste_check_default_register = 0
 let g:yankring_default_menu_mode = 0
-let g:yankring_replace_n_nkey = '<m-p>'
-let g:yankring_replace_n_pkey = '<m-n>'
+let g:yankring_replace_n_nkey = '<m-n>'
+let g:yankring_replace_n_pkey = '<m-p>'
 
 function! YRRunAfterMaps()
     nnoremap Y :<C-U>YRYankCount 'y$'<CR>
