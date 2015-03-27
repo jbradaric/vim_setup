@@ -29,11 +29,54 @@ set previewheight=20 " Height of the preview window
 "-------------------------------------------------------------------------"{{{
 let mapleader = ','
 "-------------------------------------------------------------------------"}}}
-" Set up pathogen
+" Set up VimPlug
 "-------------------------------------------------------------------------"{{{
-filetype off
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#infect()
+call plug#begin('~/.vim/bundle')
+Plug 'vim-scripts/DoxygenToolkit.vim'
+Plug 'vim-scripts/YankRing.vim'
+Plug 'mileszs/ack.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'alfredodeza/khuno.vim'
+Plug 'vim-scripts/repeat.vim'
+Plug 'vim-scripts/sort-python-imports'
+Plug 'ervandew/supertab'
+Plug 'majutsushi/tagbar'
+Plug 'SirVer/ultisnips'
+Plug 'PeterRincker/vim-argumentative'
+Plug 'tpope/vim-commentary'
+Plug 'Twinside/vim-cuteTodoList'
+Plug 'junegunn/vim-easy-align'
+Plug 'xolox/vim-easytags'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-git'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-notes'
+Plug 'tpope/vim-surround'
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-lastpat'
+Plug 'kana/vim-textobj-underscore'
+Plug 'kana/vim-textobj-user'
+Plug 'avakhov/vim-yaml'
+Plug 'chrisbra/NrrwRgn'
+Plug 'chrisbra/NrrwRgn'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'mbbill/undotree'
+Plug 'duff/vim-scratch'
+Plug 'haya14busa/vim-easyoperator-line'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-dispatch'
+Plug 'itchyny/lightline.vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'haya14busa/incsearch.vim'
+Plug 'gorkunov/smartpairs.vim'
+Plug 'tpope/vim-vinegar'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'terryma/vim-expand-region'
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'hdima/python-syntax'
+call plug#end()
 "-------------------------------------------------------------------------"}}}
 " Enable file type detection. Use the default filetype settings.
 " Also load indent files, to automatically do language-dependent indenting.
