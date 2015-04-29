@@ -130,8 +130,6 @@ set expandtab                    " insert spaces for tabs
 set formatoptions+=j             " delete comment character when joining commented lines
 set wildignore+=*.bak,*.o,*.e,*~ " wildmenu: ignore these extensions
 set wildignore+=*.class,*.pyc
-set wildignore+=*.keys,*.mo
-set wildignore+=*.prefs,*.datapool
 " First tab press = complete as much as possible
 " Second tab = provide a list
 " Third and subsequent tab = cycle through completions
