@@ -24,6 +24,11 @@ else
     colorscheme desert256
 endif
 set previewheight=20 " Height of the preview window
+
+if has('nvim')
+    let g:python_host_prog='/usr/bin/python2'
+endif
+
 "-------------------------------------------------------------------------"}}}
 " Remap <Leader> to ,
 "-------------------------------------------------------------------------"{{{
@@ -38,7 +43,6 @@ Plug 'mileszs/ack.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'alfredodeza/khuno.vim', { 'for': ['python'] }
 Plug 'vim-scripts/repeat.vim'
-Plug 'vim-scripts/sort-python-imports'
 Plug 'ervandew/supertab'
 Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'SirVer/ultisnips'
@@ -59,7 +63,6 @@ Plug 'kana/vim-textobj-underscore'
 Plug 'kana/vim-textobj-user'
 Plug 'avakhov/vim-yaml'
 Plug 'chrisbra/NrrwRgn'
-Plug 'chrisbra/NrrwRgn'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'duff/vim-scratch'
@@ -75,8 +78,8 @@ Plug 'tpope/vim-vinegar'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'terryma/vim-expand-region'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'hdima/python-syntax'
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'wellle/targets.vim'
 call plug#end()
 "-------------------------------------------------------------------------"}}}
 " Enable file type detection. Use the default filetype settings.
