@@ -36,16 +36,16 @@ Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'vim-scripts/YankRing.vim'
 Plug 'mileszs/ack.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'alfredodeza/khuno.vim'
+Plug 'alfredodeza/khuno.vim', { 'for': ['python'] }
 Plug 'vim-scripts/repeat.vim'
 Plug 'vim-scripts/sort-python-imports'
 Plug 'ervandew/supertab'
-Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'SirVer/ultisnips'
 Plug 'PeterRincker/vim-argumentative'
 Plug 'tpope/vim-commentary'
 Plug 'Twinside/vim-cuteTodoList'
-Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'xolox/vim-easytags'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-git'
@@ -61,7 +61,7 @@ Plug 'avakhov/vim-yaml'
 Plug 'chrisbra/NrrwRgn'
 Plug 'chrisbra/NrrwRgn'
 Plug 'Lokaltog/vim-easymotion'
-Plug 'mbbill/undotree'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'duff/vim-scratch'
 Plug 'haya14busa/vim-easyoperator-line'
 Plug 'tpope/vim-unimpaired'
@@ -76,6 +76,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'terryma/vim-expand-region'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'hdima/python-syntax'
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 call plug#end()
 "-------------------------------------------------------------------------"}}}
 " Enable file type detection. Use the default filetype settings.
