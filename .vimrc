@@ -1,7 +1,7 @@
 " File: .vimrc
 " Author: Jurica Bradarić
 " Description: My .vimrc file
-" Last Modified: 2013-11-01
+" Last Modified: 2015-04-29
 "===================================================================================
 " GENERAL SETTINGS
 "===================================================================================
@@ -37,49 +37,66 @@ let mapleader = ','
 " Set up VimPlug
 "-------------------------------------------------------------------------"{{{
 call plug#begin('~/.vim/bundle')
-Plug 'vim-scripts/DoxygenToolkit.vim'
-Plug 'vim-scripts/YankRing.vim'
-Plug 'mileszs/ack.vim'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'alfredodeza/khuno.vim', { 'for': ['python'] }
-Plug 'vim-scripts/repeat.vim'
+
+" Appearance
+Plug 'itchyny/lightline.vim'
+Plug 'junegunn/rainbow_parentheses.vim'
+
+" Autocomplete
 Plug 'ervandew/supertab'
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
 Plug 'SirVer/ultisnips'
-Plug 'PeterRincker/vim-argumentative'
-Plug 'tpope/vim-commentary'
-Plug 'Twinside/vim-cuteTodoList'
-Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-Plug 'xolox/vim-easytags'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-git'
-Plug 'michaeljsmith/vim-indent-object'
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-notes'
-Plug 'tpope/vim-surround'
+
+" CtrlP
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
+
+" Text objects
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-lastpat'
 Plug 'kana/vim-textobj-underscore'
 Plug 'kana/vim-textobj-user'
-Plug 'avakhov/vim-yaml'
-Plug 'chrisbra/NrrwRgn'
-Plug 'Lokaltog/vim-easymotion'
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-Plug 'duff/vim-scratch'
-Plug 'haya14busa/vim-easyoperator-line'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-dispatch'
-Plug 'itchyny/lightline.vim'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'haya14busa/incsearch.vim'
-Plug 'gorkunov/smartpairs.vim'
-Plug 'tpope/vim-vinegar'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'terryma/vim-expand-region'
-Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'michaeljsmith/vim-indent-object'
 Plug 'wellle/targets.vim'
+
+" Motions
+Plug 'haya14busa/vim-easyoperator-line'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'terryma/vim-expand-region'
+
+" Search
+Plug 'haya14busa/incsearch.vim'
+Plug 'terryma/vim-multiple-cursors'
+
+" Tim Pope's plugins
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-git'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-vinegar'
+
+" Filetype specific
+Plug 'alfredodeza/khuno.vim', { 'for': ['python'] }
+Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
+Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
+
+" Misc
+Plug 'chrisbra/NrrwRgn'
+Plug 'duff/vim-scratch', { 'on': ['Scratch'] }
+Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+Plug 'mileszs/ack.vim'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'PeterRincker/vim-argumentative', { 'on': ['<Plug>Argumentative_MoveRight', '<Plug>Argumentative_MoveLeft'] }
+Plug 'vim-scripts/DoxygenToolkit.vim', { 'on': ['Dox', 'DoxUndoc'] }
+Plug 'vim-scripts/YankRing.vim'
+Plug 'xolox/vim-easytags'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-notes'
+
 call plug#end()
 "-------------------------------------------------------------------------"}}}
 " Enable file type detection. Use the default filetype settings.
