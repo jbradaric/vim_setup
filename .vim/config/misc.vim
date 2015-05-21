@@ -9,11 +9,14 @@ nnoremap <Leader>l :silent! redraw!<CR>
 " Make Q more useful
 nnoremap Q q:
 " -------------------------------------------------------------- }}}
-" Use ag instead of ack
+" Use ag for Ack/grep
 " -------------------------------------------------------------- {{{
 " let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:ackprg = 'ag -s'
 let g:ack_wildignore = 0
+
+set grepprg=ag\ --vimgrep\ $*
+set grepformat=%f:%l:%c:%m
 " -------------------------------------------------------------- }}}
 " Quicker saving
 " -------------------------------------------------------------- {{{
@@ -70,3 +73,11 @@ nnoremap <C-W>f :vsplit<CR>gf
 " let g:python_highlight_string_format = 1
 " let g:python_highlight_string_formatting = 1
 " let g:python_highlight_builtin_objs = 1
+" -------------------------------------------------------------- }}}
+" NVim settings
+" -------------------------------------------------------------- {{{
+if has('nvim')
+    tmap <Esc> <C-\><C-n>
+    tmap <C-\><C-m> <C-\><C-n>
+    nnoremap <leader>t :vsp term:///home/jurica/.scripts/nvim-work-term.sh<CR>
+endif
