@@ -21,7 +21,11 @@ if has("gui_running")
     set guioptions=ac
     set lines=999
 else
-    colorscheme desert256
+    if has('nvim')
+        colorscheme wombat
+    else
+        colorscheme desert256
+    endif
 endif
 set previewheight=20 " Height of the preview window
 
@@ -44,6 +48,7 @@ Plug 'junegunn/rainbow_parentheses.vim'
 
 " Autocomplete
 Plug 'ervandew/supertab'
+
 Plug 'SirVer/ultisnips'
 
 " CtrlP
@@ -82,6 +87,9 @@ Plug 'alfredodeza/khuno.vim', { 'for': ['python'] }
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
 Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 
+" Git
+Plug 'gregsexton/gitv'
+
 " Misc
 Plug 'chrisbra/NrrwRgn'
 Plug 'duff/vim-scratch', { 'on': ['Scratch'] }
@@ -96,6 +104,8 @@ Plug 'vim-scripts/YankRing.vim'
 Plug 'xolox/vim-easytags'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes'
+
+Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
 
 call plug#end()
 "-------------------------------------------------------------------------"}}}
