@@ -94,7 +94,7 @@ Plug 'gregsexton/gitv'
 Plug 'chrisbra/NrrwRgn'
 Plug 'duff/vim-scratch', { 'on': ['Scratch'] }
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-Plug 'majutsushi/tagbar', { 'on': 'TagbarToggle' }
+Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpenAutoClose'] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'mileszs/ack.vim'
 Plug 'nathanaelkane/vim-indent-guides'
