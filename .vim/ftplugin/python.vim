@@ -14,4 +14,9 @@ augroup PythonAutocommands
     autocmd!
     autocmd BufWinLeave *.py silent! mkview
     autocmd BufWinEnter *.py silent! loadview
+
+    if has('nvim')
+        autocmd BufWinEnter * if &ft ==# 'python' | exe 'Neomake' | endif
+        autocmd BufWrite    * if &ft ==# 'python' | exe 'Neomake' | endif
+    endif
 augroup END
