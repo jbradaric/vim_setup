@@ -77,7 +77,12 @@ nnoremap <C-W>f :vsplit<CR>gf
 " NVim settings
 " -------------------------------------------------------------- {{{
 if has('nvim')
-    tmap <Esc> <C-\><C-n>
-    tmap <C-\><C-m> <C-\><C-n>
+    tnoremap <C-\><C-m> <C-\><C-n>
+    tnoremap <C-]> <C-\><C-n><C-w>q
     nnoremap <leader>t :vsp term:///home/jurica/.scripts/nvim-work-term.sh<CR>
+
+    augroup terminal_mappings
+        autocmd!
+        autocmd BufEnter term://* nnoremap <buffer> <C-]> <C-W>q
+    augroup END
 endif
