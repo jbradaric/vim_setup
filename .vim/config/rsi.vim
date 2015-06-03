@@ -1,4 +1,8 @@
+" Insert mode mappings
 inoremap <C-A> <C-O>^
+inoremap <C-E> <C-O>$
+
+" Command-line mappings
 cnoremap <C-A> <Home>
 cnoremap <C-B> <Left>
 
