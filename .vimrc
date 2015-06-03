@@ -55,6 +55,10 @@ Plug 'SirVer/ultisnips'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
 
+if has('nvim')
+    Plug 'benekastah/neomake'
+endif
+
 " Text objects
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-lastpat'
@@ -83,7 +87,9 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 
 " Filetype specific
-Plug 'alfredodeza/khuno.vim', { 'for': ['python'] }
+if !has('nvim')
+    Plug 'alfredodeza/khuno.vim', { 'for': ['python'] }
+endif
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
 Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 
