@@ -33,6 +33,13 @@ hi Folded 		guibg=#384048 guifg=#a0a8b0 gui=none
 hi Title		guifg=#f6f3e8 guibg=NONE	gui=bold
 hi Visual		guifg=#f6f3e8 guibg=#444444 gui=none
 hi SpecialKey	guifg=#808080 guibg=#343434 gui=none
+hi SignColumn   guifg=none    guibg=#000000 gui=none
+
+" Diff colors
+hi DiffAdd ctermbg=17 guibg=#2a0d6a
+hi DiffDelete ctermfg=234 ctermbg=60 cterm=none guifg=#242424 guibg=#3e3969 gui=none
+hi DiffText ctermbg=53 cterm=none guibg=#73186e gui=none
+hi DiffChange ctermbg=237 guibg=#382a37
 
 " Syntax highlighting
 hi Comment 		guifg=#99968b gui=italic
