@@ -12,6 +12,6 @@ setlocal listchars=tab:>.,trail:. " Show tabs and trailing spaces
 
 augroup PythonAutocommands
     autocmd!
-    autocmd BufWinLeave *.py mkview
-    autocmd BufWinEnter *.py silent loadview
+    autocmd BufWinLeave *.py silent! mkview
+    autocmd BufWinEnter *.py silent! loadview
 augroup END
