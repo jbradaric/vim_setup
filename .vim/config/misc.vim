@@ -24,11 +24,11 @@ nnoremap <Leader>w :update<CR>
 " -------------------------------------------------------------- }}}
 " Search for the word under cursor
 " -------------------------------------------------------------- {{{
-nmap <Leader>a :LAck! <cword><CR> 
+nmap <Leader>a :Ack! <cword><CR>
 " -------------------------------------------------------------- }}}
 " Enter search term
 " -------------------------------------------------------------- {{{
-nmap <Leader>A :LAck!<Space>
+nmap <Leader>A :Ack!<Space>
 " -------------------------------------------------------------- }}}
 " Insert the word under cursor in the command line
 cnoremap <C-w> <C-r><C-w>
