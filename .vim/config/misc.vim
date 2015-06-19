@@ -79,7 +79,7 @@ nnoremap <C-W>f :vsplit<CR>gf
 if has('nvim')
     tnoremap <C-\><C-m> <C-\><C-n>
     tnoremap <C-]> <C-\><C-n><C-w>q
-    nnoremap <leader>t :vsp term:///home/jurica/.scripts/nvim-work-term.sh<CR>
+    nnoremap <leader>t :silent vsp term:///home/jurica/.scripts/nvim-work-term.sh<CR>i
 
     augroup terminal_mappings
         autocmd!

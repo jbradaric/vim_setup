@@ -8,7 +8,7 @@ let g:ctrlp_custom_ignore = {
   \ 'dir': '\.git$\|doc$',
   \ 'file': '\v\.(os|o|so|pyc|pdf|png|txt|xml)$'
   \ }
-nnoremap <Leader>p :CtrlPBuffer<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
 
 if !has('nvim') && has('python')
     let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
