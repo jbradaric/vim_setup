@@ -1,8 +1,52 @@
 let g:lightline = {
       \ 'colorscheme': 'wombat',
-      \ 'component': {
-      \   'readonly': '%{&readonly?"":""}',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'readonly', 'filename', 'modified' ],
+      \           ],
+      \ },
+      \ 'component_function': {
+      \   'modified': 'lightline#MyModified',
+      \   'readonly': 'lightline#MyReadonly',
+      \   'fugitive': 'lightline#MyFugitive',
+      \ },
+      \ 'component_visible_condition': {
+      \   'readonly': '(&filetype != "help" && &readonly)',
+      \   'modified': '(&filetype != "help" && &modified)',
+      \   'fugitive': '(exists("*fugitive#head") && "" != fugitive#head())',
       \ },
       \ 'separator': { 'left': '', 'right': '' },
       \ 'subseparator': { 'left': '', 'right': '' }
       \ }
+
+function! s:prettify_branch(name)
+    return " " . a:name
+endfunction
+
+function lightline#MyModified()
+    if &filetype == 'help'
+        return ''
+    elseif &modified
+        return '+'
+    endif
+    return ''
+endfunction
+
+function! lightline#MyReadonly()
+    if &filetype == 'help'
+        return ''
+    elseif &readonly
+        return ''
+    endif
+    return ''
+endfunction
+
+function! lightline#MyFugitive()
+    if exists('*fugitive#head')
+        let _ = fugitive#head()
+        if strlen(_)
+            return s:prettify_branch(_)
+        endif
+    endif
+    return ''
+endfunction
