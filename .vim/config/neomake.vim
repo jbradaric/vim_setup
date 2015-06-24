@@ -3,6 +3,7 @@ let s:python_max_line_length = 100
 let s:python_error_types_override = {
     \ '127': 'W',
     \ '124': 'W',
+    \ '203': 'W',
     \ '225': 'W',
     \ '226': 'W',
     \ '231': 'W',
