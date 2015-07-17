@@ -75,6 +75,7 @@ Plug 'terryma/vim-expand-region'
 " Search
 Plug 'haya14busa/incsearch.vim'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'vasconcelloslf/vim-interestingwords'
 
 " Tim Pope's plugins
 Plug 'tpope/vim-commentary'
@@ -112,6 +113,10 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes'
 
 Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
+
+if has('nvim')
+    Plug 'Valloric/YouCompleteMe'
+endif
 
 call plug#end()
 "-------------------------------------------------------------------------"}}}
