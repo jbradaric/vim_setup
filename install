@@ -10,6 +10,9 @@ if [ -e $HOME/.nvimrc -o -e $HOME/.nvim ]; then
     exit 1
 fi
 
+mkdir $HOME/.vim/tmp $HOME/.vim/backup $HOME/.vim/view $HOME/.vim/local-config $HOME/.vim/tags
+mkdir $HOME/.vim/yankring $HOME/.vim/notes $HOME/.vim/local-snippets $HOME/.vim/spell
+
 ln -s $PWD/.vim $HOME/.vim
 ln -s $PWD/.vimrc $HOME/.vimrc
 
