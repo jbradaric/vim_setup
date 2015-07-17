@@ -4,12 +4,10 @@ To install the VIM configuration, perform these commands:
 
     git clone https://github.com/jbradaric/vim_setup.git vim_setup
     cd vim_setup
-    ./prepare
     ./install
 
-This will clone the repository, initialize plugin submodules, create the
-necessary directories and create symlinks to ``.vim`` and ``.vimrc`` in the
-$HOME directory.
+This will clone the repository, create the necessary directories and create
+symlinks to ``.vim``, ``.vimrc``, ``.nvim``, and ``.nvimrc`` in the $HOME directory.
 
 # Configuration
 
