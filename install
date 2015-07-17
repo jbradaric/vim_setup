@@ -5,5 +5,13 @@ if [ -e $HOME/.vimrc -o -e $HOME/.vim ]; then
     exit 1
 fi
 
+if [ -e $HOME/.nvimrc -o -e $HOME/.nvim ]; then
+    echo "$HOME/.nvimrc or $HOME/.nvim already exist"
+    exit 1
+fi
+
 ln -s $PWD/.vim $HOME/.vim
 ln -s $PWD/.vimrc $HOME/.vimrc
+
+ln -s $PWD/.nvim $HOME/.nvim
+ln -s $PWD/.nvimrc $HOME/.nvimrc
