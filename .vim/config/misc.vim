@@ -86,4 +86,9 @@ if has('nvim')
         autocmd!
         autocmd BufEnter term://* nnoremap <buffer> <C-]> <C-W>q
     augroup END
+
+    augroup make_autoread_work
+        autocmd!
+        autocmd BufEnter * checktime
+    augroup END
 endif
