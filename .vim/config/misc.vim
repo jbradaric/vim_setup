@@ -11,8 +11,7 @@ nnoremap Q q:
 " -------------------------------------------------------------- }}}
 " Use ag for Ack/grep
 " -------------------------------------------------------------- {{{
-" let g:ackprg = 'ag --nogroup --nocolor --column'
-let g:ackprg = 'ag -s'
+" let g:ackprg = 'ag -s --vimgrep'
 let g:ack_wildignore = 0
 
 set grepprg=ag\ --vimgrep\ $*
@@ -24,11 +23,11 @@ nnoremap <Leader>w :update<CR>
 " -------------------------------------------------------------- }}}
 " Search for the word under cursor
 " -------------------------------------------------------------- {{{
-nmap <Leader>a :Ack! <cword><CR>
+nmap <Leader>a :Ag! <cword><CR>
 " -------------------------------------------------------------- }}}
 " Enter search term
 " -------------------------------------------------------------- {{{
-nmap <Leader>A :Ack!<Space>
+nmap <Leader>A :Ag!<Space>
 " -------------------------------------------------------------- }}}
 " Insert the word under cursor in the command line
 cnoremap <C-w> <C-r><C-w>
