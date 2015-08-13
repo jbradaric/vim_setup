@@ -114,6 +114,7 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes'
 
 Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
+Plug 'unblevable/quick-scope'
 
 if has('nvim')
     Plug 'Valloric/YouCompleteMe'
