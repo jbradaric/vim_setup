@@ -8,3 +8,4 @@
 .vim/local-snippets/*
 .vim/.netrwhist
 .vim/spell/*
+.vim/bundle
