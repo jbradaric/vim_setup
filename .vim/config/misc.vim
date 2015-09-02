@@ -14,6 +14,8 @@ nnoremap Q q:
 " let g:ackprg = 'ag -s --vimgrep'
 let g:ack_wildignore = 0
 
+nnoremap <Space>/ :<C-U>Ag<Space>
+
 set grepprg=ag\ --vimgrep\ $*
 set grepformat=%f:%l:%c:%m
 " -------------------------------------------------------------- }}}
