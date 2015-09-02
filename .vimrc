@@ -29,10 +29,6 @@ else
 endif
 set previewheight=20 " Height of the preview window
 
-if has('nvim')
-    let g:python_host_prog='/usr/bin/python2'
-endif
-
 "-------------------------------------------------------------------------"}}}
 " Remap <Leader> to ,
 "-------------------------------------------------------------------------"{{{
