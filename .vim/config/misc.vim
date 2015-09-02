@@ -48,10 +48,17 @@ set matchtime=2
 " -------------------------------------------------------------- }}}
 " Fast window moves
 " -------------------------------------------------------------- {{{
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
+nnoremap <A-h> <C-w>h
+nnoremap <A-j> <C-w>j
+nnoremap <A-k> <C-w>k
+nnoremap <A-l> <C-w>l
+
+if has('nvim')
+    tnoremap <A-h> <C-\><C-n><C-w>h
+    tnoremap <A-j> <C-\><C-n><C-w>j
+    tnoremap <A-k> <C-\><C-n><C-w>k
+    tnoremap <A-l> <C-\><C-n><C-w>l
+endif
 " -------------------------------------------------------------- }}}
 " Remap <C-W><C-]> and <C-W>] to use vertical splits
 " see :h CTRL-W_CTRL-]
