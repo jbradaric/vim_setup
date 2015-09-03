@@ -1,0 +1,28 @@
+# ifndef...define...endif
+snippet ndef
+#ifndef $1
+#define ${1:SYMBOL} ${2:value}
+#endif
+endsnippet
+
+# ifdef...endif
+snippet ifdef
+#ifdef ${1:FOO}
+${2:#define }
+#endif
+endsnippet
+
+# if
+snippet #if
+#if ${1:FOO}
+${0}
+#endif
+endsnippet
+
+# header include guard
+snippet once
+#ifndef ${1}
+#define $1
+${0}
+#endif /* $1 */
+endsnippet
