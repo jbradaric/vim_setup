@@ -82,6 +82,7 @@ if !has('nvim')
 endif
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
 Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
+Plug 'cespare/vim-toml'
 
 " Git
 Plug 'gregsexton/gitv'
