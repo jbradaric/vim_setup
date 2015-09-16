@@ -3,9 +3,6 @@
 set viewoptions=cursor
 set gdefault
 nnoremap <C-s> :Gstatus<CR>
-nnoremap <silent><Leader><CR> :nohl<CR>
-nnoremap <Leader>c \\
-nnoremap <Leader>l :silent! redraw!<CR>
 " Make Q more useful
 nnoremap Q q:
 " -------------------------------------------------------------- }}}
