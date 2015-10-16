@@ -86,8 +86,15 @@ if has('nvim')
     tnoremap <C-\><C-m> <C-\><C-n>
     tnoremap <C-]> <C-\><C-n><C-w>q
     tnoremap <C-^> <C-\><C-n><C-^>
+
     nnoremap <leader>t :silent vsp term://$HOME/.scripts/nvim-work-term.sh<CR>i
     nnoremap <leader>T :silent e term://$HOME/.scripts/nvim-work-term.sh<CR>i
+
+    " Also redraw neovim when clearing the terminal
+    tnoremap <C-l> <C-l><C-\><C-n><C-l>i
+
+    " Make Alt+. work again
+    tnoremap ® .
 
     augroup terminal_mappings
         autocmd!
