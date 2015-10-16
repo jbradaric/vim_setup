@@ -83,9 +83,11 @@ endif
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
 Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 Plug 'cespare/vim-toml'
+Plug 'hynek/vim-python-pep8-indent'
 
 " Git
 Plug 'gregsexton/gitv'
+Plug 'idanarye/vim-merginal'
 
 " Misc
 Plug 'chrisbra/NrrwRgn'
