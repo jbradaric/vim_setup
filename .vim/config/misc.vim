@@ -96,6 +96,9 @@ if has('nvim')
     " Make Alt+. work again
     tnoremap ® .
 
+    " Paste selection into terminal using the Insert key
+    tnoremap <Insert> <C-\><C-n>"*pi
+
     augroup terminal_mappings
         autocmd!
         autocmd BufEnter term://* nnoremap <buffer> <C-]> <C-W>q
