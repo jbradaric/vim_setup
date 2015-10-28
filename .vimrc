@@ -83,7 +83,8 @@ endif
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
 Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 Plug 'cespare/vim-toml'
-Plug 'hynek/vim-python-pep8-indent'
+" Plug 'hynek/vim-python-pep8-indent'
+Plug 'sheerun/vim-polyglot'
 
 " Git
 Plug 'gregsexton/gitv'
@@ -109,6 +110,7 @@ Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHig
 
 if has('nvim')
     Plug 'unblevable/quick-scope'
+    Plug 'Valloric/YouCompleteMe'
 endif
 
 call plug#end()
@@ -125,6 +127,7 @@ set autoindent                   " copy indent from current line
 set autoread                     " read open files again when changed outside Vim
 set backspace=indent,eol,start   " backspacing over everything in insert mode
 set nobackup                     " don't keep backup files
+set backupdir=.
 set noswapfile                   " don't create swap files
 set browsedir=current            " which directory to use for the file browser
 set autochdir                    " automatically cd into the directory that the file is in
@@ -168,7 +171,7 @@ set hlsearch                     " highlight all occurences of a word
 "-------------------------------------------------------------------------"{{{
 set timeout
 set timeoutlen=1000
-set ttimeoutlen=100
+set ttimeoutlen=0
 "-------------------------------------------------------------------------"}}}
 " Folding options
 "-------------------------------------------------------------------------"{{{

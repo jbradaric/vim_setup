@@ -34,6 +34,7 @@ hi Title		guifg=#f6f3e8 guibg=NONE	gui=bold
 hi Visual		guifg=#f6f3e8 guibg=#444444 gui=none
 hi SpecialKey	guifg=#808080 guibg=#343434 gui=none
 hi SignColumn   guifg=none    guibg=#000000 gui=none
+hi SpellBad     guifg=red     gui=undercurl
 
 " Diff colors
 hi DiffAdd ctermbg=17 guibg=#2a0d6a

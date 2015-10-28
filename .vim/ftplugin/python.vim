@@ -10,6 +10,11 @@ setlocal nowrap
 setlocal list
 setlocal listchars=tab:>.,trail:. " Show tabs and trailing spaces
 
+let g:python_highlight_builtins = 1
+let g:python_highlight_exceptions = 1
+let g:python_highlight_string_formatting = 1
+let g:python_slow_sync = 1
+
 augroup PythonAutocommands
     autocmd!
     autocmd BufWinLeave *.py silent! mkview
