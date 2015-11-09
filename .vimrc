@@ -127,7 +127,6 @@ set autoindent                   " copy indent from current line
 set autoread                     " read open files again when changed outside Vim
 set backspace=indent,eol,start   " backspacing over everything in insert mode
 set nobackup                     " don't keep backup files
-set backupdir=.
 set noswapfile                   " don't create swap files
 set browsedir=current            " which directory to use for the file browser
 set autochdir                    " automatically cd into the directory that the file is in
@@ -159,6 +158,7 @@ set encoding=utf-8               " set the default encoding to UTF-8
 set scrolloff=3                  " always show at least 3 lines after the current one
 set ttyfast
 set completeopt-=preview
+set lazyredraw                   " speed up on large files
 "-------------------------------------------------------------------------"}}}
 " Search settings
 "-------------------------------------------------------------------------"{{{
