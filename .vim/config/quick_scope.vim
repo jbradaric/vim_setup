@@ -4,6 +4,10 @@
 
 " Thanks to @VanLaser for cleaning the code up and expanding capabilities to include e.g. `df`
 
+if !has('nvim')
+    finish
+endif
+
 let g:qs_enable = 0
 let g:qs_enable_char_list = [ 'f', 'F', 't', 'T' ]
 
