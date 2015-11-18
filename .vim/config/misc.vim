@@ -86,6 +86,7 @@ if has('nvim')
     tnoremap <C-\><C-m> <C-\><C-n>
     tnoremap <C-]> <C-\><C-n><C-w>q
     tnoremap <C-^> <C-\><C-n><C-^>
+    tnoremap <Esc><Esc> <C-\><C-n>
 
     nnoremap <leader>t :silent vsp term://$HOME/.scripts/nvim-work-term.sh<CR>i
     nnoremap <leader>T :silent e term://$HOME/.scripts/nvim-work-term.sh<CR>i
