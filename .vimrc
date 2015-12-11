@@ -128,6 +128,9 @@ set autoread                     " read open files again when changed outside Vi
 set backspace=indent,eol,start   " backspacing over everything in insert mode
 set nobackup                     " don't keep backup files
 set noswapfile                   " don't create swap files
+if has('nvim')
+    set undofile                 " use persistent undo
+endif
 set browsedir=current            " which directory to use for the file browser
 set autochdir                    " automatically cd into the directory that the file is in
 set complete+=k                  " scan the files given with the 'dictionary' option
