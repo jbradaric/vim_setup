@@ -97,7 +97,8 @@ Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpenAutoClose'] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " Plug 'mileszs/ack.vim'
-Plug 'rking/ag.vim'
+" Plug 'rking/ag.vim'
+Plug 'mhinz/vim-grepper'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'PeterRincker/vim-argumentative', { 'on': ['<Plug>Argumentative_MoveRight', '<Plug>Argumentative_MoveLeft'] }
 Plug 'vim-scripts/DoxygenToolkit.vim', { 'on': ['Dox', 'DoxUndoc'] }
