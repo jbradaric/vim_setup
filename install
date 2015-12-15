@@ -5,16 +5,39 @@ if [ -e $HOME/.vimrc -o -e $HOME/.vim ]; then
     exit 1
 fi
 
-if [ -e $HOME/.nvimrc -o -e $HOME/.nvim ]; then
-    echo "$HOME/.nvimrc or $HOME/.nvim already exist"
+if [ -e $HOME/.config/nvim ]; then
+    echo "$HOME/.config/nvim already exists"
     exit 1
 fi
 
-mkdir $HOME/.vim/tmp $HOME/.vim/backup $HOME/.vim/view $HOME/.vim/local-config $HOME/.vim/tags
-mkdir $HOME/.vim/yankring $HOME/.vim/notes $HOME/.vim/local-snippets $HOME/.vim/spell
+if [ -e $HOME/.local/share/nvim ]; then
+    echo "$HOME/.local/share/nvim already exists"
+    exit 1
+fi
 
-ln -s $PWD/.vim $HOME/.vim
-ln -s $PWD/.vimrc $HOME/.vimrc
+if [ $(type systemd-path >/dev/null) ]; then
+    NVIM_CONFIG_DIR=$(systemd-path user-configuration --suffix "/nvim")
+    NVIM_DATA_DIR=$(systemd-path user-shared --suffix "/nvim")
+else
+    NVIM_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
+    NVIM_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/nvim"
+fi
 
-ln -s $PWD/.nvim $HOME/.nvim
-ln -s $PWD/.nvimrc $HOME/.nvimrc
+ln -s $PWD/.vim "$NVIM_CONFIG_DIR"
+
+mkdir -p "$NVIM_CONFIG_DIR/backup"
+mkdir -p "$NVIM_CONFIG_DIR/tmp"
+mkdir -p "$NVIM_CONFIG_DIR/view"
+mkdir -p "$NVIM_CONFIG_DIR/local-config"
+mkdir -p "$NVIM_CONFIG_DIR/tags"
+mkdir -p "$NVIM_CONFIG_DIR/yankring"
+mkdir -p "$NVIM_CONFIG_DIR/notes"
+mkdir -p "$NVIM_CONFIG_DIR/local-snippets"
+mkdir -p "$NVIM_CONFIG_DIR/spell"
+
+mkdir -p "$NVIM_DATA_DIR/shada"
+mkdir -p "$NVIM_DATA_DIR/undo"
+mkdir -p "$NVIM_DATA_DIR/view"
+
+ln -s "$NVIM_CONFIG_DIR" $HOME/.vim
+ln -s "$NVIM_CONFIG_DIR/init.vim" $HOME/.vimrc
