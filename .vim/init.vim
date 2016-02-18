@@ -44,6 +44,9 @@ Plug 'SirVer/ultisnips'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
 
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+
 if has('nvim')
     Plug 'benekastah/neomake'
 endif
@@ -82,7 +85,7 @@ if !has('nvim')
 endif
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
 Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
-Plug 'cespare/vim-toml'
+Plug 'cespare/vim-toml', { 'for': ['toml'] }
 " Plug 'hynek/vim-python-pep8-indent'
 Plug 'sheerun/vim-polyglot'
 
@@ -91,14 +94,14 @@ Plug 'gregsexton/gitv'
 Plug 'idanarye/vim-merginal'
 
 " Misc
-Plug 'chrisbra/NrrwRgn'
+Plug 'chrisbra/NrrwRgn', { 'on': ['NRV'] }
 Plug 'duff/vim-scratch', { 'on': ['Scratch'] }
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpenAutoClose'] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " Plug 'mileszs/ack.vim'
 " Plug 'rking/ag.vim'
-Plug 'mhinz/vim-grepper'
+Plug 'mhinz/vim-grepper', { 'on': ['Ag'] }
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'PeterRincker/vim-argumentative', { 'on': ['<Plug>Argumentative_MoveRight', '<Plug>Argumentative_MoveLeft'] }
 Plug 'vim-scripts/DoxygenToolkit.vim', { 'on': ['Dox', 'DoxUndoc'] }
@@ -113,6 +116,13 @@ if has('nvim')
     Plug 'unblevable/quick-scope'
     Plug 'Valloric/YouCompleteMe'
 endif
+
+Plug 'chrisbra/vim-diff-enhanced'
+if &diff
+    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+endif
+
+Plug 'blindFS/vim-taskwarrior', { 'on': ['TW'] }
 
 call plug#end()
 "-------------------------------------------------------------------------"}}}

@@ -71,6 +71,9 @@ nnoremap <C-W>] :call VSplitTag()<CR>
 
 nnoremap <C-W>f :vsplit<CR>gf
 nnoremap <leader>S :<C-U>Scratch<CR>
+
+" Call :update when :w is typed
+cnoreabbrev w update
 " -------------------------------------------------------------- }}}
 " Python syntax settings
 " -------------------------------------------------------------- {{{
