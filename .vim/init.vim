@@ -183,10 +183,11 @@ set ttimeoutlen=0
 "-------------------------------------------------------------------------"}}}
 " Folding options
 "-------------------------------------------------------------------------"{{{
-set foldmethod=indent
-set foldlevel=99
-set foldnestmax=2
-nnoremap <Space> za
+set nofoldenable " Turn off folding because I never use it
+" set foldmethod=indent
+" set foldlevel=99
+" set foldnestmax=2
+" nnoremap <Space> za
 "-------------------------------------------------------------------------"}}}
 " <export to html> settings
 "-------------------------------------------------------------------------"{{{
