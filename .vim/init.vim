@@ -80,17 +80,13 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 
 " Filetype specific
-if !has('nvim')
-    Plug 'alfredodeza/khuno.vim', { 'for': ['python'] }
-endif
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
 Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 Plug 'cespare/vim-toml', { 'for': ['toml'] }
-" Plug 'hynek/vim-python-pep8-indent'
-Plug 'sheerun/vim-polyglot'
+Plug 'sheerun/vim-polyglot', { 'do': './build' }
 
 " Git
-Plug 'gregsexton/gitv'
+Plug 'junegunn/gv.vim'
 Plug 'idanarye/vim-merginal'
 
 " Misc
@@ -99,9 +95,7 @@ Plug 'duff/vim-scratch', { 'on': ['Scratch'] }
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpenAutoClose'] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-" Plug 'mileszs/ack.vim'
-" Plug 'rking/ag.vim'
-Plug 'mhinz/vim-grepper', { 'on': ['Ag'] }
+Plug 'mhinz/vim-grepper'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'PeterRincker/vim-argumentative', { 'on': ['<Plug>Argumentative_MoveRight', '<Plug>Argumentative_MoveLeft'] }
 Plug 'vim-scripts/DoxygenToolkit.vim', { 'on': ['Dox', 'DoxUndoc'] }
@@ -122,7 +116,7 @@ if &diff
     let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
 endif
 
-Plug 'blindFS/vim-taskwarrior', { 'on': ['TW'] }
+Plug 'blindFS/vim-taskwarrior'
 
 call plug#end()
 "-------------------------------------------------------------------------"}}}
