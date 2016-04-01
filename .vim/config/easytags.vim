@@ -5,3 +5,4 @@ let g:easytags_python_enabled = 1
 let g:easytags_async = 1
 
 let g:easytags_ctags_version = '5.8'
+let g:easytags_suppress_ctags_warning = 1
