@@ -82,34 +82,3 @@ cnoreabbrev w update
 " let g:python_highlight_string_format = 1
 " let g:python_highlight_string_formatting = 1
 " let g:python_highlight_builtin_objs = 1
-" -------------------------------------------------------------- }}}
-" NVim settings
-" -------------------------------------------------------------- {{{
-if has('nvim')
-    tnoremap <C-\><C-m> <C-\><C-n>
-    tnoremap <C-]> <C-\><C-n><C-w>q
-    tnoremap <C-^> <C-\><C-n><C-^>
-    tnoremap <Esc><Esc> <C-\><C-n>
-
-    nnoremap <leader>t :silent vsp term://$HOME/.scripts/nvim-work-term.sh<CR>i
-    nnoremap <leader>T :silent e term://$HOME/.scripts/nvim-work-term.sh<CR>i
-
-    " Also redraw neovim when clearing the terminal
-    tnoremap <C-l> <C-l><C-\><C-n><C-l>i
-
-    " Make Alt+. work again
-    tnoremap ® .
-
-    " Paste selection into terminal using the Insert key
-    tnoremap <Insert> <C-\><C-n>"*pi
-
-    augroup terminal_mappings
-        autocmd!
-        autocmd BufEnter term://* nnoremap <buffer> <C-]> <C-W>q
-    augroup END
-
-    augroup make_autoread_work
-        autocmd!
-        autocmd BufEnter * checktime
-    augroup END
-endif
