@@ -19,20 +19,19 @@ tnoremap ® .
 tnoremap <Insert> <C-\><C-n>"*pi
 
 augroup terminal_mappings
-    autocmd!
-    autocmd BufEnter term://* nnoremap <buffer> <C-]> <C-W>q
+  autocmd!
+  autocmd BufEnter term://* nnoremap <buffer> <C-]> <C-W>q
 augroup END
 
 augroup make_autoread_work
-    autocmd!
-    autocmd BufEnter * checktime
+  autocmd!
+  autocmd BufEnter * checktime
 augroup END
 
 " Reuse the same terminal buffer for tmux
 " -------------------------------------------------------------- {{{
-let g:work_term = {
-      \ 'last_id': -1
-      \ }
+let g:work_term = {}
+let g:work_term.last_id = -1
 
 function! g:work_term.new()
   silent! execute 'edit term://' . $HOME . '/.scripts/nvim-work-term.sh'
