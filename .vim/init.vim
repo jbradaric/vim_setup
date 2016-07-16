@@ -86,8 +86,8 @@ Plug 'cespare/vim-toml', { 'for': ['toml'] }
 Plug 'sheerun/vim-polyglot', { 'do': './build' }
 
 " Git
-Plug 'junegunn/gv.vim'
-Plug 'idanarye/vim-merginal'
+Plug 'junegunn/gv.vim', { 'on': ['GV'] }
+Plug 'idanarye/vim-merginal', { 'on': ['Merginal'] }
 Plug 'jreybert/vimagit', { 'branch': 'next' }
 
 " Misc
@@ -103,7 +103,7 @@ Plug 'vim-scripts/DoxygenToolkit.vim', { 'on': ['Dox', 'DoxUndoc'] }
 Plug 'vim-scripts/YankRing.vim'
 Plug 'xolox/vim-easytags'
 Plug 'xolox/vim-misc'
-Plug 'xolox/vim-notes'
+Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
 
 Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
 
@@ -117,7 +117,7 @@ if &diff
     let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
 endif
 
-Plug 'blindFS/vim-taskwarrior'
+Plug 'blindFS/vim-taskwarrior', { 'on': ['TW'] }
 
 call plug#end()
 "-------------------------------------------------------------------------"}}}
