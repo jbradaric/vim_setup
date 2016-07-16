@@ -46,7 +46,7 @@ endfunction
 
 function! g:work_term.run(same_buffer)
   if a:same_buffer == 0
-    vsplit
+    vnew
   endif
 
   if !bufexists(self.last_id)
