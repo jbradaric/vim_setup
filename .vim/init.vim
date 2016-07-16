@@ -88,6 +88,7 @@ Plug 'sheerun/vim-polyglot', { 'do': './build' }
 " Git
 Plug 'junegunn/gv.vim'
 Plug 'idanarye/vim-merginal'
+Plug 'jreybert/vimagit', { 'branch': 'next' }
 
 " Misc
 Plug 'chrisbra/NrrwRgn', { 'on': ['NRV'] }
