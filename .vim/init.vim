@@ -8,17 +8,20 @@
 "-------------------------------------------------------------------------"{{{
 " Colors and other UI options
 "-------------------------------------------------------------------------"}}}
-if has("gui_running")
-    colorscheme wombat
-    set guifont=Consolas\ 11
-    set guioptions=ac
-    set lines=999
+if has('termguicolors')  " Turn on true colors
+  set termguicolors
+  let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+  let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
+endif
+if has('gui_running') || (has('termguicolors') && &termguicolors)
+  colorscheme wombat
 else
-    if has('nvim')
-        colorscheme wombat
-    else
-        colorscheme desert256
-    endif
+  colorscheme desert256
+endif
+if has('gui_running')
+  set guifont=Consolas\ 11
+  set guioptions=ac
+  set lines=999
 endif
 set previewheight=20 " Height of the preview window
 
