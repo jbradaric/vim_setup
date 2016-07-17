@@ -25,3 +25,5 @@ augroup PythonAutocommands
         autocmd BufWrite    * if &ft ==# 'python' | exe 'Neomake' | endif
     endif
 augroup END
+
+let b:did_after_plugin_ultisnips_after = 1

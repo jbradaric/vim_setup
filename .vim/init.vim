@@ -36,12 +36,12 @@ call plug#begin('~/.vim/bundle')
 
 " Appearance
 Plug 'itchyny/lightline.vim'
-Plug 'junegunn/rainbow_parentheses.vim'
+if has('nvim')
+  Plug 'junegunn/rainbow_parentheses.vim'
+endif
 
 " Autocomplete
-Plug 'ervandew/supertab'
-
-Plug 'SirVer/ultisnips'
+" Plug 'ervandew/supertab'
 
 " CtrlP
 Plug 'ctrlpvim/ctrlp.vim'
@@ -112,8 +112,13 @@ Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
 Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
 
 if has('nvim')
-    Plug 'unblevable/quick-scope'
-    Plug 'Valloric/YouCompleteMe'
+  Plug 'unblevable/quick-scope'
+  " Plug 'Valloric/YouCompleteMe'
+
+  let g:deoplete#enable_at_startup = 1
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'zchee/deoplete-jedi'
+  Plug 'SirVer/ultisnips'
 endif
 
 Plug 'chrisbra/vim-diff-enhanced'
