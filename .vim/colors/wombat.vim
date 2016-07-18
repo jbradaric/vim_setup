@@ -23,7 +23,7 @@ endif
 
 " General colors
 hi Cursor 		guifg=NONE    guibg=#656565 gui=NONE
-hi Normal 		guifg=#f6f3e8 guibg=#141414 gui=NONE
+hi Normal 		guifg=#f6f3e8 guibg=#1f1e1e gui=NONE
 hi NonText 		guifg=#808080 guibg=#303030 gui=NONE
 hi LineNr 		guifg=#857b6f guibg=#000000 gui=NONE
 hi StatusLine 	guifg=#f6f3e8 guibg=#444444 gui=italic
@@ -38,7 +38,7 @@ hi SpellBad     guifg=red     gui=undercurl
 
 " Diff colors
 hi DiffAdd ctermbg=17 guibg=#2a0d6a
-hi DiffDelete ctermfg=234 ctermbg=60 cterm=NONE guifg=#141414 guibg=#3e3969 gui=NONE
+hi DiffDelete ctermfg=234 ctermbg=60 cterm=NONE guifg=#242424 guibg=#3e3969 gui=NONE
 hi DiffText ctermbg=53 cterm=NONE guibg=#73186e gui=NONE
 hi DiffChange ctermbg=237 guibg=#382a37
 
