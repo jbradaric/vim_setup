@@ -88,6 +88,7 @@ Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
 Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 Plug 'cespare/vim-toml', { 'for': ['toml'] }
 Plug 'sheerun/vim-polyglot', { 'do': './build' }
+let g:polyglot_disabled = ['javascript']
 
 " Git
 Plug 'junegunn/gv.vim', { 'on': ['GV'] }
