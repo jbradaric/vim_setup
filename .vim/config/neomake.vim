@@ -17,6 +17,7 @@ let s:python_error_types_override = {
     \ '713': 'W',
     \ '841': 'W',
     \ }
+let s:flake8_config = join([system('systemd-path user-configuration'), 'flake8'], '/')
 
 function! SetWarningType(entry)
     if has_key(s:python_error_types_override, a:entry.nr)
@@ -32,7 +33,8 @@ let g:neomake_python_flake8_maker = {
     \ 'args':
         \ [
         \  '--ignore=' . s:python_ignore,
-        \  '--max-line-length=' . s:python_max_line_length
+        \  '--max-line-length=' . s:python_max_line_length,
+        \  '--config=' . s:flake8_config
         \ ],
     \ 'postprocess': function('SetWarningType'),
     \ 'errorformat':
