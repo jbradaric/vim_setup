@@ -8,7 +8,7 @@
 "-------------------------------------------------------------------------"{{{
 " Colors and other UI options
 "-------------------------------------------------------------------------"}}}
-if has('termguicolors')  " Turn on true colors
+if has('termguicolors') && (has('nvim') || empty("$TMUX"))  " Turn on true colors
   set termguicolors
   let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
   let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
