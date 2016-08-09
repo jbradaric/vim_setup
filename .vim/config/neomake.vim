@@ -18,7 +18,9 @@ let s:python_error_types_override = {
     \ '713': 'W',
     \ '841': 'W',
     \ }
-let s:flake8_config = join([system('systemd-path user-configuration'), 'flake8'], '/')
+
+let s:user_config_path = substitute(system('systemd-path user-configuration'), '\n\+$', '', '')
+let s:flake8_config = join([s:user_config_path, 'flake8'], '/')
 
 function! SetWarningType(entry)
     if has_key(s:python_error_types_override, a:entry.nr)
