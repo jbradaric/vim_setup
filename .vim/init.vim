@@ -118,7 +118,8 @@ if has('nvim')
 
   let g:deoplete#enable_at_startup = 1
   Plug 'Shougo/deoplete.nvim'
-  Plug 'zchee/deoplete-jedi'
+  Plug 'jbradaric/deoplete-jedi'
+  Plug 'zchee/deoplete-clang'
 endif
 
 Plug 'chrisbra/vim-diff-enhanced'
