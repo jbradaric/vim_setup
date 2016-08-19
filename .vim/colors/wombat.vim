@@ -56,6 +56,9 @@ hi PreProc 		guifg=#e5786d gui=NONE
 hi Number		guifg=#e5786d gui=NONE
 hi Special		guifg=#e7f6da gui=NONE
 
+hi NeomakeErrorSign guifg=Red guibg=#000000
+hi NeomakeWarningSign guifg=Yellow guibg=#000000
+
 "hi hsNoviTIp    guifg=green gui=bold
 
 " Clear colors
