@@ -26,4 +26,6 @@ augroup PythonAutocommands
     endif
 augroup END
 
-let b:did_after_plugin_ultisnips_after = 1
+iabbrev <buffer> ppr print '+' * 50print print '=' * 50kA
+iabbrev <buffer> pdb import pdb; pdb.set_trace()
+iabbrev <buffer> trace import traceback; traceback.print_stack()
