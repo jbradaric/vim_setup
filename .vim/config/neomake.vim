@@ -1,3 +1,7 @@
+if !has('nvim')
+  finish
+endif
+
 let s:python_ignore = "E123,E126,E128,E261,E265,E266,E301,E302,E402,E731,E701"
 let s:python_max_line_length = 100
 let s:python_error_types_override = {
@@ -32,12 +36,15 @@ function! SetWarningType(entry)
 endfunction
 
 let g:neomake_python_flake8_maker = {
+    \ 'pipe': 1,
     \ 'exe': 'flake8-python2',
     \ 'args':
         \ [
         \  '--ignore=' . s:python_ignore,
         \  '--max-line-length=' . s:python_max_line_length,
-        \  '--config=' . s:flake8_config
+        \  '--config=' . s:flake8_config,
+        \  '-',
+        \  '--stdin-display-name'
         \ ],
     \ 'postprocess': function('SetWarningType'),
     \ 'errorformat':
@@ -51,3 +58,45 @@ let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_verbose = 0
 
 let g:neomake_javascript_enabled_makers = ['eslint']
+
+" Update neomake data every 2 seconds
+let s:neomake_update_interval = 2
+
+let s:neomake_running = 0
+
+let s:neomake_enabled_fts = ['python', 'javascript']
+
+function s:neomake_setup()
+  if index(s:neomake_enabled_fts, &ft) < 0
+    return
+  endif
+  sign define neomake_dummy
+  execute 'sign place 9999 line=1 name=neomake_dummy buffer=' . bufnr('')
+endfunction
+
+function! s:neomake_buffer()
+  if s:neomake_running == 1 || index(s:neomake_enabled_fts, &ft) < 0
+    return
+  endif
+
+  let last_change = get(b:, 'neomake_last_run_time', -1)
+  if last_change == -1
+    let s:neomake_running = 1
+    exe 'Neomake'
+    return
+  endif
+
+  let current_time = localtime()
+  if l:current_time - l:last_change >= s:neomake_update_interval:
+    let s:neomake_running = 1
+    exe 'Neomake'
+    let b:neomake_last_run_time = current_time
+  endif
+endfunction
+
+augroup MyNeomakeAutocommands
+  autocmd!
+  autocmd BufEnter * call s:neomake_setup()
+  autocmd BufEnter,CursorHold,CursorHoldI,TextChanged,InsertLeave * call s:neomake_buffer()
+  autocmd User NeomakeFinished let s:neomake_running = 0
+augroup END
