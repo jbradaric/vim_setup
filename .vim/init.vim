@@ -55,7 +55,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 if has('nvim')
-    Plug 'benekastah/neomake'
+    Plug 'jbradaric/neomake'
 endif
 
 " Text objects

@@ -36,15 +36,14 @@ function! SetWarningType(entry)
 endfunction
 
 let g:neomake_python_flake8_maker = {
-    \ 'pipe': 1,
     \ 'exe': 'flake8-python2',
+    \ 'pipe': 1,
     \ 'args':
         \ [
         \  '--ignore=' . s:python_ignore,
         \  '--max-line-length=' . s:python_max_line_length,
         \  '--config=' . s:flake8_config,
-        \  '-',
-        \  '--stdin-display-name'
+        \  '--stdin-display-name', '%:p', '-'
         \ ],
     \ 'postprocess': function('SetWarningType'),
     \ 'errorformat':
@@ -61,9 +60,7 @@ let g:neomake_javascript_enabled_makers = ['eslint']
 
 " Update neomake data every 2 seconds
 let s:neomake_update_interval = 2
-
 let s:neomake_running = 0
-
 let s:neomake_enabled_fts = ['python', 'javascript']
 
 function s:neomake_setup()
@@ -79,19 +76,20 @@ function! s:neomake_buffer()
     return
   endif
 
-  let last_change = get(b:, 'neomake_last_run_time', -1)
-  if last_change == -1
-    let s:neomake_running = 1
-    exe 'Neomake'
+  if get(b:, 'neomake_last_changedtick', -1) == b:changedtick
     return
   endif
 
   let current_time = localtime()
-  if l:current_time - l:last_change >= s:neomake_update_interval:
-    let s:neomake_running = 1
-    exe 'Neomake'
-    let b:neomake_last_run_time = current_time
+  let last_change = get(b:, 'neomake_last_run_time', -1)
+  if last_change != -1 && l:current_time - l:last_change < s:neomake_update_interval
+    return
   endif
+
+  let s:neomake_running = 1
+  let b:neomake_last_changedtick = b:changedtick
+  let b:neomake_last_run_time = current_time
+  execute 'Neomake'
 endfunction
 
 augroup MyNeomakeAutocommands
