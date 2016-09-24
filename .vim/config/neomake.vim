@@ -60,7 +60,6 @@ let g:neomake_javascript_enabled_makers = ['eslint']
 
 " Update neomake data every 2 seconds
 let s:neomake_update_interval = 2
-let s:neomake_running = 0
 let s:neomake_enabled_fts = ['python', 'javascript']
 
 function s:neomake_setup()
@@ -71,8 +70,19 @@ function s:neomake_setup()
   execute 'sign place 9999 line=1 name=neomake_dummy buffer=' . bufnr('')
 endfunction
 
+function s:neomake_running()
+  let l:current_buffer = bufnr('')
+  let l:jobs = neomake#GetJobs()
+  for jobinfo in values(l:jobs)
+    if jobinfo.bufnr == current_buffer
+      return 1
+    endif
+  endfor
+  return 0
+endfunction
+
 function! s:neomake_buffer()
-  if s:neomake_running == 1 || index(s:neomake_enabled_fts, &ft) < 0
+  if index(s:neomake_enabled_fts, &ft) < 0
     return
   endif
 
@@ -86,7 +96,10 @@ function! s:neomake_buffer()
     return
   endif
 
-  let s:neomake_running = 1
+  if s:neomake_running()
+    return
+  endif
+
   let b:neomake_last_changedtick = b:changedtick
   let b:neomake_last_run_time = current_time
   execute 'Neomake'
@@ -96,5 +109,4 @@ augroup MyNeomakeAutocommands
   autocmd!
   autocmd BufEnter * call s:neomake_setup()
   autocmd BufEnter,CursorHold,CursorHoldI,TextChanged,InsertLeave * call s:neomake_buffer()
-  autocmd User NeomakeFinished let s:neomake_running = 0
 augroup END
