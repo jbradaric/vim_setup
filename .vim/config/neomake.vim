@@ -53,10 +53,16 @@ let g:neomake_python_flake8_maker = {
         \ '%-G%.%#'
     \ }
 
+let g:neomake_javascript_jshint_maker = {
+    \ 'pipe': 1,
+    \ 'args': ['--verbose', '--filename', '%:p', '-'],
+    \ 'errorformat': '%A%f: line %l\, col %v\, %m \(%t%*\d\)',
+    \ }
+
 let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_verbose = 0
 
-let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_javascript_enabled_makers = ['eslint', 'jshint']
 
 " Update neomake data every 2 seconds
 let s:neomake_update_interval = 2
@@ -68,6 +74,7 @@ function s:neomake_setup()
   endif
   sign define neomake_dummy
   execute 'sign place 9999 line=1 name=neomake_dummy buffer=' . bufnr('')
+  let b:neomake_last_changetick = b:changedtick
 endfunction
 
 function s:neomake_running()
@@ -86,7 +93,21 @@ function! s:neomake_buffer()
     return
   endif
 
+  if get(b:, 'neomake_buffer_disable_automatic', 0)
+    return
+  endif
   if get(b:, 'neomake_last_changedtick', -1) == b:changedtick
+    return
+  endif
+
+  let last_change = get(b:, 'neomake_last_run_time', -1)
+  if last_change == -1
+    let s:neomake_running = 1
+    exe 'Neomake'
+    return
+  endif
+
+  if b:changedtick == b:neomake_last_changetick
     return
   endif
 
@@ -110,3 +131,6 @@ augroup MyNeomakeAutocommands
   autocmd BufEnter * call s:neomake_setup()
   autocmd BufEnter,CursorHold,CursorHoldI,TextChanged,InsertLeave * call s:neomake_buffer()
 augroup END
+
+nnoremap ]k :<c-u>let b:neomake_buffer_disable_automatic=1<cr>
+nnoremap [k :<c-u>let b:neomake_buffer_disable_automatic=0<cr>
