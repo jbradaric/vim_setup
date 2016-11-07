@@ -84,7 +84,6 @@ Plug 'tpope/vim-git'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-eunuch'
 
 " Filetype specific
@@ -130,6 +129,7 @@ Plug 'chrisbra/vim-diff-enhanced'
 if &diff
     let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
 endif
+Plug 'justinmk/vim-dirvish'
 
 Plug 'blindFS/vim-taskwarrior', { 'on': ['TW'] }
 
