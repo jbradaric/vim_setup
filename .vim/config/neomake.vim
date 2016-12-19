@@ -2,7 +2,7 @@ if !has('nvim')
   finish
 endif
 
-let s:python_ignore = "E123,E126,E128,E261,E265,E266,E301,E302,E402,E731,E701"
+let s:python_ignore = "E123,E126,E128,E261,E265,E266,E301,E302,E305,E306,E402,E731,E701"
 let s:python_max_line_length = 100
 let s:python_error_types_override = {
     \ '127': 'W',
