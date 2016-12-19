@@ -18,7 +18,11 @@ let g:ack_wildignore = 0
 
 nnoremap <Space>/ :<C-U>Ag<Space>
 
-set grepprg=ag\ --vimgrep\ $*
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ $*
+else
+  set grepprg=ag\ --vimgrep\ $*
+endif
 set grepformat=%f:%l:%c:%m
 " -------------------------------------------------------------- }}}
 " Quicker saving
