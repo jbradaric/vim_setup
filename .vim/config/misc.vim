@@ -5,6 +5,11 @@ set gdefault
 nnoremap <C-s> :Gstatus<CR>
 " Make Q more useful
 nnoremap Q q:
+
+" Show the effects of a command incrementally, while typing.
+if exists('&inccommand')
+  set inccommand=nosplit
+endif
 " -------------------------------------------------------------- }}}
 " Use ag for Ack/grep
 " -------------------------------------------------------------- {{{
