@@ -40,6 +40,9 @@ function! s:setup_dirvish()
   " . populates the file under the cursor on the command line
   nnoremap <buffer> . :<c-u> <c-r>=<SID>escaped(line('.'), line('.') - 1 + v:count1)<cr><Home>
   nmap <buffer> ! .!
+
+  " open the file under cursor in a horizontal split
+  nmap <buffer> s .sp<cr>
 endfunction
 
 augroup my_dirvish_events
