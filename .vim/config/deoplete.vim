@@ -6,12 +6,12 @@ let g:deoplete#sources = {}
 let g:deoplete#sources.python = ['jedi', 'ultisnips']
 let g:deoplete#sources#jedi#python_path = join([$HOME, '.scripts/local_workenv.sh'], '/')
 
-let g:deoplete#sources#jedi#use_filesystem_cache = 1
+let g:deoplete#sources#jedi#use_filesystem_cache = 0
 let g:deoplete#sources#jedi#auto_imports = ['gtk', 'gtk.gdk', 'cStringIO', 'age']
 
 " <C-h>, <BS>: close popup and delete backward char
-inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
+" inoremap <expr><C-h> deoplete#mappings#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> deoplete#mappings#smart_close_popup()."\<C-h>"
 
 " <CR>: close popup and save indent
 " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
