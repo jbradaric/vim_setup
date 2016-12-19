@@ -1,7 +1,7 @@
 "-------------------------------------------------------------------------"}}}
 " CtrlP settings
 "-------------------------------------------------------------------------"{{{
-let g:ctrlp_working_path_mode = 2
+let g:ctrlp_working_path_mode = 'r'
 let g:ctrlp_match_window_reversed = 0
 let g:ctrlp_dotfiles = 0
 let g:ctrlp_custom_ignore = {

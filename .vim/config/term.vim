@@ -9,7 +9,7 @@ tnoremap <C-]> <C-\><C-n><C-w>q
 tnoremap <C-^> <C-\><C-n><C-^>
 
 " Exit terminal mode and go to the last cursor position
-tnoremap <Esc><Esc> <C-\><C-n>g;
+tnoremap <Esc><Esc> <C-\><C-n>g;$
 
 " Also redraw neovim when clearing the terminal
 tnoremap <C-l> <C-l><C-\><C-n><C-l>i
@@ -25,9 +25,15 @@ augroup terminal_mappings
   autocmd BufEnter term://* nnoremap <buffer> <C-]> <C-W>q
 augroup END
 
+function! s:fix_autoread()
+  silent! execute 'checktime'
+  " silent! execute 'lcd ' . expand('%:p:h')
+endfunction
+
 augroup make_autoread_work
   autocmd!
-  autocmd BufEnter * checktime
+  autocmd BufEnter * call s:fix_autoread()
+  autocmd BufEnter * silent! lcd %:p:h
 augroup END
 
 " Reuse the same terminal buffer for tmux

@@ -74,7 +74,7 @@ Plug 'terryma/vim-expand-region'
 " Search
 Plug 'haya14busa/incsearch.vim'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'jbradaric/vim-interestingwords'
+Plug 'jbradaric/vim-interestingwords', { 'on': ['InterestingWords'] }
 
 " Tim Pope's plugins
 Plug 'tpope/vim-commentary'
@@ -85,6 +85,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-abolish'
 
 " Filetype specific
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
@@ -108,7 +109,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'PeterRincker/vim-argumentative', { 'on': ['<Plug>Argumentative_MoveRight', '<Plug>Argumentative_MoveLeft'] }
 Plug 'vim-scripts/DoxygenToolkit.vim', { 'on': ['Dox', 'DoxUndoc'] }
-Plug 'vim-scripts/YankRing.vim'
+" Plug 'vim-scripts/YankRing.vim'
 Plug 'xolox/vim-easytags'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
@@ -116,20 +117,25 @@ Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
 Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
 
 if has('nvim')
-  Plug 'unblevable/quick-scope'
+  " Plug 'unblevable/quick-scope'
   " Plug 'Valloric/YouCompleteMe'
 
   let g:deoplete#enable_at_startup = 1
   Plug 'Shougo/deoplete.nvim'
   Plug 'jbradaric/deoplete-jedi'
-  Plug 'zchee/deoplete-clang'
+  " Plug 'zchee/deoplete-clang'
+  Plug 'carlitux/deoplete-ternjs'
 endif
 
-Plug 'chrisbra/vim-diff-enhanced'
-if &diff
-    let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
-endif
 Plug 'justinmk/vim-dirvish'
+
+" Plug 'chrisbra/vim-diff-enhanced'
+" if &diff
+"     let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+" endif
+
+" Plug 'AndrewRadev/linediff.vim'
+" " Plug 'machakann/vim-highlightedyank'
 
 Plug 'blindFS/vim-taskwarrior', { 'on': ['TW'] }
 
@@ -152,7 +158,7 @@ if has('nvim')
     set undofile                 " use persistent undo
 endif
 set browsedir=current            " which directory to use for the file browser
-set autochdir                    " automatically cd into the directory that the file is in
+set noautochdir                    " automatically cd into the directory that the file is in
 set complete+=k                  " scan the files given with the 'dictionary' option
 set history=1000                 " keep 1000 lines of command line history
 set undolevels=1000              " lots and lots of undo
@@ -212,7 +218,7 @@ let html_no_pre         = 1     " Don't wrap lines in <pre>
 "-------------------------------------------------------------------------"}}}
 " Plugin configurations
 "-------------------------------------------------------------------------"{{{
-runtime! macros/matchit.vim
+" runtime! macros/matchit.vim
 
 " Global configuration
 for fpath in split(globpath('~/.vim/config', '*.vim'), '\n')

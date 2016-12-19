@@ -4,6 +4,8 @@
 
 " Thanks to @VanLaser for cleaning the code up and expanding capabilities to include e.g. `df`
 
+finish
+
 if !has('nvim')
     finish
 endif
