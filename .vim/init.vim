@@ -55,7 +55,8 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 if has('nvim')
-    Plug 'jbradaric/neomake'
+  Plug 'neomake/neomake'
+  Plug 'dojoteef/neomake-autolint'
 endif
 
 " Text objects
