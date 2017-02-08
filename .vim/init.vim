@@ -128,6 +128,7 @@ if has('nvim')
 endif
 
 Plug 'justinmk/vim-dirvish'
+Plug 'dojoteef/neomake-autolint'
 
 " Plug 'chrisbra/vim-diff-enhanced'
 " if &diff
