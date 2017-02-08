@@ -1,5 +1,3 @@
-finish
-
 let g:yankring_max_history = 20
 let g:yankring_min_element_length = 2
 let g:yankring_paste_using_g = 0

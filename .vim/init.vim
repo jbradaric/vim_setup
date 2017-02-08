@@ -74,7 +74,7 @@ Plug 'terryma/vim-expand-region'
 " Search
 Plug 'haya14busa/incsearch.vim'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'jbradaric/vim-interestingwords', { 'on': ['InterestingWords'] }
+Plug 'jbradaric/vim-interestingwords'
 
 " Tim Pope's plugins
 Plug 'tpope/vim-commentary'
@@ -109,7 +109,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'PeterRincker/vim-argumentative', { 'on': ['<Plug>Argumentative_MoveRight', '<Plug>Argumentative_MoveLeft'] }
 Plug 'vim-scripts/DoxygenToolkit.vim', { 'on': ['Dox', 'DoxUndoc'] }
-" Plug 'vim-scripts/YankRing.vim'
+Plug 'vim-scripts/YankRing.vim'
 Plug 'xolox/vim-easytags'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
