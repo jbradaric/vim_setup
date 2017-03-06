@@ -9,7 +9,7 @@ tnoremap <C-]> <C-\><C-n><C-w>q
 tnoremap <C-^> <C-\><C-n><C-^>
 
 " Exit terminal mode and go to the last cursor position
-tnoremap <Esc><Esc> <C-\><C-n>g;$
+tnoremap <Esc><Esc> <C-\><C-n>
 
 " Also redraw neovim when clearing the terminal
 tnoremap <C-l> <C-l><C-\><C-n><C-l>i
