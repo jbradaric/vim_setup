@@ -2,13 +2,10 @@ if !has('nvim')
     finish
 endif
 
-let g:rainbow#max_level = 8
+let g:rainbow#max_level = 16
 let g:rainbow#pairs = [['(', ')'], ['[', ']'], ['{', '}']]
 
-augroup activate_rainbow
-  autocmd!
-  autocmd VimEnter * :RainbowParentheses
-augroup END
+autocmd VimEnter * RainbowParentheses
 
 if &termguicolors
   " By default, colors will be picked from the current color scheme
