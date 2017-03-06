@@ -157,3 +157,12 @@ let g:neomake_c_clangcheck_maker = {
     \ 'fn': function('s:setup_clangcheck_flags')
     \ }
 " }}}
+
+" Make errors and warning more distinguishable
+let g:neomake_highlight_lines = 1
+augroup my_neomake_highlights
+  autocmd!
+  autocmd ColorScheme *
+      \ hi link NeomakeError SpellBad |
+      \ hi link NeomakeWarning SpellCap
+augroup END
