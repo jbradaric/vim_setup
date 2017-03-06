@@ -47,10 +47,6 @@ endif
 " Autocomplete
 " Plug 'ervandew/supertab'
 
-" CtrlP
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'FelikZ/ctrlp-py-matcher'
-
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
