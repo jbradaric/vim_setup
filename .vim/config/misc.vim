@@ -16,7 +16,7 @@ endif
 " let g:ackprg = 'ag -s --vimgrep'
 let g:ack_wildignore = 0
 
-nnoremap <Space>/ :<C-U>Ag<Space>
+nnoremap <Space>/ :<C-U>Rg<Space>
 
 if executable('rg')
   set grepprg=rg\ --vimgrep\ $*
