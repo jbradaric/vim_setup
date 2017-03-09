@@ -126,6 +126,13 @@ function! s:setup_compiler_flags(jobinfo) dict
   let l:db_path = s:find_compile_commands(l:filename)
   let l:commands = s:get_compile_commands(l:db_path, l:filename)
   let self.args = extend(self.args, l:commands)
+  if self.ft ==# 'cpp'
+    if self.exe ==# 'clang'
+      let self.exe = 'clang++'
+    endif
+    if self.exe ==# 'gcc'
+      let self.exe = 'g++'
+    endif
   return self
 endfunction
 
@@ -136,6 +143,7 @@ function! s:setup_clangcheck_flags(jobinfo) dict
     return 0
   endif
   let self.args = extend(self.args, ['-p', l:db_path])
+  return self
 endfunction
 
 let g:neomake_cpp_gcc_maker = {
