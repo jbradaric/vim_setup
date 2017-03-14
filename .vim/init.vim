@@ -166,7 +166,6 @@ set popt=left:8pc,right:3pc      " print options
 set ruler                        " show the cursor position all the time
 set shiftwidth=4                 " number of spaces to use for each step of indent
 set showcmd                      " display incomplete commands
-set tabstop=4                    " number of spaces that a <Tab> counts for
 set softtabstop=4                " make vim see 4 spaces as tab
 set expandtab                    " insert spaces for tabs
 set formatoptions+=j             " delete comment character when joining commented lines
