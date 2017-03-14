@@ -133,6 +133,7 @@ function! s:setup_compiler_flags(jobinfo) dict
     if self.exe ==# 'gcc'
       let self.exe = 'g++'
     endif
+  endif
   return self
 endfunction
 
