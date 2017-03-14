@@ -121,7 +121,7 @@ if has('nvim')
   let g:deoplete#enable_at_startup = 1
   Plug 'Shougo/deoplete.nvim'
   Plug 'jbradaric/deoplete-jedi'
-  " Plug 'zchee/deoplete-clang'
+  Plug 'zchee/deoplete-clang'
   Plug 'carlitux/deoplete-ternjs'
 endif
 
