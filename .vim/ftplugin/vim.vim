@@ -7,6 +7,7 @@ setlocal shiftwidth=2
 setlocal softtabstop=2
 setlocal tabstop=8
 setlocal expandtab
+setlocal list
 
 " Indent continuation lines by 2 * shiftwidth
 let g:vim_indent_cont = 2 * &shiftwidth
