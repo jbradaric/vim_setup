@@ -16,6 +16,7 @@ function! Multiple_cursors_after()
     set virtualedit-=onemore
     let &eventignore = s:save_eventignore
     let g:deoplete#disable_auto_complete = 0
+    doautocmd TextChanged
 endfunction
 
 let g:multi_cursor_start_key='g<C-n>'
