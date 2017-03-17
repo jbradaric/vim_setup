@@ -119,14 +119,14 @@ endfunction
 
 " autolint hooks {{{
 function! s:setup_compiler_flags(jobinfo) dict
-  if self.ft !=# 'cpp' && self.ft !=# 'c'
+  if index(self.fts, 'c') == -1 && index(self.fts, 'cpp') == -1
     return 0
   endif
   let l:filename = fnamemodify(bufname(a:jobinfo.bufnr), ':p')
   let l:db_path = s:find_compile_commands(l:filename)
   let l:commands = s:get_compile_commands(l:db_path, l:filename)
   let self.args = extend(self.args, l:commands)
-  if self.ft ==# 'cpp'
+  if index(self.fts, 'cpp') >= 0
     if self.exe ==# 'clang'
       let self.exe = 'clang++'
     endif
