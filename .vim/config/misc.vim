@@ -1,10 +1,15 @@
 " Miscellaneous options
 " -------------------------------------------------------------- {{{
 set viewoptions=cursor
-set gdefault
 nnoremap <C-s> :Gstatus<CR>
-" Make Q more useful
-nnoremap Q q:
+
+" Don't use Ex mode, use Q for formatting.
+map Q gq
+
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+" Revert with ":iunmap <C-U>".
+inoremap <C-U> <C-G>u<C-U>
 
 " Show the effects of a command incrementally, while typing.
 if exists('&inccommand')
@@ -82,6 +87,11 @@ nnoremap <C-W>f :vsplit<CR>gf
 nnoremap <leader>S :<C-U>Scratch<CR>
 
 cabbrev <expr> %% expand('%:p:h')
+
+augroup go_to_last_cursor_position
+  autocmd!
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+augroup END
 
 " -------------------------------------------------------------- }}}
 " Python syntax settings
