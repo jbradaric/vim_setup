@@ -1,7 +1,7 @@
 " File: .vimrc
 " Author: Jurica Bradarić
 " Description: My .vimrc file
-" Last Modified: 2015-04-29
+" Last Modified: 2017-03-20
 "===================================================================================
 " GENERAL SETTINGS
 "===================================================================================
@@ -137,6 +137,8 @@ Plug 'justinmk/vim-dirvish'
 
 Plug 'blindFS/vim-taskwarrior', { 'on': ['TW'] }
 
+Plug 'airblade/vim-rooter'
+
 call plug#end()
 "-------------------------------------------------------------------------"}}}
 " Enable file type detection. Use the default filetype settings.
@@ -156,7 +158,7 @@ if has('nvim')
     set undofile                 " use persistent undo
 endif
 set browsedir=current            " which directory to use for the file browser
-set noautochdir                    " automatically cd into the directory that the file is in
+set noautochdir                  " automatically cd into the directory that the file is in
 set complete+=k                  " scan the files given with the 'dictionary' option
 set history=1000                 " keep 1000 lines of command line history
 set undolevels=1000              " lots and lots of undo
