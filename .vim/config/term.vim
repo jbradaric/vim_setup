@@ -33,7 +33,7 @@ endfunction
 augroup make_autoread_work
   autocmd!
   autocmd BufEnter * call s:fix_autoread()
-  autocmd BufEnter * silent! lcd %:p:h
+  " autocmd BufEnter * silent! lcd %:p:h
 augroup END
 
 " Reuse the same terminal buffer for tmux
