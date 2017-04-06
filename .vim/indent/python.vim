@@ -49,9 +49,9 @@ let s:block_rules_multiple = {
             \ }
 let s:paren_pairs = ['()', '{}', '[]']
 if &ft == 'pyrex' || &ft == 'cython'
-    let b:control_statement = '\v^\s*(class|def|if|while|with|for|except|cdef|cpdef)>'
+    let b:control_statement = '\v^\s*(class|def|if|elif|while|with|for|except|cdef|cpdef)>'
 else
-    let b:control_statement = '\v^\s*(class|def|if|while|with|for|except)>'
+    let b:control_statement = '\v^\s*(class|def|if|elif|while|with|for|except)>'
 endif
 let s:stop_statement = '^\s*\(break\|continue\|raise\|return\|pass\)\>'
 
