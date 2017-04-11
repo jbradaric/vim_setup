@@ -88,7 +88,7 @@ Plug 'tpope/vim-abolish'
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
 Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 Plug 'cespare/vim-toml', { 'for': ['toml'] }
-Plug 'sheerun/vim-polyglot', { 'do': './build' }
+Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['javascript']
 
 " Git
