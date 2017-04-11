@@ -104,7 +104,7 @@ Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpenAutoClose'] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'mhinz/vim-grepper'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'PeterRincker/vim-argumentative', { 'on': ['<Plug>Argumentative_MoveRight', '<Plug>Argumentative_MoveLeft'] }
+Plug 'PeterRincker/vim-argumentative'
 Plug 'vim-scripts/DoxygenToolkit.vim', { 'on': ['Dox', 'DoxUndoc'] }
 Plug 'vim-scripts/YankRing.vim'
 Plug 'xolox/vim-misc'
