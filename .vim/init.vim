@@ -78,6 +78,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-sleuth'
 
 " Filetype specific
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
