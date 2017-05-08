@@ -44,9 +44,6 @@ if has('nvim')
   Plug 'junegunn/rainbow_parentheses.vim'
 endif
 
-" Autocomplete
-" Plug 'ervandew/supertab'
-
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
@@ -75,14 +72,12 @@ Plug 'jbradaric/vim-interestingwords'
 
 " Tim Pope's plugins
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-abolish'
 
 " Filetype specific
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
@@ -93,7 +88,6 @@ let g:polyglot_disabled = ['javascript']
 
 " Git
 Plug 'junegunn/gv.vim', { 'on': ['GV'] }
-Plug 'idanarye/vim-merginal', { 'on': ['Merginal'] }
 Plug 'jreybert/vimagit', { 'branch': 'next' }
 
 " Misc
@@ -115,9 +109,6 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
 
 if has('nvim')
-  " Plug 'unblevable/quick-scope'
-  " Plug 'Valloric/YouCompleteMe'
-
   let g:deoplete#enable_at_startup = 1
   Plug 'Shougo/deoplete.nvim'
   Plug 'jbradaric/deoplete-jedi'
@@ -126,14 +117,6 @@ if has('nvim')
 endif
 
 Plug 'justinmk/vim-dirvish'
-
-" Plug 'chrisbra/vim-diff-enhanced'
-" if &diff
-"     let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
-" endif
-
-" Plug 'AndrewRadev/linediff.vim'
-" " Plug 'machakann/vim-highlightedyank'
 
 Plug 'blindFS/vim-taskwarrior', { 'on': ['TW'] }
 
