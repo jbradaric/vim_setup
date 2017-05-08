@@ -2,7 +2,7 @@ if !has('nvim')
   finish
 endif
 
-let s:python_ignore = 'E123,E126,E128,E261,E265,E266,E301,E302,E305,E306,E402,E731,E701'
+let s:python_ignore = 'E123,E126,E128,E261,E265,E266,E301,E302,E305,E306,E402,E731,E701,W602'
 let s:python_max_line_length = 100
 let s:python_error_types_override = {
     \ '127': 'W',
@@ -27,18 +27,18 @@ let s:user_config_path = substitute(system('systemd-path user-configuration'), '
 let s:flake8_config = join([s:user_config_path, 'flake8'], '/')
 
 function! SetWarningType(entry)
-    if has_key(s:python_error_types_override, a:entry.nr)
-        let a:entry.type = s:python_error_types_override[a:entry.nr]
-    endif
-    if a:entry.type ==# 'F'
-        let a:entry.type = 'E'
-    endif
+  let orig_maker = neomake#makers#ft#python#flake8()
+  call orig_maker.postprocess(a:entry)
+  if has_key(s:python_error_types_override, a:entry.nr)
+    let a:entry.type = s:python_error_types_override[a:entry.nr]
+  endif
 endfunction
 
 let g:neomake_python_flake8_maker = {
     \ 'exe': 'flake8-python2',
     \ 'args':
         \ [
+        \  '--format=default',
         \  '--ignore=' . s:python_ignore,
         \  '--max-line-length=' . s:python_max_line_length,
         \  '--config=' . s:flake8_config,
