@@ -92,7 +92,7 @@ Plug 'jreybert/vimagit', { 'branch': 'next' }
 
 " Misc
 Plug 'chrisbra/NrrwRgn', { 'on': ['NRV'] }
-Plug 'duff/vim-scratch', { 'on': ['Scratch'] }
+Plug 'mtth/scratch.vim'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpenAutoClose'] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
