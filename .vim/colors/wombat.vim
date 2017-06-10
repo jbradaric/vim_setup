@@ -57,3 +57,6 @@ hi Special    guifg=#e7f6da gui=NONE
 
 hi NeomakeErrorSign guifg=Red guibg=#000000
 hi NeomakeWarningSign guifg=Yellow guibg=#000000
+
+hi ALEErrorSign guifg=#ff0000 guibg=#000000
+hi ALEWarningSign guifg=#ffff00 guibg=#000000

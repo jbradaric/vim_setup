@@ -48,8 +48,7 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 if has('nvim')
-  Plug 'neomake/neomake'  " , {'commit': 'f9fe220'}
-  " Plug 'dojoteef/neomake-autolint'
+  Plug 'w0rp/ale'
 endif
 
 " Text objects

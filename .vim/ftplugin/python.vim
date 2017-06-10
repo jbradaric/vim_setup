@@ -31,10 +31,6 @@ augroup PythonAutocommands
     autocmd BufWinLeave *.py silent! mkview
     autocmd BufWinEnter *.py silent! loadview
 
-    if has('nvim')
-      autocmd BufWritePost * if &ft ==# 'python' | exe 'Neomake' | endif
-    endif
-
     autocmd CursorMoved,CursorMovedI *
         \ if &ft ==# 'python'
         \ | execute 'setlocal textwidth=' . GetPythonTextWidth()
