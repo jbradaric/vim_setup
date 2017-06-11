@@ -46,12 +46,27 @@ function s:setup_compiler_flags()
   for _, v in pairs(t) do
     if v['file'] == buf_name then
       local arr = {}
-      local arg_count = 0
+      local skip_count = 1
       for arg in string.gmatch(v['command'], '%S+') do
-        if arg_count >= 4 then
-          table.insert(arr, arg)
+        if skip_count > 0 then
+          skip_count = skip_count - 1
+          goto continue
         end
-        arg_count = arg_count + 1
+        if arg == v['file'] then
+          goto continue
+        end
+        if arg == v['file']:sub(v['directory']:len() + 2) then
+          goto continue
+        end
+        if arg == '-c' then
+          goto continue
+        end
+        if arg == '-o' then
+          skip_count = 1
+          goto continue
+        end
+        table.insert(arr, arg)
+        ::continue::
       end
       table.remove(arr, #arr)
       table.insert(arr, '-Wno-tautological-constant-out-of-range-compare')
@@ -73,6 +88,6 @@ augroup my_ale_highlights
       \ hi ALEWarningSign guibg=none guifg=#ffff00
       \ hi link NeomakeError SpellBad |
       \ hi link NeomakeWarning SpellCap
-  autocmd BufReadPost act/*.cpp call s:setup_compiler_flags()
-  autocmd BufReadPost act/*.c call s:setup_compiler_flags()
+  autocmd BufReadPost *.cpp call s:setup_compiler_flags()
+  autocmd BufReadPost *.c call s:setup_compiler_flags()
 augroup END
