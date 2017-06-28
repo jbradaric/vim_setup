@@ -165,6 +165,7 @@ set wildmenu                     " command-line completion in an enhanced mode
 set number                       " turn the line numbers on
 set ve=block                     " set virtualedit mode to block
 set splitright                   " split new vertical windows to the right of the current window
+set splitbelow                   " split new horizontal windows below the current window
 set encoding=utf-8               " set the default encoding to UTF-8
 set scrolloff=3                  " always show at least 3 lines after the current one
 set ttyfast
