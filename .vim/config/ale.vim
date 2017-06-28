@@ -19,6 +19,7 @@ let g:ale_linters = {
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '⚠'
+let g:ale_sign_style_error = g:ale_sign_warning
 
 function s:setup_compiler_flags()
   if has_key(b:, 'ale_cpp_clang_options') || has_key(b:, 'ale_c_clang_options')
