@@ -14,8 +14,6 @@ if has('termguicolors')  " Turn on true colors
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   endif
-  let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
-  let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 endif
 if has('gui_running') || (has('termguicolors') && &termguicolors)
   colorscheme wombat
@@ -140,8 +138,10 @@ set noswapfile                   " don't create swap files
 if has('nvim')
     set undofile                 " use persistent undo
 endif
+set clipboard+=unnamedplus       " delete and yank to the '+' register
+set hidden
 set browsedir=current            " which directory to use for the file browser
-set noautochdir                  " automatically cd into the directory that the file is in
+set noautochdir                  " do not automatically cd into the directory that the file is in
 set complete+=k                  " scan the files given with the 'dictionary' option
 set history=1000                 " keep 1000 lines of command line history
 set undolevels=1000              " lots and lots of undo
