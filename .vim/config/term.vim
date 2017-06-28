@@ -43,6 +43,7 @@ let g:work_term.last_id = -1
 function! g:work_term.new()
   silent! execute 'edit term://' . $HOME . '/.scripts/nvim-work-term.sh'
   silent! setlocal bufhidden=hide
+  silent! setlocal nonumber
   let self.last_id = bufnr('')
 endfunction
 
