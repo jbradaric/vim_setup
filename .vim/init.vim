@@ -145,7 +145,8 @@ set noautochdir                  " do not automatically cd into the directory th
 set complete+=k                  " scan the files given with the 'dictionary' option
 set history=1000                 " keep 1000 lines of command line history
 set undolevels=1000              " lots and lots of undo
-set listchars=tab:>.,trail:.     " strings to use in 'list' mode
+set showbreak=↪                  " indicate wrapped lines
+set listchars=tab:→\ ,trail:•    " strings to use in 'list' mode
 set mouse=a                      " enable the use of the mouse
 set nowrap                       " do not wrap lines
 set popt=left:8pc,right:3pc      " print options
