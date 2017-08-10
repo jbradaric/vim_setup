@@ -106,3 +106,29 @@ augroup END
 " let g:python_highlight_string_format = 1
 " let g:python_highlight_string_formatting = 1
 " let g:python_highlight_builtin_objs = 1
+
+function! s:accordion()
+  if !get(w:, 'accordion', 0)
+    return
+  endif
+  wincmd _
+endfunction
+
+function! s:toggle_accordion()
+  if !get(w:, 'accordion', 0)
+    let w:accordion = 1
+    wincmd _
+    return
+  else
+    let w:accordion = 0
+    wincmd =
+    return
+  endif
+endfunction
+
+nnoremap <silent> ]k :call <sid>toggle_accordion()<cr>
+
+augroup horizontal_accordion
+  autocmd!
+  autocmd WinEnter * call s:accordion()
+augroup END
