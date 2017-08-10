@@ -184,7 +184,9 @@ set hlsearch                     " highlight all occurences of a word
 "-------------------------------------------------------------------------"{{{
 set timeout
 set timeoutlen=1000
-set ttimeoutlen=0
+if !has('nvim')
+  set ttimeoutlen=0
+endif
 "-------------------------------------------------------------------------"}}}
 " Folding options
 "-------------------------------------------------------------------------"{{{
