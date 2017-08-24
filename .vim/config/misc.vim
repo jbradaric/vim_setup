@@ -113,21 +113,42 @@ augroup END
 " let g:python_highlight_builtin_objs = 1
 
 function! s:accordion()
-  if !get(w:, 'accordion', 0)
+  if !get(w:, 'accordion', v:false)
     return
   endif
   wincmd _
 endfunction
 
 function! s:toggle_accordion()
-  if !get(w:, 'accordion', 0)
-    let w:accordion = 1
+  let curr_win = winnr()
+
+  " to to the top-most window
+  let nr = curr_win
+  wincmd k
+  while nr != winnr()
+    let nr = winnr()
+    wincmd k
+  endwhile
+
+  let new_val = get(w:, 'accordion', v:false) ? v:false : v:true
+  let w:accordion = new_val
+  let nr = winnr()
+  wincmd j
+  while nr != winnr()
+    let w:accordion = new_val
+    let nr = winnr()
+    wincmd j
+  endwhile
+
+  let nr = winnr()
+  while nr != curr_win
+    wincmd k
+    let nr = winnr()
+  endwhile
+  if w:accordion
     wincmd _
-    return
   else
-    let w:accordion = 0
     wincmd =
-    return
   endif
 endfunction
 
