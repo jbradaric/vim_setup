@@ -44,6 +44,18 @@ inoremap <silent><expr> <s-tab> <SID>autocomplete_move('p')
 
 set completeopt+=noselect
 
+let g:deoplete#ignore_sources = {
+    \ 'notes': ['buffer', 'around'],
+    \ 'cpp': ['buffer', 'around', 'member', 'tag'],
+    \ 'c': ['buffer', 'around', 'member', 'tag'],
+    \ 'python': ['buffer', 'around', 'member', 'tag'],
+    \ }
+
+call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
+
+let g:deoplete#sources.cpp = ['clang']
+let g:deoplete#sources.c = ['clang']
+
 " deoplete-clang
 let g:deoplete#sources#clang#debug = 1
 let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
