@@ -36,6 +36,8 @@ let mapleader = ','
 "-------------------------------------------------------------------------"{{{
 call plug#begin('~/.vim/bundle')
 
+Plug 'raghur/vim-ghost'
+
 " Appearance
 Plug 'itchyny/lightline.vim'
 if has('nvim')
@@ -110,7 +112,7 @@ if has('nvim')
   let g:deoplete#enable_at_startup = 1
   Plug 'Shougo/deoplete.nvim'
   Plug 'jbradaric/deoplete-jedi'
-  Plug 'zchee/deoplete-clang'
+  Plug 'tweekmonster/deoplete-clang2'
   Plug 'carlitux/deoplete-ternjs'
 endif
 
@@ -138,7 +140,9 @@ set noswapfile                   " don't create swap files
 if has('nvim')
     set undofile                 " use persistent undo
 endif
-set clipboard+=unnamedplus       " delete and yank to the '+' register
+if has('nvim')
+  set clipboard+=unnamedplus     " delete and yank to the '+' register
+endif
 set hidden
 set browsedir=current            " which directory to use for the file browser
 set noautochdir                  " do not automatically cd into the directory that the file is in

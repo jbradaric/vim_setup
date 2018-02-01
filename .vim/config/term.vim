@@ -19,9 +19,21 @@ tnoremap ® .
 " Paste selection into terminal using the Insert key
 tnoremap <Insert> <C-\><C-n>"*pi
 
+function! s:close_term()
+  call feedkeys('i<cr>')
+endfunction
+
+function! s:setup_term_mappings(bufnum)
+  if bufname(a:bufnum) =~ 'nvim-work-term.sh$'
+    return
+  endif
+  nnoremap <buffer> <silent> q :<c-u>call <sid>close_term()<cr>
+endfunction
+
 augroup terminal_mappings
   autocmd!
   autocmd BufEnter term://* nnoremap <buffer> <C-]> <C-W>q
+  autocmd TermOpen * call s:setup_term_mappings(0+expand('<abuf>'))
 augroup END
 
 function! s:fix_autoread()

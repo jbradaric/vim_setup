@@ -53,12 +53,12 @@ let g:deoplete#ignore_sources = {
 
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 
-let g:deoplete#sources.cpp = ['clang']
-let g:deoplete#sources.c = ['clang']
+" let g:deoplete#sources.cpp = ['clang', 'clang2']
+" let g:deoplete#sources.c = ['clang', 'clang2']
 
 " deoplete-clang
-let g:deoplete#sources#clang#debug = 1
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
-let g:deoplete#sources#clang#clang_header = '/usr/include/clang'
-let g:deoplete#sources#clang#std = {"c": "c89", "cpp": "c++98"}
-let g:deoplete#sources#clang#sort_algo = 'priority'
+" let g:deoplete#sources#clang#debug = 1
+" let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
+" let g:deoplete#sources#clang#clang_header = '/usr/include/clang'
+" let g:deoplete#sources#clang#std = {"c": "c89", "cpp": "c++98"}
+" let g:deoplete#sources#clang#sort_algo = 'priority'
