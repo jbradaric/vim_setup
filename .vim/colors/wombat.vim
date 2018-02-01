@@ -23,6 +23,7 @@ endif
 " General colors
 hi Cursor       guifg=NONE    guibg=#656565 gui=NONE
 hi Normal       guifg=#f6f3e8 guibg=#1f1e1e gui=NONE
+hi NormalNC     guibg=#212121
 hi NonText      guifg=#808080 guibg=#303030 gui=NONE
 hi LineNr       guifg=#857b6f guibg=#000000 gui=NONE
 hi StatusLine   guifg=#f6f3e8 guibg=#444444 gui=italic
