@@ -4,7 +4,6 @@ setlocal shiftwidth=4
 setlocal smarttab
 setlocal expandtab
 setlocal nosmartindent
-setlocal tw=100
 setlocal nowrap
 
 setlocal list
@@ -12,6 +11,12 @@ setlocal listchars=tab:>.,trail:. " Show tabs and trailing spaces
 
 setlocal foldmethod=indent
 setlocal foldlevel=999
+
+" only wrap comments at textwidth
+setlocal formatoptions-=t
+" insert comment leader when pressing <cr> in insert mode
+setlocal formatoptions+=r
+setlocal textwidth=79
 
 let g:python_highlight_builtins = 1
 let g:python_highlight_exceptions = 1
@@ -32,11 +37,6 @@ augroup PythonAutocommands
     autocmd!
     autocmd BufWinLeave *.py silent! mkview
     autocmd BufWinEnter *.py silent! loadview
-
-    " autocmd CursorMoved,CursorMovedI *
-    "     \ if &ft ==# 'python'
-    "     \ | execute 'setlocal textwidth=' . GetPythonTextWidth()
-    "     \ | endif
 augroup END
 
 iabbrev <buffer> ppr print '+' * 50print print '=' * 50kA
