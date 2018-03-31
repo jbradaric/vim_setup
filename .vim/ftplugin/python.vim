@@ -33,12 +33,6 @@ function! GetPythonTextWidth()
   endif
 endfunction
 
-augroup PythonAutocommands
-    autocmd!
-    autocmd BufWinLeave *.py silent! mkview
-    autocmd BufWinEnter *.py silent! loadview
-augroup END
-
 iabbrev <buffer> ppr print '+' * 50print print '=' * 50kA
 iabbrev <buffer> pdb import pdb; pdb.set_trace()
 iabbrev <buffer> trace import traceback; traceback.print_stack()
