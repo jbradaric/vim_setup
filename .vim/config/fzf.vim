@@ -1,4 +1,4 @@
-let $FZF_DEFAULT_COMMAND='rg --files --follow --glob "!*.png" --glob "!.PlayOnLinux" --glob "!PlayOnLinux' . "'" . 's virtual drives"'
+let $FZF_DEFAULT_COMMAND='rg --hidden --files --follow --glob "!.git" --glob "!*.png" --glob "!.PlayOnLinux" --glob "!PlayOnLinux' . "'" . 's virtual drives"'
 
 let g:fzf_action = {
       \ 'ctrl-t': 'tab split',
