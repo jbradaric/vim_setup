@@ -36,7 +36,7 @@ let mapleader = ','
 "-------------------------------------------------------------------------"{{{
 call plug#begin('~/.vim/bundle')
 
-Plug 'raghur/vim-ghost'
+" Plug 'raghur/vim-ghost'
 
 " Appearance
 Plug 'itchyny/lightline.vim'
@@ -112,11 +112,27 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
 
 if has('nvim')
-  let g:deoplete#enable_at_startup = 1
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'jbradaric/deoplete-jedi'
-  Plug 'tweekmonster/deoplete-clang2'
-  Plug 'carlitux/deoplete-ternjs'
+  " the framework
+  Plug 'roxma/nvim-completion-manager'
+
+  inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
+  " Use Tab to select completion items
+  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+  Plug 'autozimu/LanguageClient-neovim'
+
+  let g:LanguageClient_serverCommands = {
+      \ 'python': ['/home/jurica/.scripts/local_workenv.sh', '/home/jurica/.local/bin/pyls'],
+      \ }
+  let g:LanguageClient_rootMarkers = ['.git']
+  let g:LanguageClient_loadSettings = 1
+  let g:LanguageClient_settingsPath = '/tmp/.vim/settings.json'
+  let g:LanguageClient_autoStart = 1
+
+  nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+  nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 endif
 
 Plug 'justinmk/vim-dirvish'
