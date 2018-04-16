@@ -100,7 +100,10 @@ Plug 'mhinz/vim-grepper'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'PeterRincker/vim-argumentative'
 Plug 'vim-scripts/DoxygenToolkit.vim', { 'on': ['Dox', 'DoxUndoc'] }
-Plug 'maxbrunsfeld/vim-yankstack'
+" Plug 'maxbrunsfeld/vim-yankstack'
+if has('nvim')
+  Plug 'bfredl/nvim-miniyank'
+endif
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
 
