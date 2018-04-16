@@ -85,8 +85,8 @@ endfunction
 augroup my_ale_highlights
   autocmd!
   autocmd ColorScheme *
-      \ hi ALEErrorSign guibg=none guifg=#ff0000
-      \ hi ALEWarningSign guibg=none guifg=#ffff00
+      \ hi ALEErrorSign guibg=none guifg=#ff0000 |
+      \ hi ALEWarningSign guibg=none guifg=#ffff00 |
       \ hi link NeomakeError SpellBad |
       \ hi link NeomakeWarning SpellCap
   autocmd BufReadPost *.cpp call s:setup_compiler_flags()
