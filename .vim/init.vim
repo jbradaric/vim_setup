@@ -125,10 +125,12 @@ if has('nvim')
 
   let g:LanguageClient_serverCommands = {
       \ 'python': ['/home/jurica/.scripts/local_workenv.sh', '/home/jurica/.local/bin/pyls'],
+      \ 'cpp': ['cquery'],
+      \ 'c': ['cquery'],
       \ }
   let g:LanguageClient_rootMarkers = ['.git']
   let g:LanguageClient_loadSettings = 1
-  let g:LanguageClient_settingsPath = '/tmp/.vim/settings.json'
+  let g:LanguageClient_settingsPath = '/home/jurica/.config/nvim/lang_server_settings.json'
   let g:LanguageClient_autoStart = 1
 
   nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>

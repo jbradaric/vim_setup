@@ -1,0 +1,13 @@
+{
+  "pyls": {
+    "configurationSources": ["flake8"],
+    "plugins": {
+      "pycodestyle": { "enabled": false },
+      "pyflakes": { "enabled": false },
+      "mccabe": { "enabled": false }
+    }
+  },
+  "initializationOptions": {
+    "cacheDirectory": "/tmp/cquery"
+  }
+}

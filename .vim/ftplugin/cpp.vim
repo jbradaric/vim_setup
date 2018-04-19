@@ -4,6 +4,8 @@ setlocal tabstop=8
 setlocal expandtab
 setlocal softtabstop=4
 setlocal list
+" Don't complete tags
+setlocal complete-=t
 
 augroup CppAutocommands
     autocmd!
