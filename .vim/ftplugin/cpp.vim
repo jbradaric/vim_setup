@@ -9,7 +9,5 @@ setlocal complete-=t
 
 augroup CppAutocommands
     autocmd!
-    autocmd BufWinLeave *.cpp silent! mkview
-    autocmd BufWinEnter *.cpp silent! loadview
     autocmd BufWinEnter _core/*.cpp setlocal shiftwidth=2 softtabstop=2
 augroup END
