@@ -19,12 +19,8 @@ command! -bang -nargs=* Rg
     \   <bang>0)
 
 function! s:fzf_current_project()
-  let git_root = systemlist('git rev-parse --show-toplevel')[0]
-  if v:shell_error != 0
-    execute 'Files'
-  else
-    execute 'Files ' . fnameescape(git_root)
-  endif
+  let root = FindRootDirectory()
+  execute 'Files ' . fnameescape(l:root)
 endfunction
 
 nnoremap <c-p> :<c-u>call <SID>fzf_current_project()<cr>
