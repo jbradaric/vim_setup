@@ -19,6 +19,11 @@ tnoremap ® .
 " Paste selection into terminal using the Insert key
 tnoremap <Insert> <C-\><C-n>"*pi
 
+" Stay in insert mode after pasting with middle click
+tnoremap <MiddleMouse> <C-\><C-n>"*pa
+tnoremap <MiddleRelease> <Nop>
+tnoremap <M-MiddleDrag> <Nop>
+
 function! s:close_term()
   call feedkeys('i<cr>')
 endfunction
