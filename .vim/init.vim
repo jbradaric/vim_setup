@@ -66,7 +66,7 @@ Plug 'terryma/vim-expand-region'
 
 " Search
 Plug 'haya14busa/incsearch.vim'
-Plug 'terryma/vim-multiple-cursors'
+Plug 'mg979/vim-visual-multi'
 Plug 'jbradaric/vim-interestingwords'
 
 " Tim Pope's plugins
