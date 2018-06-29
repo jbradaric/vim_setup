@@ -141,8 +141,6 @@ endif
 
 Plug 'justinmk/vim-dirvish'
 
-Plug 'blindFS/vim-taskwarrior', { 'on': ['TW'] }
-
 Plug 'airblade/vim-rooter'
 
 call plug#end()
