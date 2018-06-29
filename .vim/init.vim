@@ -103,6 +103,8 @@ Plug 'vim-scripts/DoxygenToolkit.vim', { 'on': ['Dox', 'DoxUndoc'] }
 " Plug 'maxbrunsfeld/vim-yankstack'
 if has('nvim')
   Plug 'bfredl/nvim-miniyank'
+  Plug 'machakann/vim-highlightedyank'
+  let g:highlightedyank_highlight_duration = 150
 endif
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
