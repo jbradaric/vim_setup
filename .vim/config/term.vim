@@ -46,6 +46,16 @@ function! s:fix_autoread()
   " silent! execute 'lcd ' . expand('%:p:h')
 endfunction
 
+function! s:quit_nvr()
+  write
+  for client in get(b:, 'nvr', [])
+    call rpcnotify(client, 'Exit', 0)
+  endfor
+  bdelete
+endfunction
+
+command! Wq call s:quit_nvr()
+
 augroup make_autoread_work
   autocmd!
   autocmd BufEnter * call s:fix_autoread()
@@ -82,6 +92,6 @@ function! g:work_term.run(same_buffer)
   normal i
 endfunction
 
-nnoremap <leader>t :call g:work_term.run(0)<CR>
-nnoremap <leader>T :call g:work_term.run(1)<CR>
+nnoremap \t :call g:work_term.run(0)<CR>
+nnoremap \T :call g:work_term.run(1)<CR>
 " -------------------------------------------------------------- }}}

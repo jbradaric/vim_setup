@@ -6,6 +6,7 @@
 "
 " call yankstack#setup()
 " nmap Y y$
+finish
 if has('nvim')
   map p <Plug>(miniyank-autoput)
   map P <Plug>(miniyank-autoPut)
