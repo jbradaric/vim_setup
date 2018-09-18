@@ -115,20 +115,48 @@ Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHig
 
 if has('nvim')
   " the framework
-  Plug 'roxma/nvim-completion-manager'
-  imap <expr> <CR> (pumvisible() ? "\<C-Y>\<Plug>(expand_or_cr)" : "\<CR>")
-  imap <expr> <Plug>(expand_or_cr) (cm#completed_is_snippet() ? "\<F20>" : "\<CR>")
+  " Plug 'roxma/nvim-completion-manager'
+  Plug 'ncm2/ncm2'
+  Plug 'roxma/nvim-yarp'
 
-  " Use Tab to select completion items
+  autocmd Bufenter * call ncm2#enable_for_buffer()
+  set completeopt=noinsert,menuone,noselect
+
+  " When the <Enter> key is pressed while the popup menu is visible, it only
+  " hides the menu. Use this mapping to close the menu and also start a new
+  " line.
+  inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+
+  " Use <TAB> to select the popup menu:
   inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
   inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
+  Plug 'ncm2/ncm2-ultisnips'
   Plug 'SirVer/ultisnips'
-  let g:UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
 
-  inoremap <silent> <F20> <C-R>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<CR>
-  let g:UltiSnipsJumpForwardTrigger = "<C-J>"
-  let g:UltiSnipsJumpBackwardTrigger = "<C-K>"
+  " Press enter key to trigger snippet expansion
+  " The parameters are the same as `:help feedkeys()`
+  inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+
+  " c-j c-k for moving in snippet
+  let g:UltiSnipsExpandTrigger          = "<Plug>(ultisnips_expand)"
+  let g:UltiSnipsJumpForwardTrigger     = "<c-j>"
+  let g:UltiSnipsJumpBackwardTrigger    = "<c-k>"
+  let g:UltiSnipsRemoveSelectModeMappings = 0
+
+  " imap <expr> <CR> (pumvisible() ? "\<C-Y>\<Plug>(expand_or_cr)" : "\<CR>")
+  " imap <expr> <Plug>(expand_or_cr) (cm#completed_is_snippet() ? "\<F20>" : "\<CR>")
+
+  " Use Tab to select completion items
+  " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+  " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+  " Plug 'SirVer/ultisnips'
+  " let g:UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
+
+  " inoremap <silent> <F20> <C-R>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<CR>
+  " let g:UltiSnipsJumpForwardTrigger = "<C-J>"
+  " let g:UltiSnipsJumpBackwardTrigger = "<C-K>"
 
   Plug 'autozimu/LanguageClient-neovim', {
       \ 'branch': 'next',
@@ -139,6 +167,7 @@ if has('nvim')
       \ 'python': ['/home/jurica/.scripts/local_workenv.sh', '/home/jurica/.local/bin/pyls'],
       \ 'cpp': ['cquery'],
       \ 'c': ['cquery'],
+      \ 'go': ['/home/jurica/go/bin/go-langserver'],
       \ }
   let g:LanguageClient_rootMarkers = ['.git']
   " let g:LanguageClient_loggingLevel = 'DEBUG'
