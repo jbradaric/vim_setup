@@ -33,6 +33,6 @@ function! GetPythonTextWidth()
   endif
 endfunction
 
-iabbrev <buffer> ppr print '+' * 50print print '=' * 50kA
-iabbrev <buffer> pdb import pdb; pdb.set_trace()
-iabbrev <buffer> trace import traceback; traceback.print_stack()
+" iabbrev <buffer> ppr print '+' * 50print print '=' * 50kA
+" iabbrev <buffer> pdb import pdb; pdb.set_trace()
+" iabbrev <buffer> trace import traceback; traceback.print_stack()

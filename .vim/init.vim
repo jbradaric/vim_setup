@@ -36,7 +36,7 @@ let mapleader = ','
 "-------------------------------------------------------------------------"{{{
 call plug#begin('~/.vim/bundle')
 
-Plug 'raghur/vim-ghost'
+" Plug 'raghur/vim-ghost'
 
 " Appearance
 Plug 'itchyny/lightline.vim'
@@ -66,7 +66,7 @@ Plug 'terryma/vim-expand-region'
 
 " Search
 Plug 'haya14busa/incsearch.vim'
-Plug 'terryma/vim-multiple-cursors'
+Plug 'mg979/vim-visual-multi'
 Plug 'jbradaric/vim-interestingwords'
 
 " Tim Pope's plugins
@@ -101,9 +101,11 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'PeterRincker/vim-argumentative'
 Plug 'vim-scripts/DoxygenToolkit.vim', { 'on': ['Dox', 'DoxUndoc'] }
 " Plug 'maxbrunsfeld/vim-yankstack'
-if has('nvim')
-  Plug 'bfredl/nvim-miniyank'
-endif
+" if has('nvim')
+"   Plug 'bfredl/nvim-miniyank'
+"   Plug 'machakann/vim-highlightedyank'
+"   let g:highlightedyank_highlight_duration = 150
+" endif
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
 
@@ -112,18 +114,99 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
 
 if has('nvim')
-  let g:deoplete#enable_at_startup = 1
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'jbradaric/deoplete-jedi'
-  Plug 'tweekmonster/deoplete-clang2'
-  Plug 'carlitux/deoplete-ternjs'
+  " the framework
+  Plug 'roxma/nvim-completion-manager'
+  imap <expr> <CR> (pumvisible() ? "\<C-Y>\<Plug>(expand_or_cr)" : "\<CR>")
+  imap <expr> <Plug>(expand_or_cr) (cm#completed_is_snippet() ? "\<F20>" : "\<CR>")
+
+  " Use Tab to select completion items
+  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+  Plug 'SirVer/ultisnips'
+  let g:UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
+
+  inoremap <silent> <F20> <C-R>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<CR>
+  let g:UltiSnipsJumpForwardTrigger = "<C-J>"
+  let g:UltiSnipsJumpBackwardTrigger = "<C-K>"
+
+  Plug 'autozimu/LanguageClient-neovim', {
+      \ 'branch': 'next',
+      \ 'do': 'bash install.sh'
+      \ }
+
+  let g:LanguageClient_serverCommands = {
+      \ 'python': ['/home/jurica/.scripts/local_workenv.sh', '/home/jurica/.local/bin/pyls'],
+      \ 'cpp': ['cquery'],
+      \ 'c': ['cquery'],
+      \ }
+  let g:LanguageClient_rootMarkers = ['.git']
+  " let g:LanguageClient_loggingLevel = 'DEBUG'
+  let g:LanguageClient_loadSettings = 1
+  let g:LanguageClient_settingsPath = '/home/jurica/.config/nvim/lang_server_settings.json'
+  let g:LanguageClient_autoStart = 1
+  let g:LanguageClient_diagnosticsEnable = 0
+
+  function! SetupPythonServer()
+    if &ft !=# 'python'
+      return
+    endif
+    let l:conf = readfile(g:LanguageClient_settingsPath)
+    let l:settings = json_decode(l:conf)
+    let l:method = 'workspace/didChangeConfiguration'
+    let l:params = {'settings': l:settings}
+    call LanguageClient#Write(json_encode({ 'jsonrpc': '2.0', 'method': l:method, 'params': l:params, }))
+    echom 'server setup done'
+  endfunction
+
+  augroup LanguageClient_config
+    autocmd!
+    autocmd User LanguageClientStarted call SetupPythonServer()
+  augroup END
+
+  nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+  nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+  nnoremap <silent> gD :call LanguageClient_textDocument_typeDefinition()<CR>
+  nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+  nnoremap <silent> <F3> :call LanguageClient_textDocument_references()<CR>
 endif
 
 Plug 'justinmk/vim-dirvish'
 
-Plug 'blindFS/vim-taskwarrior', { 'on': ['TW'] }
-
 Plug 'airblade/vim-rooter'
+
+Plug 'tyru/open-browser.vim'
+nmap gx <Plug>(openbrowser-smart-search)
+
+" Get selected text in visual mode.
+function! s:_get_last_selected()
+    let save_z = getreg('z', 1)
+    let save_z_type = getregtype('z')
+
+    try
+        normal! gv"zy
+        return @z
+    finally
+        call setreg('z', save_z, save_z_type)
+    endtry
+endfunction
+
+function! s:_get_selected_text() abort
+  let selected_text = s:_get_last_selected()
+  let text = substitute(selected_text, '[\n\r]\+', '', 'g')
+  return substitute(text, '^\s*\|\s*$', '', 'g')
+endfunction
+
+function! s:open_selected_url()
+  let text = s:_get_selected_text()
+  call openbrowser#open(text)
+endfunction
+
+vmap gx :<c-u>call <sid>open_selected_url()<cr>
+
+Plug 'dhruvasagar/vim-table-mode'
+
+Plug 'gabrielelana/vim-markdown'
 
 call plug#end()
 "-------------------------------------------------------------------------"}}}
@@ -143,9 +226,9 @@ set noswapfile                   " don't create swap files
 if has('nvim')
     set undofile                 " use persistent undo
 endif
-if has('nvim')
-  set clipboard+=unnamedplus     " delete and yank to the '+' register
-endif
+" if has('nvim')
+"   set clipboard+=unnamedplus     " delete and yank to the '+' register
+" endif
 set hidden
 set browsedir=current            " which directory to use for the file browser
 set noautochdir                  " do not automatically cd into the directory that the file is in
