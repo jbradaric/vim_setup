@@ -9,4 +9,4 @@ if has('nvim')
     let g:grepper.dispatch = 0
 endif
 
-command! -nargs=* -complete=file Rg Grepper -tool rg -query <args>
+command! -nargs=+ -complete=file Rg Grepper -noprompt -tool rg -query <args>
