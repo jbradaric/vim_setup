@@ -7,8 +7,7 @@ let g:fzf_action = {
       \ }
 
 
-let g:fzf_files_options =
-    \ '--preview "(highlight -s candy -O truecolor {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+let g:fzf_files_options = '--preview "bat --theme="OneHalfDark" --style=numbers,changes --color=always {} | head -'.&lines.'"'
 let g:fzf_buffers_jump = 1
 
 command! -bang -nargs=* Rg
