@@ -202,6 +202,10 @@ if has('nvim')
   nnoremap <silent> gD :call LanguageClient_textDocument_typeDefinition()<CR>
   nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
   nnoremap <silent> <F3> :call LanguageClient_textDocument_references()<CR>
+
+  if exists('&pumblend')
+    set pumblend=5
+  endif
 endif
 
 Plug 'justinmk/vim-dirvish'
