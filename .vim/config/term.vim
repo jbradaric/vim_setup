@@ -42,7 +42,13 @@ augroup terminal_mappings
 augroup END
 
 function! s:fix_autoread()
-  silent! execute 'checktime'
+  if filereadable(expand('%:p'))
+    silent! checktime
+  endif
+  " try
+  "   silent! execute 'checktime'
+  " catch /E211/
+  " endtry
   " silent! execute 'lcd ' . expand('%:p:h')
 endfunction
 
