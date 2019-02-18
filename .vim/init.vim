@@ -9,10 +9,12 @@
 " Colors and other UI options
 "-------------------------------------------------------------------------"}}}
 if has('termguicolors')  " Turn on true colors
-  set termguicolors
-  if &term =~# '^screen'
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  if has('nvim') || !(&term =~# '^tmux')
+    set termguicolors
+    if &term =~# '^screen'
+      let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+      let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    endif
   endif
 endif
 if has('gui_running') || (has('termguicolors') && &termguicolors)
