@@ -79,6 +79,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-abolish'
 
 let g:sleuth_automatic = 0
 Plug 'tpope/vim-sleuth', { 'on': ['Sleuth'] }
