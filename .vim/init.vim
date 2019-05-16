@@ -280,10 +280,15 @@ set expandtab                    " insert spaces for tabs
 set formatoptions+=j             " delete comment character when joining commented lines
 set wildignore+=*.bak,*.o,*.e,*~ " wildmenu: ignore these extensions
 set wildignore+=*.class,*.pyc
-" First tab press = complete as much as possible
-" Second tab = provide a list
-" Third and subsequent tab = cycle through completions
-set wildmode=longest,list,full
+if has('nvim')
+  set wildmode=full
+  set wildoptions=pum
+else
+  " First tab press = complete as much as possible
+  " Second tab = provide a list
+  " Third and subsequent tab = cycle through completions
+  set wildmode=longest,list,full
+endif
 set wildmenu                     " command-line completion in an enhanced mode
 set number                       " turn the line numbers on
 set ve=block                     " set virtualedit mode to block
