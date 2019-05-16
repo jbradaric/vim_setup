@@ -16,6 +16,7 @@ let g:ale_linters = {
     \ 'c': ['clang'],
     \ 'tex': [],
     \ }
+let g:ale_disable_lsp = 1
 
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✖'
@@ -46,10 +47,10 @@ function s:setup_compiler_flags()
   local t = json.decode(contents)
   local buf_name = vim.api.nvim_buf_get_name(buf)
   for _, v in pairs(t) do
-    if v['file'] == buf_name then
+    if (v['directory'] .. '/' .. v['file']) == buf_name then
       local arr = {}
       local skip_count = 1
-      for arg in string.gmatch(v['command'], '%S+') do
+      for _, arg in pairs(v['arguments']) do
         if skip_count > 0 then
           skip_count = skip_count - 1
           goto continue
