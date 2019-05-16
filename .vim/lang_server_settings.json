@@ -2,6 +2,7 @@
   "pyls": {
     "configurationSources": ["flake8"],
     "plugins": {
+      "jedi_completion": { "include_params": false },
       "pycodestyle": { "enabled": false },
       "pyflakes": { "enabled": false },
       "mccabe": { "enabled": false }
