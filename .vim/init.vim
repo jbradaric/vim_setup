@@ -62,8 +62,8 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'wellle/targets.vim'
 
 " Motions
+Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/vim-easyoperator-line'
-Plug 'Lokaltog/vim-easymotion'
 Plug 'terryma/vim-expand-region'
 
 " Search
