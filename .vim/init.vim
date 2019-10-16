@@ -255,12 +255,10 @@ set autoread                     " read open files again when changed outside Vi
 set backspace=indent,eol,start   " backspacing over everything in insert mode
 set nobackup                     " don't keep backup files
 set noswapfile                   " don't create swap files
+set nomodeline                   " don't use modelines
 if has('nvim')
     set undofile                 " use persistent undo
 endif
-" if has('nvim')
-"   set clipboard+=unnamedplus     " delete and yank to the '+' register
-" endif
 set hidden
 set browsedir=current            " which directory to use for the file browser
 set noautochdir                  " do not automatically cd into the directory that the file is in
@@ -281,6 +279,7 @@ set formatoptions+=j             " delete comment character when joining comment
 set wildignore+=*.bak,*.o,*.e,*~ " wildmenu: ignore these extensions
 set wildignore+=*.class,*.pyc
 if has('nvim')
+  " Show command mode completions in a floating window
   set wildmode=full
   set wildoptions=pum
 else
