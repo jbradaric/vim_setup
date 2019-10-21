@@ -61,3 +61,6 @@ hi NeomakeWarningSign guifg=Yellow guibg=#000000
 
 hi ALEErrorSign guifg=#ff0000 guibg=#000000
 hi ALEWarningSign guifg=#ffff00 guibg=#000000
+
+hi qfError guibg=NONE guifg=#ff0000
+hi QuickFixLine guibg=#ffe792 guifg=#000000
