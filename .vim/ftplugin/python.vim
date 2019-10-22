@@ -35,6 +35,16 @@ endfunction
 
 let s:pytest_options = split('-m pytest -q --tb=native')
 
+function! s:show_test_status(type, msg)
+  if a:type == 'red'
+    echohl RedBar
+  else
+    echohl GreenBar
+  endif
+  echon a:msg repeat(' ', &columns - strlen(a:msg) - 1)
+  echohl None
+endfunction
+
 function! s:remove_escape_codes(idx, text)
   let new_text = substitute(a:text, '\e\[[0-9;]\+[mK]', '', 'g')
   return substitute(l:new_text, '$', '', '')
@@ -53,41 +63,66 @@ function! s:OnExit(run_data, job_id, data, event) dict
   call map(a:run_data.lines, function('s:remove_escape_codes'))
   " Write the file
   call writefile(a:run_data.lines, a:run_data.outfile)
-  " Close the terminal
-  call nvim_win_close(a:run_data.term_win, v:true)
+  if a:run_data.show_results
+    " Close the terminal
+    call nvim_win_close(a:run_data.term_win, v:true)
+  endif
   " Activate the window with the test file
   call nvim_set_current_win(a:run_data.curr_win)
   " Read error file
   silent! execute 'cfile ' . a:run_data.outfile
-  " Open quickfix window
-  belowright copen 20
+  if !empty(getqflist())
+    if a:run_data.show_results
+      " Open quickfix window
+      belowright copen 20
+    else
+      call s:show_test_status('red', 'Tests failed')
+    endif
+  else
+    call s:show_test_status('green', 'All tests passed')
+  endif
   " Delete the temporary file
   call delete(a:run_data.outfile)
 endfunction
 
-function! RunPytest(pytest_runner)
-  if &ft !=# 'python'
-    echoerr expand('%:p') . ' is not a Python file'
-    return
+function! RunPytest(pytest_runner, show_results, ...)
+  " Test the current file if no other files are specified as arguments
+  if a:0 == 0
+    if &ft !=# 'python'
+      echoerr expand('%:p') . ' is not a Python file'
+      return
+    endif
+    let test_files = [expand('%:p')]
+  else
+    let test_files = a:000
   endif
-  compiler pytest
-  let fname = expand('%:p')
-  let runner_cmd = split(a:pytest_runner) + s:pytest_options
+
+  " Set pytest as the compiler if it is not already set
+  if get(b:, 'current_compiler', '') !=# 'pytest'
+    compiler pytest
+  endif
+
+  let runner_cmd = split(a:pytest_runner) + split('-m pytest -q --tb=native')
 
   let run_data = {}
   let run_data.lines = ['']
   let run_data.outfile = tempname()
   let run_data.curr_win = nvim_get_current_win()
-
-  " Create a window for the terminal
-  below split
-  enew
-  call nvim_win_set_height(0, 20)
-  let run_data.term_win = nvim_get_current_win()
+  let run_data.show_results = a:show_results
 
   let opts = {
       \ 'on_stdout': function('s:OnStdout', [run_data]),
       \ 'on_exit': function('s:OnExit', [run_data]),
       \ }
-  let job_id = termopen(runner_cmd + [fname], opts)
+
+  if a:show_results
+    " Create a window for the terminal
+    below split
+    enew
+    call nvim_win_set_height(0, 20)
+    let run_data.term_win = nvim_get_current_win()
+    let job_id = termopen(runner_cmd + test_files, opts)
+  else
+    let job_id = jobstart(runner_cmd + test_files, opts)
+  endif
 endfunction

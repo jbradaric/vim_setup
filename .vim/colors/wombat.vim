@@ -64,3 +64,5 @@ hi ALEWarningSign guifg=#ffff00 guibg=#000000
 
 hi qfError guibg=NONE guifg=#ff0000
 hi QuickFixLine guibg=#ffe792 guifg=#000000
+hi GreenBar guifg=white guibg=green
+hi RedBar guifg=white guibg=red
