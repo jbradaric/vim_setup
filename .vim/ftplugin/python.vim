@@ -35,14 +35,33 @@ endfunction
 
 let s:pytest_options = split('-m pytest -q --tb=native')
 
-function! s:show_test_status(type, msg)
+function! s:show_test_status(type, msg, win_id)
+  " Add some padding, \n at start and end, two spaces around each line
+  let msg_lines = split('\n' . a:msg . '\n', '\\n', v:true)
+  call map(msg_lines, {k, v -> repeat(' ', 2) . v . repeat(' ', 2)})
+
+  let max_len = max(map(copy(msg_lines), {k, v -> len(v)}))
+  let width = float2nr(max_len)
+  let height = len(msg_lines)
+  let vertical = float2nr((nvim_win_get_height(a:win_id) - height) / 2)
+  let horizontal = float2nr((nvim_win_get_width(a:win_id) - width) / 2)
+  let opts = {
+      \ 'relative': 'win',
+      \ 'row': vertical,
+      \ 'col': horizontal,
+      \ 'width': width,
+      \ 'height': height,
+      \ 'style': 'minimal',
+      \ }
+  let buf = nvim_create_buf(v:false, v:true)
+  call nvim_buf_set_lines(buf, 0, len(msg_lines), v:false, msg_lines)
+  let msg_win = nvim_open_win(buf, v:true, opts)
   if a:type == 'red'
-    echohl RedBar
+    call setwinvar(msg_win, '&winhl', 'Normal:RedBar')
   else
-    echohl GreenBar
+    call setwinvar(msg_win, '&winhl', 'Normal:GreenBar')
   endif
-  echon a:msg repeat(' ', &columns - strlen(a:msg) - 1)
-  echohl None
+  call timer_start(1000, function('nvim_win_close', [msg_win]))
 endfunction
 
 function! s:remove_escape_codes(idx, text)
@@ -58,7 +77,7 @@ function! s:OnStdout(run_data, job_id, data, event) dict
   call extend(a:run_data.lines, a:data[1:])
 endfunction
 
-function! s:OnExit(run_data, job_id, data, event) dict
+function! s:OnExit(run_data, job_id, exit_code, event) dict
   " Remove escape codes
   call map(a:run_data.lines, function('s:remove_escape_codes'))
   " Write the file
@@ -70,16 +89,14 @@ function! s:OnExit(run_data, job_id, data, event) dict
   " Activate the window with the test file
   call nvim_set_current_win(a:run_data.curr_win)
   " Read error file
-  silent! execute 'cfile ' . a:run_data.outfile
-  if !empty(getqflist())
-    if a:run_data.show_results
-      " Open quickfix window
-      belowright copen 20
-    else
-      call s:show_test_status('red', 'Tests failed')
-    endif
-  else
-    call s:show_test_status('green', 'All tests passed')
+  if a:exit_code == 0
+    call s:show_test_status('green', 'All tests passed', a:run_data.curr_win)
+  elseif a:exit_code == 1  " tests failed
+    silent! execute 'cfile ' . a:run_data.outfile
+    " Open quickfix window
+    belowright copen 20
+  else  " any other exit code, pytest error
+    call s:show_test_status('red', 'Error running tests', a:run_data.curr_win)
   endif
   " Delete the temporary file
   call delete(a:run_data.outfile)
