@@ -58,6 +58,9 @@ function! s:quit_nvr()
     call rpcnotify(client, 'Exit', 0)
   endfor
   bdelete
+  if &buftype ==# 'terminal'
+    startinsert
+  endif
 endfunction
 
 command! Wq call s:quit_nvr()
