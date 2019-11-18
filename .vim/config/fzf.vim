@@ -22,9 +22,12 @@ function! s:fzf_current_project()
   execute 'Files ' . fnameescape(l:root)
 endfunction
 
-let $FZF_DEFAULT_OPTS='--layout=reverse'
-let g:fzf_layout = {'window': 'call FloatingFZF()'}
+if has('nvim')
+  let $FZF_DEFAULT_OPTS='--color=dark --color=bg:#444444,bg+:#444444 --color=info:#444444,prompt:-1,pointer:#e21d7d,marker:#e21d7d,spinner:11,header:#444444 --layout=reverse --margin=1,4'
+  let g:fzf_layout = {'window': 'call FloatingFZF()'}
+endif
 
+hi FloatingBorder guibg=#333333
 let s:float_border_win = 0
 
 function! s:create_border_win(opts)
@@ -34,18 +37,19 @@ function! s:create_border_win(opts)
       \ 'col': a:opts['col'] - 1,
       \ 'width': a:opts['width'] + 2,
       \ 'height': a:opts['height'] + 2,
-      \ 'style': 'minimal'
+      \ 'style': 'minimal',
       \ }
   let border_buf = nvim_create_buf(v:false, v:true)
-  return nvim_open_win(border_buf, v:true, border_opts)
+  let border_win = nvim_open_win(border_buf, v:true, border_opts)
+  call setwinvar(border_win, '&winhl', 'Normal:FloatingBorder,EndOfBuffer:FloatingBorder')
 endfunction
 
 function! FloatingFZF()
   let buf = nvim_create_buf(v:false, v:true)
-  let height = float2nr(&lines * 0.7)
+  let height = float2nr(&lines * 0.4)
   let width = float2nr(&columns * 0.6)
   let horizontal = float2nr((&columns - width) / 2)
-  let vertical = 5
+  let vertical = float2nr((&lines - height) / 2)
   let opts = {
       \ 'relative': 'editor',
       \ 'row': vertical,
