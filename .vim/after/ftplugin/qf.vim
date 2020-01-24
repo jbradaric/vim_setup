@@ -29,4 +29,4 @@ function! CloseListWindow()
   endif
 endfunction
 
-nnoremap <silent><buffer> q :<c-u>call CloseListWindow()<cr>
+nnoremap <silent><buffer> gq :<c-u>call CloseListWindow()<cr>
