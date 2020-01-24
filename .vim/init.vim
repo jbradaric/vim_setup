@@ -240,6 +240,8 @@ Plug 'dhruvasagar/vim-table-mode'
 
 Plug 'gabrielelana/vim-markdown'
 
+Plug 'jbradaric/nvim-miniyank'
+
 call plug#end()
 "-------------------------------------------------------------------------"}}}
 " Enable file type detection. Use the default filetype settings.
