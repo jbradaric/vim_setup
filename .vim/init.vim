@@ -192,7 +192,7 @@ if has('nvim')
     autocmd User LanguageClientStarted call SetupPythonServer()
   augroup END
 
-  nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+  " nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
   nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
   nnoremap <silent> gD :call LanguageClient_textDocument_typeDefinition()<CR>
   nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
