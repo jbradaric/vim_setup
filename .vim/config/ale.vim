@@ -22,71 +22,15 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '⚠'
 let g:ale_sign_style_error = g:ale_sign_warning
-let g:ale_set_signs = 0
+let g:ale_set_signs = 1
+
+let g:ale_virtualtext_cursor = 1
 
 function s:setup_compiler_flags()
   if !has('nvim')
     return
   endif
-  if has_key(b:, 'ale_cpp_clang_options') || has_key(b:, 'ale_c_clang_options')
-    return
-  endif
-  if !has_key(b:, 'compile_commands_path')
-    let l:project_root = FindRootDirectory()
-    if l:project_root ==# ''
-      return
-    endif
-    let b:compile_commands_path = l:project_root . '/compile_commands.json'
-  endif
-  if !filereadable(b:compile_commands_path)
-    return
-  endif
-
-  lua << EOF
-  local json = require 'json'
-  local buf = vim.api.nvim_get_current_buf()
-  local f = io.open(vim.api.nvim_buf_get_var(buf, 'compile_commands_path'), 'rb')
-  local contents = f:read '*a'
-  f:close()
-  local t = json.decode(contents)
-  local buf_name = vim.api.nvim_buf_get_name(buf)
-  for _, v in pairs(t) do
-    if (v['directory'] .. '/' .. v['file']) == buf_name then
-      local arr = {}
-      local skip_count = 1
-      for _, arg in pairs(v['arguments']) do
-        if skip_count > 0 then
-          skip_count = skip_count - 1
-          goto continue
-        end
-        if arg == v['file'] then
-          goto continue
-        end
-        if arg == v['file']:sub(v['directory']:len() + 2) then
-          goto continue
-        end
-        if arg == '-c' then
-          goto continue
-        end
-        if arg == '-o' then
-          skip_count = 1
-          goto continue
-        end
-        table.insert(arr, arg)
-        ::continue::
-      end
-      table.remove(arr, #arr)
-      table.insert(arr, '-Wno-tautological-constant-out-of-range-compare')
-      table.insert(arr, '-Wno-unsupported-friend')
-      local options = table.concat(arr, ' ')
-      if vim.api.nvim_buf_get_option(buf, 'filetype') == 'c' then
-        vim.api.nvim_buf_set_var(buf, 'ale_c_clang_options', options)
-      else
-        vim.api.nvim_buf_set_var(buf, 'ale_cpp_clang_options', options)
-      end
-    end
-  end
-EOF
+  lua require'utils'.init_ale()
 endfunction
 
 augroup my_ale_highlights
@@ -94,6 +38,7 @@ augroup my_ale_highlights
   autocmd ColorScheme *
       \ hi ALEErrorSign guibg=none guifg=#ff0000 |
       \ hi ALEWarningSign guibg=none guifg=#ffff00 |
+      \ hi AleVirtualTextError guifg=#8a02020 |
       \ hi link NeomakeError SpellBad |
       \ hi link NeomakeWarning SpellCap
   autocmd BufReadPost *.cpp call s:setup_compiler_flags()
