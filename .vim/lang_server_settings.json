@@ -7,8 +7,5 @@
       "pyflakes": { "enabled": false },
       "mccabe": { "enabled": false }
     }
-  },
-  "initializationOptions": {
-    "cacheDirectory": "/tmp/cquery"
   }
 }

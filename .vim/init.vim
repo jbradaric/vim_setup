@@ -164,8 +164,8 @@ if has('nvim')
 
   let g:LanguageClient_serverCommands = {
       \ 'python': ['/home/jurica/.scripts/local_workenv.sh', '/home/jurica/.local/bin/pyls'],
-      \ 'cpp': ['cquery'],
-      \ 'c': ['cquery'],
+      \ 'cpp': ['ccls'],
+      \ 'c': ['ccls'],
       \ 'go': ['/home/jurica/go/bin/go-langserver'],
       \ }
   let g:LanguageClient_rootMarkers = ['.git']
