@@ -3,6 +3,9 @@ local json = require 'json'
 
 local function read_compile_commands(buf)
   local f = io.open(api.nvim_buf_get_var(buf, 'compile_commands_path'), 'rb')
+  if f == nil then
+    return nil
+  end
   local contents = f:read '*a'
   f:close()
   return json.decode(contents)
@@ -11,8 +14,8 @@ end
 local function init_ale()
   local buf = api.nvim_get_current_buf()
   if pcall(api.nvim_buf_get_var, buf, 'ale_cpp_clang_options') or
-      pcall(api.nvim_buf_get_var, buf, 'ale_c_clang_options') then
-      return
+    pcall(api.nvim_buf_get_var, buf, 'ale_c_clang_options') then
+    return
   end
   if not pcall(api.nvim_buf_get_var, buf, 'compile_commands_path') then
     local project_root = vim.fn.FindRootDirectory()
@@ -21,7 +24,6 @@ local function init_ale()
     end
     local path = project_root .. '/compile_commands.json'
     api.nvim_buf_set_var(buf, 'compile_commands_path', path)
-    api.nvim_buf_set_var(buf, 'did_abc', '1')
   end
 
   if not vim.fn.filereadable(api.nvim_buf_get_var(buf, 'compile_commands_path')) then
@@ -29,6 +31,9 @@ local function init_ale()
   end
 
   local t = read_compile_commands(buf)
+  if t == nil then
+    return
+  end
   local buf_name = api.nvim_buf_get_name(buf)
   for _, v in pairs(t) do
     if (v['directory'] .. '/' .. v['file']) == buf_name then
@@ -55,7 +60,6 @@ local function init_ale()
         table.insert(arr, arg)
         ::continue::
       end
-      table.remove(arr, #arr)
       table.insert(arr, '-Wno-tautological-constant-out-of-range-compare')
       table.insert(arr, '-Wno-unsupported-friend')
       local options = table.concat(arr, ' ')
@@ -69,5 +73,5 @@ local function init_ale()
 end
 
 return {
-    init_ale = init_ale,
+  init_ale = init_ale,
 }
