@@ -23,9 +23,6 @@ let s:escape_pattern = 'substitute(escape(v:val, ".$~"), "*", ".*", "g")'
 function! s:setup_dirvish()
   let b:dirvish_show_dot_files = 1
 
-  " Make fugitive work
-  call fugitive#detect(@%)
-
   " Hide ignored files
   for pattern in map(split(&wildignore, ','), s:escape_pattern)
     execute 'silent keeppatterns g/^' . pattern . '$/d'
