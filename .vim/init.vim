@@ -240,7 +240,9 @@ Plug 'dhruvasagar/vim-table-mode'
 
 Plug 'gabrielelana/vim-markdown'
 
-Plug 'jbradaric/nvim-miniyank'
+if has('nvim')
+  Plug 'jbradaric/nvim-miniyank'
+endif
 
 call plug#end()
 "-------------------------------------------------------------------------"}}}
