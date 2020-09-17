@@ -4,7 +4,6 @@ let s:flake8_config = join([s:user_config_path, 'flake8'], '/')
 let s:python_ignore = 'E123,E126,E128,E261,E265,E266,E301,E302,E305,E306,E402,E701,E731,E741,W602,F811,W503,W504'
 let s:python_max_line_length = 100
 
-let g:ale_python_flake8_executable = 'flake8-python2'
 let g:ale_python_flake8_options = '--ignore=' . s:python_ignore
 let g:ale_python_flake8_options .= ' --max-line-length=' . s:python_max_line_length
 let g:ale_python_flake8_options .= ' --config=' . s:flake8_config
