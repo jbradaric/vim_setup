@@ -1,0 +1,25 @@
+{
+  "More visible print": {
+    "prefix": "ppr",
+    "body": [
+      "print('+' * 50)",
+      "print($1)",
+      "print('-' * 50)"
+    ],
+    "description": "More visible print"
+  },
+  "Print stack trace": {
+    "prefix": "trace",
+    "body": "import traceback; traceback.print_stack()"
+  },
+  "Set breakpoint": {
+    "prefix": "pdb",
+    "body": "import pdb; pdb.set_trace()"
+  },
+  "uuid": {
+    "prefix": "uuid",
+    "body": [
+      "${VIM:system('python -c \"import uuid, sys; sys.stdout.write(str(uuid.uuid4()))\"')}"
+    ]
+  }
+}

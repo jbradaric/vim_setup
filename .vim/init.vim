@@ -99,7 +99,6 @@ Plug 'jreybert/vimagit', { 'branch': 'next' }
 Plug 'chrisbra/NrrwRgn', { 'on': ['NRV'] }
 Plug 'mtth/scratch.vim'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
-Plug 'majutsushi/tagbar', { 'on': ['TagbarToggle', 'TagbarOpenAutoClose'] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'mhinz/vim-grepper'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -113,90 +112,22 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
 
 if has('nvim')
-  " the framework
-  " Plug 'roxma/nvim-completion-manager'
-  Plug 'ncm2/ncm2'
-  Plug 'roxma/nvim-yarp'
+  Plug 'hrsh7th/vim-vsnip'
+  Plug 'hrsh7th/vim-vsnip-integ'
+  let g:vsnip_extra_mapping = v:false
+  let g:vsnip_snippet_dir = expand('~/.config/nvim/global-snippets')
 
-  autocmd Bufenter * call ncm2#enable_for_buffer()
-  set completeopt=noinsert,menuone,noselect
+  Plug 'liuchengxu/vista.vim'
 
-  " When the <Enter> key is pressed while the popup menu is visible, it only
-  " hides the menu. Use this mapping to close the menu and also start a new
-  " line.
-  inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
-
-  " Use <TAB> to select the popup menu:
+  Plug 'nvim-lua/completion-nvim'
   inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
   inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+  set completeopt=menuone,noinsert,noselect
+  set shortmess+=c
+  let g:completion_enable_snippet = 'vim-vsnip'
+  let g:completion_enable_auto_hover = 0
 
-  Plug 'ncm2/ncm2-ultisnips'
-  Plug 'SirVer/ultisnips'
-
-  " Press enter key to trigger snippet expansion
-  " The parameters are the same as `:help feedkeys()`
-  inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
-
-  " c-j c-k for moving in snippet
-  let g:UltiSnipsExpandTrigger          = "<Plug>(ultisnips_expand)"
-  let g:UltiSnipsJumpForwardTrigger     = "<c-j>"
-  let g:UltiSnipsJumpBackwardTrigger    = "<c-k>"
-  let g:UltiSnipsRemoveSelectModeMappings = 0
-
-  " imap <expr> <CR> (pumvisible() ? "\<C-Y>\<Plug>(expand_or_cr)" : "\<CR>")
-  " imap <expr> <Plug>(expand_or_cr) (cm#completed_is_snippet() ? "\<F20>" : "\<CR>")
-
-  " Use Tab to select completion items
-  " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-  " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-  " Plug 'SirVer/ultisnips'
-  " let g:UltiSnipsExpandTrigger = "<Plug>(ultisnips_expand)"
-
-  " inoremap <silent> <F20> <C-R>=cm#sources#ultisnips#trigger_or_popup("\<Plug>(ultisnips_expand)")<CR>
-  " let g:UltiSnipsJumpForwardTrigger = "<C-J>"
-  " let g:UltiSnipsJumpBackwardTrigger = "<C-K>"
-
-  Plug 'autozimu/LanguageClient-neovim', {
-      \ 'branch': 'next',
-      \ 'do': 'bash install.sh'
-      \ }
-
-  let g:LanguageClient_serverCommands = {
-      \ 'python': ['/home/jurica/local_workenv3.sh', '/home/jurica/.local/bin/pyls'],
-      \ 'cpp': ['ccls'],
-      \ 'c': ['ccls'],
-      \ 'go': ['/home/jurica/go/bin/go-langserver'],
-      \ }
-  let g:LanguageClient_rootMarkers = ['.git']
-  " let g:LanguageClient_loggingLevel = 'DEBUG'
-  let g:LanguageClient_loadSettings = 1
-  let g:LanguageClient_settingsPath = '/home/jurica/.config/nvim/lang_server_settings.json'
-  let g:LanguageClient_autoStart = 1
-  let g:LanguageClient_diagnosticsEnable = 0
-
-  function! SetupPythonServer()
-    if &ft !=# 'python'
-      return
-    endif
-    let l:conf = readfile(g:LanguageClient_settingsPath)
-    let l:settings = json_decode(l:conf)
-    let l:method = 'workspace/didChangeConfiguration'
-    let l:params = {'settings': l:settings}
-    call LanguageClient#Write(json_encode({ 'jsonrpc': '2.0', 'method': l:method, 'params': l:params, }))
-    echom 'server setup done'
-  endfunction
-
-  augroup LanguageClient_config
-    autocmd!
-    autocmd User LanguageClientStarted call SetupPythonServer()
-  augroup END
-
-  " nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-  nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-  nnoremap <silent> gD :call LanguageClient_textDocument_typeDefinition()<CR>
-  nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-  nnoremap <silent> <F3> :call LanguageClient_textDocument_references()<CR>
+  Plug 'neovim/nvim-lspconfig'
 
   if exists('&pumblend')
     set pumblend=5

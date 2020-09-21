@@ -72,6 +72,35 @@ local function init_ale()
   end
 end
 
+local nvim_lsp = require 'nvim_lsp'
+local function setup_lsp()
+  -- Disable diagnostics globally
+  vim.lsp.callbacks["textDocument/publishDiagnostics"] = function() end
+  nvim_lsp.ccls.setup{
+    on_attach=require'completion'.on_attach,
+  }
+  nvim_lsp.pyls.setup{
+    cmd = {"/home/jurica/local_workenv3.sh", "/home/jurica/.local/bin/pyls"},
+    settings = {
+      pyls = {
+        configurationSources = { "flake8" },
+        plugins = {
+          preload = {
+            enabled = true,
+            modules = { "act", "stfw", "age", "gtk", "gio", "glib", "gobject", "numpy" },
+          },
+          jedi_completion = { include_class_objects = false },
+          mccabe = { enabled = false },
+          pyflakes = { enabled = false },
+          pycodestyle = { enabled = false },
+        },
+      },
+    },
+    on_attach=require'completion'.on_attach,
+  }
+end
+
 return {
   init_ale = init_ale,
+  setup_lsp = setup_lsp,
 }
