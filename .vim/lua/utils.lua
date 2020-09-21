@@ -74,8 +74,6 @@ end
 
 local nvim_lsp = require 'nvim_lsp'
 local function setup_lsp()
-  -- Disable diagnostics globally
-  vim.lsp.callbacks["textDocument/publishDiagnostics"] = function() end
   nvim_lsp.ccls.setup{
     on_attach=require'completion'.on_attach,
   }
@@ -90,9 +88,13 @@ local function setup_lsp()
             modules = { "act", "stfw", "age", "gtk", "gio", "glib", "gobject", "numpy" },
           },
           jedi_completion = { include_class_objects = false },
+          autopep8 = { enabled = false },
           mccabe = { enabled = false },
           pyflakes = { enabled = false },
           pycodestyle = { enabled = false },
+          flake8 = {
+            enabled = true,
+          },
         },
       },
     },

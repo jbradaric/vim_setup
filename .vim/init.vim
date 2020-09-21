@@ -49,10 +49,6 @@ endif
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
-if has('nvim')
-  Plug 'w0rp/ale'
-endif
-
 " Text objects
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-lastpat'
