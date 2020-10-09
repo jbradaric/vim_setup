@@ -73,10 +73,36 @@ local function init_ale()
 end
 
 local nvim_lsp = require 'nvim_lsp'
+
 local function setup_lsp()
+  local function on_attach(client)
+    require('completion').on_attach(client)
+    require('diagnostic').on_attach(client)
+
+    api.nvim_command('autocmd CursorHold <buffer> lua vim.lsp.util.show_line_diagnostics()')
+
+    api.nvim_command('nnoremap <buffer> <silent> <C-]> <cmd>lua vim.lsp.buf.definition()<CR>')
+    api.nvim_command('nnoremap <buffer> <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>')
+    api.nvim_command('nnoremap <buffer> <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>')
+    api.nvim_command('nnoremap <buffer> <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>')
+    api.nvim_command('nnoremap <buffer> <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>')
+    api.nvim_command('nnoremap <buffer> <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>')
+    api.nvim_command('nnoremap <buffer> <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>')
+  end
+
   nvim_lsp.ccls.setup{
-    on_attach=require'completion'.on_attach,
+    on_attach=on_attach,
+    settings = {
+      completion = {
+        enableSnippetInsertion = false,
+      },
+    },
   }
+
+  nvim_lsp.rls.setup{
+    on_attach=on_attach,
+  }
+
   nvim_lsp.pyls.setup{
     cmd = {"/home/jurica/local_workenv3.sh", "/home/jurica/.local/bin/pyls"},
     settings = {
@@ -98,7 +124,7 @@ local function setup_lsp()
         },
       },
     },
-    on_attach=require'completion'.on_attach,
+    on_attach=on_attach,
   }
 end
 

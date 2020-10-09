@@ -3,3 +3,6 @@ if !has('nvim')
 endif
 
 lua require'utils'.setup_lsp()
+
+hi LspDiagnosticsErrorSign guifg=Red guibg=#000000
+hi LspDiagnosticsWarningSign guifg=Yellow guibg=#000000

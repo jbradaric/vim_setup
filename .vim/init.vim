@@ -118,12 +118,27 @@ if has('nvim')
   Plug 'nvim-lua/completion-nvim'
   inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
   inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+  inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
   set completeopt=menuone,noinsert,noselect
   set shortmess+=c
   let g:completion_enable_snippet = 'vim-vsnip'
   let g:completion_enable_auto_hover = 0
+  " let g:completion_confirm_key = ''
 
   Plug 'neovim/nvim-lspconfig'
+
+  Plug 'nvim-lua/diagnostic-nvim'
+  let g:diagnostic_enable_virtual_text = 1
+  let g:space_before_virtual_text = 2
+  let g:diagnostic_enable_underline = 1
+  let g:diagnostic_insert_delay = 1
+
+  call sign_define("LspDiagnosticsErrorSign", {"text" : "✖", "texthl" : "LspDiagnosticsErrorSign"})
+  call sign_define("LspDiagnosticsWarningSign", {"text" : "⚠", "texthl" : "LspDiagnosticsWarningSign"})
+
+  Plug 'nvim-lua/popup.nvim'
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-lua/telescope.nvim'
 
   if exists('&pumblend')
     set pumblend=5
@@ -229,6 +244,10 @@ set scrolloff=3                  " always show at least 3 lines after the curren
 set ttyfast
 set completeopt-=preview
 set lazyredraw                   " speed up on large files
+set updatetime=750               " trigger CursorHold sooner, 4 seconds is too long
+if has('nvim')
+  set signcolumn=yes:1
+endif
 "-------------------------------------------------------------------------"}}}
 " Search settings
 "-------------------------------------------------------------------------"{{{
