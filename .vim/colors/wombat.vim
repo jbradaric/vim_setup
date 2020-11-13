@@ -22,7 +22,7 @@ endif
 
 " General colors
 hi Cursor       guifg=NONE    guibg=#656565 gui=NONE
-hi Normal       guifg=#f6f3e8 guibg=#1f1e1e gui=NONE
+hi Normal       guifg=#f6f3e8 guibg=#1e1e1e gui=NONE
 hi NormalNC     guibg=#212121
 hi NonText      guifg=#808080 guibg=#303030 gui=NONE
 hi LineNr       guifg=#857b6f guibg=#000000 gui=NONE
@@ -55,6 +55,10 @@ hi Keyword    guifg=#8ac6f2 gui=NONE
 hi PreProc    guifg=#e5786d gui=NONE
 hi Number     guifg=#e5786d gui=NONE
 hi Special    guifg=#e7f6da gui=NONE
+
+hi FunctionParameter guifg=#88dcfe gui=NONE
+hi MyConstant guifg=#569cd6 gui=NONE
+hi MyConditional guifg=#c586a6 gui=NONE
 
 hi NeomakeErrorSign guifg=Red guibg=#000000
 hi NeomakeWarningSign guifg=Yellow guibg=#000000

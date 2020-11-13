@@ -75,19 +75,24 @@ end
 local nvim_lsp = require 'nvim_lsp'
 
 local function setup_lsp()
-  local function on_attach(client)
+  local function on_attach(client, bufnr)
     require('completion').on_attach(client)
     require('diagnostic').on_attach(client)
 
+    api.nvim_command('setlocal signcolumn=yes:1')
+
     api.nvim_command('autocmd CursorHold <buffer> lua vim.lsp.util.show_line_diagnostics()')
 
-    api.nvim_command('nnoremap <buffer> <silent> <C-]> <cmd>lua vim.lsp.buf.definition()<CR>')
-    api.nvim_command('nnoremap <buffer> <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>')
-    api.nvim_command('nnoremap <buffer> <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>')
-    api.nvim_command('nnoremap <buffer> <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>')
-    api.nvim_command('nnoremap <buffer> <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>')
-    api.nvim_command('nnoremap <buffer> <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>')
-    api.nvim_command('nnoremap <buffer> <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>')
+    local opts = { noremap = true, silent = true }
+    -- api.nvim_buf_set_keymap(bufnr, 'n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    -- api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    -- api.nvim_buf_set_keymap(bufnr, 'n', 'g0', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
+    -- api.nvim_buf_set_keymap(bufnr, 'n', 'gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
+    api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    api.nvim_buf_set_keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+    api.nvim_buf_set_keymap(bufnr, 'x', '<leader>f', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
   end
 
   nvim_lsp.ccls.setup{
@@ -118,9 +123,8 @@ local function setup_lsp()
           mccabe = { enabled = false },
           pyflakes = { enabled = false },
           pycodestyle = { enabled = false },
-          flake8 = {
-            enabled = true,
-          },
+          flake8 = { enabled = true, },
+          yapf = { enabled = true, },
         },
       },
     },
@@ -128,7 +132,62 @@ local function setup_lsp()
   }
 end
 
+local function setup_treesitter()
+  require'nvim-treesitter.configs'.setup {
+    highlight = {
+      enable = true,
+    },
+    refactor = {
+      highlight_definitions = { enable = false },
+      smart_rename = {
+        enable = true,
+        keymaps = {
+          smart_rename = "grr",
+        },
+      },
+      navigation = {
+        enable = true,
+        keymaps = {
+          goto_definition_lsp_fallback = '<C-]>',
+          list_definitions = "gnD",
+          list_definitions_toc = "gO",
+        },
+      },
+    },
+    textobjects = {
+      lsp_interop = {
+        enable = true,
+        peek_definition_code = {
+          ["gdf"] = "@function.outer",
+          ["gdF"] = "@class.outer",
+        },
+      },
+      select = {
+        enable = true,
+        keymaps = {
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@class.outer",
+          ["ic"] = "@class.inner",
+          ["ib"] = "@block.inner",
+          ["ab"] = "@block.outer",
+        },
+      },
+      swap = {
+        enable = true,
+        swap_next = {
+          ["<leader>a"] = "@parameter.inner",
+        },
+        swap_previous = {
+          ["<leader>A"] = "@parameter.inner",
+        },
+      },
+    },
+  }
+end
+
 return {
   init_ale = init_ale,
   setup_lsp = setup_lsp,
+  setup_treesitter = setup_treesitter,
 }

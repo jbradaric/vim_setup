@@ -186,6 +186,12 @@ if has('nvim')
   Plug 'jbradaric/nvim-miniyank'
 endif
 
+if has('nvim')
+  Plug 'nvim-treesitter/nvim-treesitter'
+  Plug 'nvim-treesitter/nvim-treesitter-refactor'
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+endif
+
 call plug#end()
 "-------------------------------------------------------------------------"}}}
 " Enable file type detection. Use the default filetype settings.
