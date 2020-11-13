@@ -150,6 +150,10 @@ Plug 'justinmk/vim-dirvish'
 Plug 'airblade/vim-rooter'
 
 Plug 'tyru/open-browser.vim'
+let g:openbrowser_browser_commands = [
+    \ {'name': '/usr/bin/firefox',
+    \ 'args': ['{browser}', '-P', 'work', '--new-tab', '{uri}']}
+    \ ]
 nmap gx <Plug>(openbrowser-smart-search)
 
 " Get selected text in visual mode.

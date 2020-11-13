@@ -109,7 +109,10 @@ local function setup_lsp()
   }
 
   nvim_lsp.pyls.setup{
-    cmd = {"/home/jurica/local_workenv3.sh", "/home/jurica/.local/bin/pyls"},
+    cmd = {
+      "/home/jurica/.virtualenvs/local-py3/bin/python",
+      "/home/jurica/.local/bin/pyls",
+    },
     settings = {
       pyls = {
         configurationSources = { "flake8" },
