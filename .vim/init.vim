@@ -251,9 +251,6 @@ set ttyfast
 set completeopt-=preview
 set lazyredraw                   " speed up on large files
 set updatetime=750               " trigger CursorHold sooner, 4 seconds is too long
-if has('nvim')
-  set signcolumn=yes:1
-endif
 "-------------------------------------------------------------------------"}}}
 " Search settings
 "-------------------------------------------------------------------------"{{{

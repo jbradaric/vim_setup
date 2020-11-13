@@ -39,6 +39,7 @@ augroup terminal_mappings
   autocmd!
   autocmd BufEnter term://* nnoremap <buffer> <C-]> <C-W>q
   autocmd TermOpen * call s:setup_term_mappings(0+expand('<abuf>'))
+  autocmd TermOpen * call s:set_term_settings(0+expand('<abuf>'))
 augroup END
 
 function! s:fix_autoread()
@@ -76,10 +77,14 @@ augroup END
 let g:work_term = {}
 let g:work_term.last_id = -1
 
-function! g:work_term.new()
-  silent! execute 'edit term://' . $HOME . '/.scripts/nvim-work-term.sh'
+function s:set_term_settings(bufnum)
   silent! setlocal bufhidden=hide
   silent! setlocal nonumber
+  silent! setlocal signcolumn=no
+endfunction
+
+function! g:work_term.new()
+  silent! execute 'edit term://' . $HOME . '/.scripts/nvim-work-term.sh'
   let self.last_id = bufnr('')
 endfunction
 

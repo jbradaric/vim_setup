@@ -42,6 +42,7 @@ function! s:create_border_win(opts)
   let border_buf = nvim_create_buf(v:false, v:true)
   let border_win = nvim_open_win(border_buf, v:true, border_opts)
   call setwinvar(border_win, '&winhl', 'Normal:FloatingBorder,EndOfBuffer:FloatingBorder')
+  call setwinvar(border_win, '&signcolumn', 'auto')
 endfunction
 
 function! FloatingFZF()
