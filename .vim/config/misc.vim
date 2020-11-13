@@ -185,3 +185,6 @@ function! GetVisualSelection()
     let lines[0] = lines[0][column_start - 1:]
     return join(lines, "\n")
 endfunction
+
+" Highlight yanked text
+autocmd TextYankPost * silent! lua vim.highlight.on_yank {timeout=150, on_visual=false}
