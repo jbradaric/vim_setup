@@ -82,7 +82,7 @@ Plug 'tpope/vim-sleuth', { 'on': ['Sleuth'] }
 
 " Filetype specific
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
-Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
+" Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 Plug 'cespare/vim-toml', { 'for': ['toml'] }
 Plug 'sheerun/vim-polyglot'
 let g:polyglot_disabled = ['javascript']
@@ -127,14 +127,16 @@ if has('nvim')
 
   Plug 'neovim/nvim-lspconfig'
 
-  Plug 'nvim-lua/diagnostic-nvim'
-  let g:diagnostic_enable_virtual_text = 1
-  let g:space_before_virtual_text = 2
-  let g:diagnostic_enable_underline = 1
-  let g:diagnostic_insert_delay = 1
+  " Plug 'nvim-lua/diagnostic-nvim'
+  " let g:diagnostic_enable_virtual_text = 1
+  " let g:space_before_virtual_text = 2
+  " let g:diagnostic_enable_underline = 1
+  " let g:diagnostic_insert_delay = 1
 
-  call sign_define("LspDiagnosticsErrorSign", {"text" : "✖", "texthl" : "LspDiagnosticsErrorSign"})
-  call sign_define("LspDiagnosticsWarningSign", {"text" : "⚠", "texthl" : "LspDiagnosticsWarningSign"})
+  " call sign_define("LspDiagnosticsErrorSign", {"text" : "✖", "texthl" : "LspDiagnosticsErrorSign"})
+  " call sign_define("LspDiagnosticsWarningSign", {"text" : "⚠", "texthl" : "LspDiagnosticsWarningSign"})
+  sign define LspDiagnosticsSignError text=✖ texthl=LspDiagnosticsErrorSign linehl= numhl=
+  sign define LspDiagnosticsSignWarning text=⚠ texthl=LspDiagnosticsWarningSign linehl= numhl=
 
   Plug 'nvim-lua/popup.nvim'
   Plug 'nvim-lua/plenary.nvim'

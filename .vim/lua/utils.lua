@@ -72,23 +72,41 @@ local function init_ale()
   end
 end
 
-local nvim_lsp = require 'nvim_lsp'
+local nvim_lsp = require 'lspconfig'
 
 local function setup_lsp()
+  vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      -- Enable underline, use default values
+      underline = true,
+      -- Enable virtual text
+      virtual_text = {
+        spacing = 2,
+      },
+      -- Show signs
+      signs = function(bufnr, client_id)
+        local ok, result = pcall(vim.api.nvim_buf_get_var, bufnr, 'show_signs')
+        -- No buffer local variable set, disable by default
+        if not ok then
+          return false
+        end
+        return result
+      end,
+      -- Disable diagnostics while in insert mode
+      update_in_insert = false,
+    }
+  )
   local function on_attach(client, bufnr)
     require('completion').on_attach(client)
-    require('diagnostic').on_attach(client)
+    -- require('diagnostic').on_attach(client)
 
     api.nvim_command('setlocal signcolumn=yes:1')
+    api.nvim_buf_set_var(bufnr, 'show_signs', true)
 
-    api.nvim_command('autocmd CursorHold <buffer> lua vim.lsp.util.show_line_diagnostics()')
+    -- api.nvim_command('autocmd CursorHold <buffer> lua vim.lsp.util.show_line_diagnostics()')
 
     local opts = { noremap = true, silent = true }
-    -- api.nvim_buf_set_keymap(bufnr, 'n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
     api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    -- api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    -- api.nvim_buf_set_keymap(bufnr, 'n', 'g0', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
-    -- api.nvim_buf_set_keymap(bufnr, 'n', 'gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
     api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     api.nvim_buf_set_keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
@@ -133,6 +151,10 @@ local function setup_lsp()
     },
     on_attach=on_attach,
   }
+  nvim_lsp.rust_analyzer.setup {
+    on_attach=on_attach,
+  }
+
 end
 
 local function setup_treesitter()
