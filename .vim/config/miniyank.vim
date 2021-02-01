@@ -1,3 +1,7 @@
+if !has('nvim')
+  finish
+endif
+
 map p <Plug>(miniyank-autoput)
 map P <Plug>(miniyank-autoPut)
 if has('nvim')
