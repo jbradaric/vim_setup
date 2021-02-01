@@ -110,7 +110,7 @@ local function setup_lsp()
 
   nvim_lsp.pyls.setup{
     cmd = {
-      "/home/jurica/.virtualenvs/local-py3/bin/python",
+      "/home/jurica/.virtualenvs/local-py3.9/bin/python",
       "/home/jurica/.local/bin/pyls",
     },
     settings = {
