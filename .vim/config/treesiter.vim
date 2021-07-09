@@ -1,4 +1,3 @@
-finish
 if !has('nvim')
   finish
 endif

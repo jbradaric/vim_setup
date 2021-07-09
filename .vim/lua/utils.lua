@@ -75,43 +75,26 @@ end
 local nvim_lsp = require 'lspconfig'
 
 local function setup_lsp()
-  vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-      -- Enable underline, use default values
-      underline = true,
-      -- Enable virtual text
-      virtual_text = {
-        spacing = 2,
-      },
-      -- Show signs
-      signs = function(bufnr, client_id)
-        local ok, result = pcall(vim.api.nvim_buf_get_var, bufnr, 'show_signs')
-        -- No buffer local variable set, disable by default
-        if not ok then
-          return false
-        end
-        return result
-      end,
-      -- Disable diagnostics while in insert mode
-      update_in_insert = false,
-    }
-  )
   local function on_attach(client, bufnr)
-    require('completion').on_attach(client)
-    -- require('diagnostic').on_attach(client)
 
     api.nvim_command('setlocal signcolumn=yes:1')
     api.nvim_buf_set_var(bufnr, 'show_signs', true)
-
-    -- api.nvim_command('autocmd CursorHold <buffer> lua vim.lsp.util.show_line_diagnostics()')
 
     local opts = { noremap = true, silent = true }
     api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
     api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
     api.nvim_buf_set_keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
     api.nvim_buf_set_keymap(bufnr, 'x', '<leader>f', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
   end
+
+  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      -- Sort diagnostics by severity
+      severity_sort = true,
+    }
+  )
 
   nvim_lsp.ccls.setup{
     on_attach=on_attach,
@@ -126,31 +109,67 @@ local function setup_lsp()
     on_attach=on_attach,
   }
 
-  nvim_lsp.pyls.setup{
+  nvim_lsp.jedi_language_server.setup{
+    on_attach=on_attach,
     cmd = {
       "/home/jurica/.virtualenvs/local-py3.9/bin/python",
-      "/home/jurica/.local/bin/pyls",
+      "/home/jurica/.virtualenvs/local-py3.9/bin/jedi-language-server",
     },
-    settings = {
-      pyls = {
-        configurationSources = { "flake8" },
-        plugins = {
-          preload = {
-            enabled = true,
-            modules = { "act", "stfw", "age", "gtk", "gio", "glib", "gobject", "numpy" },
-          },
-          jedi_completion = { include_class_objects = false },
-          autopep8 = { enabled = false },
-          mccabe = { enabled = false },
-          pyflakes = { enabled = false },
-          pycodestyle = { enabled = false },
-          flake8 = { enabled = true, },
-          yapf = { enabled = true, },
-        },
+    init_options = {
+      jediSettings = {
+        autoImportModules = {"act", "age", "gtk", "gio", "glib", "gobject", "numpy"},
       },
-    },
-    on_attach=on_attach,
+      completion = {
+        disableSnippets = true,
+      },
+      diagnostics = {
+        enable = false,
+      },
+      workspace = {
+        extraPaths = {"/home/jurica/src/local/act-py3/src/python", "/home/jurica/src/stfw/src"},
+        symbols = {
+          ignoreFolders = {"doc", "__pycache__", ".ccls-cache", ".mypy_cache", ".pytest_cache"},
+        }
+      }
+    }
   }
+
+  nvim_lsp.diagnosticls.setup{
+    filetypes = {"python"},
+    init_options = {
+      linters = {
+        flake8 = {
+          command = "flake8",
+          debounce = 100,
+          args = { "--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s", "-" },
+          offsetLine = 0,
+          offsetColumn = 0,
+          sourceName = "flake8",
+          formatLines = 1,
+          formatPattern = {
+            "(\\d+),(\\d+),([A-Z]),(.*)(\\r|\\n)*$",
+            {
+              line = 1,
+              column = 2,
+              security = 3,
+              message = 4
+            }
+          },
+          securities = {
+            W = "info",
+            E = "warning",
+            F = "error",
+            C = "info",
+            N = "hint"
+          }
+        }
+      },
+      filetypes = {
+        python = "flake8",
+      }
+    }
+  }
+
   nvim_lsp.rust_analyzer.setup {
     on_attach=on_attach,
   }
@@ -161,6 +180,7 @@ local function setup_treesitter()
   require'nvim-treesitter.configs'.setup {
     highlight = {
       enable = true,
+      use_languagetree = true,
     },
     refactor = {
       highlight_definitions = { enable = false },
@@ -211,8 +231,35 @@ local function setup_treesitter()
   }
 end
 
+local function setup_nvim_compe()
+  require'compe'.setup {
+    enabled = true;
+    autocomplete = true;
+    debug = false;
+    min_length = 1;
+    preselect = 'enable';
+    throttle_time = 80;
+    source_timeout = 200;
+    incomplete_delay = 400;
+    allow_prefix_unmatch = false;
+
+    source = {
+      path = true;
+      buffer = true;
+      calc = true;
+      vsnip = true;
+      nvim_lsp = true;
+      nvim_lua = false;
+      spell = false;
+      tags = false;
+      snippets_nvim = false;
+    }
+  };
+end
+
 return {
   init_ale = init_ale,
   setup_lsp = setup_lsp,
   setup_treesitter = setup_treesitter,
+  setup_nvim_compe = setup_nvim_compe,
 }

@@ -84,8 +84,8 @@ Plug 'tpope/vim-sleuth', { 'on': ['Sleuth'] }
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
 " Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 Plug 'cespare/vim-toml', { 'for': ['toml'] }
-Plug 'sheerun/vim-polyglot'
-let g:polyglot_disabled = ['javascript']
+" Plug 'sheerun/vim-polyglot'
+" let g:polyglot_disabled = ['javascript']
 
 " Git
 Plug 'junegunn/gv.vim', { 'on': ['GV'] }
@@ -115,32 +115,104 @@ if has('nvim')
 
   Plug 'liuchengxu/vista.vim'
 
-  Plug 'nvim-lua/completion-nvim'
-  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-  inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
-  set completeopt=menuone,noinsert,noselect
-  set shortmess+=c
-  let g:completion_enable_snippet = 'vim-vsnip'
-  let g:completion_enable_auto_hover = 0
-  " let g:completion_confirm_key = ''
+  " inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+  " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+  " inoremap <expr> <CR> pumvisible() ? "\<C-y>\<CR>" : "\<CR>"
+  " set completeopt=menu,menuone,noselect
+  " set shortmess+=c
+  " let g:completion_enable_snippet = 'vim-vsnip'
+  " let g:completion_enable_auto_hover = 0
+  " " let g:completion_confirm_key = ''
 
+  Plug 'onsails/lspkind-nvim'
   Plug 'neovim/nvim-lspconfig'
 
-  " Plug 'nvim-lua/diagnostic-nvim'
-  " let g:diagnostic_enable_virtual_text = 1
-  " let g:space_before_virtual_text = 2
-  " let g:diagnostic_enable_underline = 1
-  " let g:diagnostic_insert_delay = 1
-
-  " call sign_define("LspDiagnosticsErrorSign", {"text" : "✖", "texthl" : "LspDiagnosticsErrorSign"})
-  " call sign_define("LspDiagnosticsWarningSign", {"text" : "⚠", "texthl" : "LspDiagnosticsWarningSign"})
   sign define LspDiagnosticsSignError text=✖ texthl=LspDiagnosticsErrorSign linehl= numhl=
   sign define LspDiagnosticsSignWarning text=⚠ texthl=LspDiagnosticsWarningSign linehl= numhl=
 
-  Plug 'nvim-lua/popup.nvim'
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-lua/telescope.nvim'
+  set completeopt=menuone,noselect
+  Plug 'hrsh7th/nvim-compe'
+
+  let g:compe = {}
+  let g:compe.enabled = v:true
+  let g:compe.autocomplete = v:true
+  let g:compe.debug = v:false
+  let g:compe.min_length = 1
+  let g:compe.preselect = 'enable'
+  let g:compe.throttle_time = 80
+  let g:compe.source_timeout = 200
+  let g:compe.incomplete_delay = 400
+  let g:compe.max_abbr_width = 100
+  let g:compe.max_kind_width = 100
+  let g:compe.max_menu_width = 100
+  let g:compe.documentation = v:true
+
+  let g:compe.source = {}
+  let g:compe.source.path = v:false
+  let g:compe.source.buffer = v:false
+  let g:compe.source.calc = v:false
+  let g:compe.source.vsnip = v:true
+  let g:compe.source.nvim_lsp = v:true
+  let g:compe.source.nvim_lua = v:false
+  let g:compe.source.spell = v:false
+  let g:compe.source.tags = v:false
+  let g:compe.source.snippets_nvim = v:false
+  let g:compe.source.treesitter = v:false
+  let g:compe.source.omni = v:false
+
+  inoremap <silent><expr> <C-Space> compe#complete()
+  inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+  inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+  inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+  inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+  lua <<EOF
+  local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif vim.fn.call("vsnip#available", {1}) == 1 then
+    return t "<Plug>(vsnip-expand-or-jump)"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+    return t "<Plug>(vsnip-jump-prev)"
+  else
+    return t "<S-Tab>"
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+EOF
+
+  " Plug 'nvim-lua/popup.nvim'
+  " Plug 'nvim-lua/plenary.nvim'
+  " Plug 'nvim-lua/telescope.nvim'
 
   if exists('&pumblend')
     set pumblend=5
