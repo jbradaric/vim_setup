@@ -20,14 +20,14 @@ let g:lightline = {
       \ }
 
 function! s:prettify_branch(name)
-    return " " . a:name
+    return "שׂ " . a:name
 endfunction
 
 function lightline#MyModified()
     if &filetype == 'help'
         return ''
     elseif &modified
-        return '+'
+        return 'ﱣ'
     endif
     return ''
 endfunction

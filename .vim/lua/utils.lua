@@ -257,9 +257,62 @@ local function setup_nvim_compe()
   };
 end
 
+-- local function setup_lsp_icons()
+--   require('lspkind').init({
+--     with_text = true,
+--     symbol_map = {
+--       Function = '',
+--       Method = '',
+--       Class = '',
+--       Constructor = '襁',
+--       Constant = '',
+--       Module = '亮',
+--       Keyword = 'ﱃ',
+--       Variable = '勇',
+--       File = '',
+--       Folder = '',
+--       Struct = 'פּ',
+--     },
+--   })
+-- end
+
+local function setup_lsp_icons()
+  require('lspkind').init({
+    with_text = false,
+    symbol_map = {
+      Text = "",
+      Method = "",
+      Function = "",
+      Constructor = "",
+      Field = "ﰠ",
+      Variable = "",
+      Class = "ﴯ",
+      Interface = "",
+      Module = "",
+      Property = "ﰠ",
+      Unit = "塞",
+      Value = "",
+      Enum = "",
+      Keyword = "",
+      Snippet = "",
+      Color = "",
+      File = "",
+      Reference = "",
+      Folder = "",
+      EnumMember = "",
+      Constant = "",
+      Struct = "פּ",
+      Event = "",
+      Operator = "",
+      TypeParameter = ""
+    },
+  })
+end
+
 return {
   init_ale = init_ale,
   setup_lsp = setup_lsp,
   setup_treesitter = setup_treesitter,
   setup_nvim_compe = setup_nvim_compe,
+  setup_lsp_icons = setup_lsp_icons,
 }
