@@ -89,7 +89,11 @@ Plug 'cespare/vim-toml', { 'for': ['toml'] }
 
 " Git
 Plug 'junegunn/gv.vim', { 'on': ['GV'] }
-Plug 'jreybert/vimagit', { 'branch': 'next' }
+" Plug 'jreybert/vimagit', { 'branch': 'next' }
+if has('nvim')
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'TimUntersberger/neogit'
+endif
 
 " Misc
 Plug 'chrisbra/NrrwRgn', { 'on': ['NRV'] }

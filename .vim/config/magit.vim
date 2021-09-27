@@ -1,3 +1,4 @@
+finish
 let g:magit_jump_next_hunk = ']n'
 let g:magit_jump_prev_hunk = '[n'
 
