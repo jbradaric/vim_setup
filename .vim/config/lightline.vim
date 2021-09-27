@@ -42,10 +42,10 @@ function! lightline#MyReadonly()
 endfunction
 
 function! lightline#MyFugitive()
-    if exists('*fugitive#head')
-        let _ = fugitive#head()
-        if strlen(_)
-            return s:prettify_branch(_)
+    if exists('*FugitiveHead')
+        let branch = FugitiveHead()
+        if strlen(l:branch)
+            return s:prettify_branch(l:branch)
         endif
     endif
     return ''
