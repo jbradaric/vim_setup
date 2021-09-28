@@ -309,10 +309,18 @@ local function setup_lsp_icons()
   })
 end
 
+function setup_neogit()
+  local neogit = require('neogit')
+  neogit.setup({
+    disable_commit_confirmation = true,
+  })
+end
+
 return {
   init_ale = init_ale,
   setup_lsp = setup_lsp,
   setup_treesitter = setup_treesitter,
   setup_nvim_compe = setup_nvim_compe,
   setup_lsp_icons = setup_lsp_icons,
+  setup_neogit = setup_neogit,
 }
