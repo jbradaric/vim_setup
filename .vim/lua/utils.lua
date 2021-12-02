@@ -170,9 +170,9 @@ local function setup_lsp()
     }
   }
 
-  nvim_lsp.rust_analyzer.setup {
-    on_attach=on_attach,
-  }
+  -- nvim_lsp.rust_analyzer.setup {
+  --   on_attach=on_attach,
+  -- }
 
 end
 
@@ -181,6 +181,7 @@ local function setup_treesitter()
     highlight = {
       enable = true,
       use_languagetree = true,
+      disable = { "cpp" },
     },
     refactor = {
       highlight_definitions = { enable = false },
@@ -313,6 +314,9 @@ function setup_neogit()
   local neogit = require('neogit')
   neogit.setup({
     disable_commit_confirmation = true,
+    sections = {
+      stashes = false,
+    },
   })
 end
 
