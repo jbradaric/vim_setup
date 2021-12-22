@@ -75,6 +75,9 @@ end
 local nvim_lsp = require 'lspconfig'
 
 local function setup_lsp()
+
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    
   local function on_attach(client, bufnr)
 
     api.nvim_command('setlocal signcolumn=yes:1')
@@ -89,14 +92,16 @@ local function setup_lsp()
     api.nvim_buf_set_keymap(bufnr, 'x', '<leader>f', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
   end
 
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, {
-      -- Sort diagnostics by severity
-      severity_sort = true,
-    }
-  )
+  -- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  --   vim.lsp.diagnostic.on_publish_diagnostics, {
+  --     -- Sort diagnostics by severity
+  --     severity_sort = true,
+  --   }
+  -- )
+  vim.diagnostic.config({severity_sort = true})
 
   nvim_lsp.ccls.setup{
+    capabilities=capabilities,
     on_attach=on_attach,
     settings = {
       completion = {
@@ -106,19 +111,21 @@ local function setup_lsp()
   }
 
   nvim_lsp.rls.setup{
+    capabilities=capabilities,
     on_attach=on_attach,
   }
 
   nvim_lsp.jedi_language_server.setup{
+    capabilities=capabilities,
     on_attach=on_attach,
     cmd = {
       "/home/jurica/.virtualenvs/local-py3.9/bin/python",
       "/home/jurica/.virtualenvs/local-py3.9/bin/jedi-language-server",
     },
     init_options = {
-      jediSettings = {
-        autoImportModules = {"act", "age", "gtk", "gio", "glib", "gobject", "numpy"},
-      },
+      -- jediSettings = {
+      --   autoImportModules = {"act", "age", "gtk", "gio", "glib", "gobject", "numpy"},
+      -- },
       completion = {
         disableSnippets = true,
       },
@@ -135,6 +142,7 @@ local function setup_lsp()
   }
 
   nvim_lsp.diagnosticls.setup{
+    capabilities=capabilities,
     filetypes = {"python"},
     init_options = {
       linters = {
