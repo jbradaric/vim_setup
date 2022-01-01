@@ -190,7 +190,31 @@ if has('nvim')
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 endif
 
+if has('nvim')
+  Plug 'martinsione/darkplus.nvim'
+endif
+
 call plug#end()
+
+if has('nvim')
+  colorscheme darkplus
+lua << EOF
+  local darkplus_colors = require 'darkplus.colors'
+  local function highlight(group, properties)
+    local bg = properties.bg == nil and '' or 'guibg=' .. properties.bg
+    local fg = properties.fg == nil and '' or 'guifg=' .. properties.fg
+    local style = properties.style == nil and '' or 'gui=' .. properties.style
+    local cmd = table.concat({ 'highlight', group, bg, fg, style }, ' ')
+    vim.api.nvim_command(cmd)
+  end
+  highlight('TSComment', { fg = darkplus_colors.gray, style = 'italic' })
+  highlight('VertSplit', { fg = darkplus_colors.bg, bg = '#444444' })
+  highlight('TSString', { fg = '#6bab37' })
+  highlight('Normal', { fg = '#f6f3e8', bg = '#1e1e1e' })
+  highlight('NormalNC', { bg = '#212121' })
+EOF
+endif
+
 set completeopt=menu,menuone,noselect
 if has('nvim')
   lua require('my_nvim_cmp').setup_nvim_cmp()
