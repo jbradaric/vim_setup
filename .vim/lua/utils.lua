@@ -150,7 +150,12 @@ local function setup_lsp()
         flake8 = {
           command = "flake8",
           debounce = 100,
-          args = { "--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s", "-" },
+          args = {
+            "--append-config",
+            "/home/jurica/.config/flake8",
+            "--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s",
+            "-"
+          },
           offsetLine = 0,
           offsetColumn = 0,
           sourceName = "flake8",
