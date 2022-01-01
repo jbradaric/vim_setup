@@ -103,7 +103,8 @@ local function setup_lsp()
   nvim_lsp.ccls.setup{
     capabilities=capabilities,
     on_attach=on_attach,
-    settings = {
+    init_options = {
+      compilationDatabaseDirectory = 'build',
       completion = {
         enableSnippetInsertion = false,
       },
