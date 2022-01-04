@@ -29,6 +29,13 @@ function M.setup_nvim_cmp()
         i = cmp.mapping.abort(),
         c = cmp.mapping.close(),
       }),
+      ['<CR>'] = function(fallback)
+        if vim.fn["vsnip#expandable"]() ~= 0 then
+          feedkey("<Plug>(vsnip-expand)", "")
+        else
+          fallback()
+        end
+      end,
       ["<Tab>"] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
