@@ -73,10 +73,12 @@ local function init_ale()
 end
 
 local nvim_lsp = require 'lspconfig'
+local nvim_lsp_status = require 'lsp-status'
 
 local function setup_lsp()
 
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  capabilities = vim.tbl_extend('keep', capabilities or {}, nvim_lsp_status.capabilities)
     
   local function on_attach(client, bufnr)
 
@@ -90,14 +92,16 @@ local function setup_lsp()
     api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
     api.nvim_buf_set_keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
     api.nvim_buf_set_keymap(bufnr, 'x', '<leader>f', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
+
+    nvim_lsp_status.on_attach(client)
+
+    if client.resolved_capabilities.document_symbol then
+      vim.cmd([[augroup lsp_status]])
+      vim.cmd([[  autocmd CursorHold,BufEnter <buffer> lua require('lsp-status').update_current_function()]])
+      vim.cmd([[augroup END]])
+    end
   end
 
-  -- vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  --   vim.lsp.diagnostic.on_publish_diagnostics, {
-  --     -- Sort diagnostics by severity
-  --     severity_sort = true,
-  --   }
-  -- )
   vim.diagnostic.config({severity_sort = true})
 
   nvim_lsp.ccls.setup{
@@ -119,6 +123,9 @@ local function setup_lsp()
   nvim_lsp.jedi_language_server.setup{
     capabilities=capabilities,
     on_attach=on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    },
     cmd = {
       "/home/jurica/.virtualenvs/local-py3.9/bin/python",
       "/home/jurica/.virtualenvs/local-py3.9/bin/jedi-language-server",
@@ -293,7 +300,8 @@ end
 
 local function setup_lsp_icons()
   require('lspkind').init({
-    with_text = false,
+    -- with_text = false,
+    mode = 'symbol_text',
     symbol_map = {
       Text = "",
       Method = "",
@@ -334,6 +342,59 @@ function setup_neogit()
   })
 end
 
+function Split(p, d)
+  local t, ll, l
+  t = {}
+  ll = 0
+  if(#p == 1) then return {p} end
+  while true do
+    l = string.find(p, d, ll, true) -- find the next d in the string
+    if l ~= nil then -- if "not not" found then..
+      table.insert(t, string.sub(p, ll, l - 1)) -- Save it in our array.
+      ll = l + #d -- save just after where we found it for searching next time.
+    else
+      table.insert(t, string.sub(p, ll)) -- Save what's left in our array.
+      break -- Break at end, as it should be, according to the lua manual.
+    end
+  end
+  return t
+end
+
+local function startswith(text, prefix)
+  return string.sub(text, 1, string.len(prefix)) == prefix
+end
+
+local function remove_args(s)
+  local l = string.find(s, '(', 1, true)
+  if l ~= nil then
+    return string.sub(s, 1, l - 1)
+  else
+    return s
+  end
+end
+
+local function statusline()
+  line = require('nvim-treesitter').statusline(1000)
+  if line == nil then
+    return nil
+  end
+  result = {}
+  for k, part in ipairs(Split(line, ' -> ')) do
+    if startswith(part, 'class ') then
+      local cls_name = remove_args(string.sub(part, string.len('class ')))
+      table.insert(result, "פּ" .. cls_name)
+    else
+      if startswith(part, 'def ') then
+        local fn_name = remove_args(string.sub(part, string.len('def ')))
+        table.insert(result, "" .. fn_name)
+      else
+        table.insert(result, part)
+      end
+    end
+  end
+  return table.concat(result, ' > ')
+end
+
 return {
   init_ale = init_ale,
   setup_lsp = setup_lsp,
@@ -341,4 +402,7 @@ return {
   setup_nvim_compe = setup_nvim_compe,
   setup_lsp_icons = setup_lsp_icons,
   setup_neogit = setup_neogit,
+  Split = Split,
+  statusline = statusline,
+  remove_args = remove_args,
 }

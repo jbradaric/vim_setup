@@ -41,7 +41,14 @@ call plug#begin('~/.vim/bundle')
 " Plug 'raghur/vim-ghost'
 
 " Appearance
-Plug 'itchyny/lightline.vim'
+if has('nvim')
+  Plug 'feline-nvim/feline.nvim'
+  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'nvim-lua/lsp-status.nvim'
+  Plug 'lewis6991/gitsigns.nvim'
+else
+  Plug 'itchyny/lightline.vim'
+endif
 if has('nvim')
   Plug 'junegunn/rainbow_parentheses.vim'
 endif
@@ -141,7 +148,8 @@ endif
 
 Plug 'justinmk/vim-dirvish'
 
-Plug 'airblade/vim-rooter'
+" Plug 'airblade/vim-rooter'
+Plug 'jbradaric/rooter.nvim'
 
 Plug 'tyru/open-browser.vim'
 let g:openbrowser_browser_commands = [

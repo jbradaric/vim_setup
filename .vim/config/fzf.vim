@@ -23,11 +23,11 @@ function! s:fzf_current_project()
 endfunction
 
 if has('nvim')
-  let $FZF_DEFAULT_OPTS='--color=dark --color=bg:#444444,bg+:#444444 --color=info:#444444,prompt:-1,pointer:#e21d7d,marker:#e21d7d,spinner:11,header:#444444 --layout=reverse --margin=1,4'
+  let $FZF_DEFAULT_OPTS='--color=dark --color=bg:#1e1e1e,bg+:#1e1e1e --color=info:#1e1e1e,prompt:-1,pointer:#e21d7d,marker:#e21d7d,spinner:11,header:#1e1e1e --layout=reverse --margin=1,4'
   let g:fzf_layout = {'window': 'call FloatingFZF()'}
 endif
 
-hi FloatingBorder guibg=#333333
+" hi FloatingBorder guibg=#1f1f1f
 let s:float_border_win = 0
 
 function! s:create_border_win(opts)
@@ -41,7 +41,7 @@ function! s:create_border_win(opts)
       \ }
   let border_buf = nvim_create_buf(v:false, v:true)
   let border_win = nvim_open_win(border_buf, v:true, border_opts)
-  call setwinvar(border_win, '&winhl', 'Normal:FloatingBorder,EndOfBuffer:FloatingBorder')
+  call setwinvar(border_win, '&winhl', 'NormalNC:FloatBorder,Normal:FloatBorder,EndOfBuffer:FloatingBorder')
   call setwinvar(border_win, '&signcolumn', 'auto')
 endfunction
 
@@ -58,13 +58,13 @@ function! FloatingFZF()
       \ 'width': width,
       \ 'height': height
       \ }
-  " Open a floating window in the background to simulate padding
-  let s:float_border_win = s:create_border_win(opts)
+  " " Open a floating window in the background to simulate padding
+  " let s:float_border_win = s:create_border_win(opts)
   " Open the new window, floating, and activate it
   call nvim_open_win(buf, v:true, opts)
 
-  " Close border window when fzf window closes
-  autocmd CursorMoved * ++once call nvim_win_close(s:float_border_win, v:true)
+  " " Close border window when fzf window closes
+  " autocmd CursorMoved * ++once call nvim_win_close(s:float_border_win, v:true)
 endfunction
 
 nnoremap <c-p> :<c-u>call <SID>fzf_current_project()<cr>

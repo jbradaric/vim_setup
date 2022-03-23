@@ -40,7 +40,9 @@ vnoremap <Leader>e64 c<C-R>=system('base64', @")<CR><ESC>
 " -------------------------------------------------------------- }}}
 " Always show the status line
 " -------------------------------------------------------------- {{{
-set laststatus=2
+if !has('nvim')
+  set laststatus=2
+endif
 " -------------------------------------------------------------- }}}
 " When a bracket is inserted, briefly jump to the matching one.
 " -------------------------------------------------------------- {{{
