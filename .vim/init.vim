@@ -136,8 +136,8 @@ if has('nvim')
   Plug 'onsails/lspkind-nvim'
   Plug 'neovim/nvim-lspconfig'
 
-  sign define LspDiagnosticsSignError text=✖ texthl=LspDiagnosticsErrorSign linehl= numhl=
-  sign define LspDiagnosticsSignWarning text=⚠ texthl=LspDiagnosticsWarningSign linehl= numhl=
+  sign define DiagnosticSignError text=✖ texthl=DiagnosticSignError linehl= numhl=
+  sign define DiagnosticSignWarn text=⚠ texthl=DiagnosticSignWarn linehl= numhl=
 
   set completeopt=menuone,noselect
 
