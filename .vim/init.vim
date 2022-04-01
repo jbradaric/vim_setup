@@ -44,9 +44,6 @@ Plug 'nvim-lua/lsp-status.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'junegunn/rainbow_parentheses.vim'
 
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-
 " Text objects
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-lastpat'
@@ -86,6 +83,10 @@ Plug 'cespare/vim-toml', { 'for': ['toml'] }
 Plug 'junegunn/gv.vim', { 'on': ['GV'] }
 Plug 'nvim-lua/plenary.nvim'
 Plug 'TimUntersberger/neogit'
+
+" Fuzzy search
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
 " Misc
 Plug 'chrisbra/NrrwRgn', { 'on': ['NRV'] }
@@ -177,6 +178,20 @@ Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'martinsione/darkplus.nvim'
 
 call plug#end()
+
+lua << EOF
+require('telescope').setup({
+  extensions = {
+    fzf = {
+      fuzzy = true,
+      override_generic_sorter = true,
+      override_file_sorter = true,
+      case_mode = 'smart_case',
+    }
+  }
+})
+require('telescope').load_extension('fzf')
+EOF
 
 colorscheme darkplus
 lua << EOF
