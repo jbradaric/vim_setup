@@ -1,7 +1,6 @@
 " File: .vimrc
 " Author: Jurica Bradarić
 " Description: My .vimrc file
-" Last Modified: 2017-03-20
 "===================================================================================
 " GENERAL SETTINGS
 "===================================================================================
@@ -38,20 +37,12 @@ let mapleader = ','
 "-------------------------------------------------------------------------"{{{
 call plug#begin('~/.vim/bundle')
 
-" Plug 'raghur/vim-ghost'
-
 " Appearance
-if has('nvim')
-  Plug 'feline-nvim/feline.nvim'
-  Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'nvim-lua/lsp-status.nvim'
-  Plug 'lewis6991/gitsigns.nvim'
-else
-  Plug 'itchyny/lightline.vim'
-endif
-if has('nvim')
-  Plug 'junegunn/rainbow_parentheses.vim'
-endif
+Plug 'feline-nvim/feline.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-lua/lsp-status.nvim'
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'junegunn/rainbow_parentheses.vim'
 
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -89,18 +80,12 @@ Plug 'tpope/vim-sleuth', { 'on': ['Sleuth'] }
 
 " Filetype specific
 Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
-" Plug 'rust-lang/rust.vim', { 'for': ['rust'] }
 Plug 'cespare/vim-toml', { 'for': ['toml'] }
-" Plug 'sheerun/vim-polyglot'
-" let g:polyglot_disabled = ['javascript']
 
 " Git
 Plug 'junegunn/gv.vim', { 'on': ['GV'] }
-" Plug 'jreybert/vimagit', { 'branch': 'next' }
-if has('nvim')
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'TimUntersberger/neogit'
-endif
+Plug 'nvim-lua/plenary.nvim'
+Plug 'TimUntersberger/neogit'
 
 " Misc
 Plug 'chrisbra/NrrwRgn', { 'on': ['NRV'] }
@@ -108,9 +93,7 @@ Plug 'mtth/scratch.vim'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'mhinz/vim-grepper'
-Plug 'nathanaelkane/vim-indent-guides'
 Plug 'PeterRincker/vim-argumentative'
-Plug 'vim-scripts/DoxygenToolkit.vim', { 'on': ['Dox', 'DoxUndoc'] }
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
 
@@ -118,37 +101,34 @@ Plug 'ludovicchabant/vim-gutentags'
 
 Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
 
-if has('nvim')
-  Plug 'hrsh7th/cmp-nvim-lsp'
-  Plug 'hrsh7th/cmp-buffer'
-  Plug 'hrsh7th/cmp-path'
-  Plug 'hrsh7th/cmp-cmdline'
-  Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
 
-  " For vsnip users.
-  Plug 'hrsh7th/cmp-vsnip'
-  Plug 'hrsh7th/vim-vsnip'
-  let g:vsnip_extra_mapping = v:false
-  let g:vsnip_snippet_dir = expand('~/.config/nvim/global-snippets')
+" For vsnip users.
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+let g:vsnip_extra_mapping = v:false
+let g:vsnip_snippet_dir = expand('~/.config/nvim/global-snippets')
 
-  Plug 'liuchengxu/vista.vim'
+Plug 'liuchengxu/vista.vim'
 
-  Plug 'onsails/lspkind-nvim'
-  Plug 'neovim/nvim-lspconfig'
+Plug 'onsails/lspkind-nvim'
+Plug 'neovim/nvim-lspconfig'
 
-  sign define DiagnosticSignError text=✖ texthl=DiagnosticSignError linehl= numhl=
-  sign define DiagnosticSignWarn text=⚠ texthl=DiagnosticSignWarn linehl= numhl=
+sign define DiagnosticSignError text=✖ texthl=DiagnosticSignError linehl= numhl=
+sign define DiagnosticSignWarn text=⚠ texthl=DiagnosticSignWarn linehl= numhl=
 
-  set completeopt=menuone,noselect
+set completeopt=menuone,noselect
 
-  if exists('&pumblend')
-    set pumblend=5
-  endif
+if exists('&pumblend')
+  set pumblend=5
 endif
 
 Plug 'justinmk/vim-dirvish'
 
-" Plug 'airblade/vim-rooter'
 Plug 'jbradaric/rooter.nvim'
 
 Plug 'tyru/open-browser.vim'
@@ -188,45 +168,35 @@ Plug 'dhruvasagar/vim-table-mode'
 
 Plug 'gabrielelana/vim-markdown'
 
-if has('nvim')
-  Plug 'jbradaric/nvim-miniyank'
-endif
+Plug 'jbradaric/nvim-miniyank'
 
-if has('nvim')
-  Plug 'nvim-treesitter/nvim-treesitter'
-  Plug 'nvim-treesitter/nvim-treesitter-refactor'
-  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-endif
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter-refactor'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
-if has('nvim')
-  Plug 'martinsione/darkplus.nvim'
-endif
+Plug 'martinsione/darkplus.nvim'
 
 call plug#end()
 
-if has('nvim')
-  colorscheme darkplus
+colorscheme darkplus
 lua << EOF
-  local darkplus_colors = require 'darkplus.colors'
-  local function highlight(group, properties)
-    local bg = properties.bg == nil and '' or 'guibg=' .. properties.bg
-    local fg = properties.fg == nil and '' or 'guifg=' .. properties.fg
-    local style = properties.style == nil and '' or 'gui=' .. properties.style
-    local cmd = table.concat({ 'highlight', group, bg, fg, style }, ' ')
-    vim.api.nvim_command(cmd)
-  end
-  highlight('TSComment', { fg = darkplus_colors.gray, style = 'italic' })
-  highlight('VertSplit', { fg = darkplus_colors.bg, bg = '#444444' })
-  highlight('TSString', { fg = '#6bab37' })
-  highlight('Normal', { fg = '#f6f3e8', bg = '#1e1e1e' })
-  highlight('NormalNC', { bg = '#212121' })
+local darkplus_colors = require 'darkplus.colors'
+local function highlight(group, properties)
+  local bg = properties.bg == nil and '' or 'guibg=' .. properties.bg
+  local fg = properties.fg == nil and '' or 'guifg=' .. properties.fg
+  local style = properties.style == nil and '' or 'gui=' .. properties.style
+  local cmd = table.concat({ 'highlight', group, bg, fg, style }, ' ')
+  vim.api.nvim_command(cmd)
+end
+highlight('TSComment', { fg = darkplus_colors.gray, style = 'italic' })
+highlight('VertSplit', { fg = darkplus_colors.bg, bg = '#444444' })
+highlight('TSString', { fg = '#6bab37' })
+highlight('Normal', { fg = '#f6f3e8', bg = '#1e1e1e' })
+highlight('NormalNC', { bg = '#212121' })
 EOF
-endif
 
 set completeopt=menu,menuone,noselect
-if has('nvim')
-  lua require('my_nvim_cmp').setup_nvim_cmp()
-endif
+lua require('my_nvim_cmp').setup_nvim_cmp()
 
 "-------------------------------------------------------------------------"}}}
 " Enable file type detection. Use the default filetype settings.
@@ -243,9 +213,7 @@ set backspace=indent,eol,start   " backspacing over everything in insert mode
 set nobackup                     " don't keep backup files
 set noswapfile                   " don't create swap files
 set nomodeline                   " don't use modelines
-if has('nvim')
-    set undofile                 " use persistent undo
-endif
+set undofile                     " use persistent undo
 set hidden
 set browsedir=current            " which directory to use for the file browser
 set noautochdir                  " do not automatically cd into the directory that the file is in
@@ -265,16 +233,9 @@ set expandtab                    " insert spaces for tabs
 set formatoptions+=j             " delete comment character when joining commented lines
 set wildignore+=*.bak,*.o,*.e,*~ " wildmenu: ignore these extensions
 set wildignore+=*.class,*.pyc
-if has('nvim')
-  " Show command mode completions in a floating window
-  set wildmode=full
-  set wildoptions=pum
-else
-  " First tab press = complete as much as possible
-  " Second tab = provide a list
-  " Third and subsequent tab = cycle through completions
-  set wildmode=longest,list,full
-endif
+" Show command mode completions in a floating window
+set wildmode=full
+set wildoptions=pum
 set wildmenu                     " command-line completion in an enhanced mode
 set number                       " turn the line numbers on
 set ve=block                     " set virtualedit mode to block
@@ -298,9 +259,7 @@ set hlsearch                     " highlight all occurences of a word
 "-------------------------------------------------------------------------"{{{
 set timeout
 set timeoutlen=1000
-if !has('nvim')
-  set ttimeoutlen=0
-endif
+set ttimeoutlen=0
 "-------------------------------------------------------------------------"}}}
 " Folding options
 "-------------------------------------------------------------------------"{{{
@@ -321,12 +280,12 @@ let html_no_pre         = 1     " Don't wrap lines in <pre>
 " runtime! macros/matchit.vim
 
 " Global configuration
-for fpath in split(globpath('~/.vim/config', '*.vim'), '\n')
+for fpath in split(globpath('~/.config/nvim/config', '*.vim'), '\n')
     exe 'source' fpath
 endfor
 
 " Machine-specific configuration
-for fpath in split(globpath('~/.vim/local-config', '*.vim'), '\n')
+for fpath in split(globpath('~/.config/nvim/local-config', '*.vim'), '\n')
     exe 'source' fpath
 endfor
 "-------------------------------------------------------------------------"}}}
