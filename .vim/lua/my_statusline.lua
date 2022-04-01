@@ -47,12 +47,13 @@ conf.active[1] = {
     right_sep = {
       ' ',
       {
-        str = 'slant_right_2_thin',
+        str = 'vertical_bar',
         hl = {
           fg = 'fg',
           bg = 'bg',
         },
       },
+      ' ',
     },
   },
   {
@@ -123,8 +124,8 @@ conf.active[2] = {
       if statusline == nil or statusline == '' then
         return ''
       end
-      local left_sep = feline_defaults['separators']['default_value']['slant_right_thin']
-      local right_sep = feline_defaults['separators']['default_value']['slant_left_thin']
+      local left_sep = feline_defaults['separators']['default_value']['vertical_bar_thin']
+      local right_sep = feline_defaults['separators']['default_value']['vertical_bar_thin']
       return string.format('%s %s %s', left_sep, statusline, right_sep)
     end,
     hl = {
