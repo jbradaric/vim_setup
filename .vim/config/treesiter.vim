@@ -1,8 +1,4 @@
-if !has('nvim')
-  finish
-endif
-
-lua require('utils').setup_treesitter()
+lua require('config/utils').setup_treesitter()
 
 hi link TSFuncBuiltin Function
 hi link TSConstBuiltin MyConstant

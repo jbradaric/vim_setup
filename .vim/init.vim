@@ -211,7 +211,7 @@ highlight('NormalNC', { bg = '#212121' })
 EOF
 
 set completeopt=menu,menuone,noselect
-lua require('my_nvim_cmp').setup_nvim_cmp()
+lua require('config/nvim_cmp').setup_nvim_cmp()
 
 "-------------------------------------------------------------------------"}}}
 " Enable file type detection. Use the default filetype settings.

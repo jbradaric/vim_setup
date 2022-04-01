@@ -120,7 +120,7 @@ conf.active[2] = {
   },
   {
     provider = function()
-      local statusline = require('utils').statusline()
+      local statusline = require('config/utils').statusline()
       if statusline == nil or statusline == '' then
         return ''
       end
