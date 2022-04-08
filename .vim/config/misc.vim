@@ -1,7 +1,7 @@
 " Miscellaneous options
 " -------------------------------------------------------------- {{{
 set viewoptions=cursor
-nnoremap <C-s> :Gstatus<CR>
+nnoremap <C-s> :Git<CR>
 
 " Don't use Ex mode, use Q for formatting.
 map Q gq
@@ -21,12 +21,10 @@ endif
 " let g:ackprg = 'ag -s --vimgrep'
 let g:ack_wildignore = 0
 
-nnoremap <Space>/ :<C-U>Rooter<cr>:Rg<Space>
+nnoremap <Space>/ :<C-U>Rooter<CR>:Rg<CR>
 
 if executable('rg')
   set grepprg=rg\ --vimgrep\ $*
-else
-  set grepprg=ag\ --vimgrep\ $*
 endif
 set grepformat=%f:%l:%c:%m
 " -------------------------------------------------------------- }}}

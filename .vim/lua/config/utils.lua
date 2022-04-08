@@ -90,8 +90,6 @@ local function setup_lsp()
     api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
     api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    api.nvim_buf_set_keymap(bufnr, 'n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-    api.nvim_buf_set_keymap(bufnr, 'x', '<leader>f', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
 
     nvim_lsp_status.on_attach(client)
 

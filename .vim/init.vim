@@ -67,6 +67,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-git'
 Plug 'tpope/vim-repeat'
+let g:surround_no_insert_mappings = 1
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-eunuch'
@@ -93,12 +94,13 @@ Plug 'chrisbra/NrrwRgn', { 'on': ['NRV'] }
 Plug 'mtth/scratch.vim'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-Plug 'mhinz/vim-grepper'
 Plug 'PeterRincker/vim-argumentative'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
 
 Plug 'ludovicchabant/vim-gutentags'
+let g:gutentags_add_default_project_roots = 1
+let g:gutentags_file_list_command = 'fd'
 
 Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
 
@@ -165,8 +167,6 @@ endfunction
 
 vmap gx :<c-u>call <sid>open_selected_url()<cr>
 
-Plug 'dhruvasagar/vim-table-mode'
-
 Plug 'gabrielelana/vim-markdown'
 
 Plug 'jbradaric/nvim-miniyank'
@@ -179,19 +179,7 @@ Plug 'martinsione/darkplus.nvim'
 
 call plug#end()
 
-lua << EOF
-require('telescope').setup({
-  extensions = {
-    fzf = {
-      fuzzy = true,
-      override_generic_sorter = true,
-      override_file_sorter = true,
-      case_mode = 'smart_case',
-    }
-  }
-})
-require('telescope').load_extension('fzf')
-EOF
+lua require('config.telescope').setup()
 
 colorscheme darkplus
 lua << EOF
