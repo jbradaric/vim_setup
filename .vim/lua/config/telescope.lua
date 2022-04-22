@@ -17,7 +17,7 @@ local function get_theme_opts(opts)
   local max_width = opts.width or 120
   local settings = {max_lines = max_lines, max_width = max_width}
   return themes.get_dropdown({
-    winblend = 5,
+    winblend = 0,
     prompt = " ",
     previewer = false,
     layout_config = {
@@ -85,7 +85,91 @@ M.treesitter_kind = function(kind)
   telescope.treesitter(opts)
 end
 
+local function reverse(tbl)
+  local rev = {}
+  for i=#tbl, 1, -1 do
+    rev[#rev + 1] = tbl[i]
+  end
+  return rev
+end
+
+M.get_path = function(node)
+  if not node then
+    return nil
+  end
+  local ts_utils = require('nvim-treesitter.ts_utils')
+  local utils = require('config.utils')
+  local path = {}
+  while node do
+    local type = node:type()
+    if type == 'function_definition' then
+      local line = vim.trim(ts_utils.get_node_text(node)[1] or '')
+      local name = string.match(line, '^def ([a-zA-Z_][a-zA-Z0-9_]*).*$')
+      if name == nil then
+        return nil
+      end
+      if not utils.startswith(name:lower(), 'test') then
+        return nil
+      end
+      path[#path + 1] = name
+    end
+    if type == 'class_definition' then
+      local line = vim.trim(ts_utils.get_node_text(node)[1] or '')
+      local name = string.match(line, '^class ([a-zA-Z_][a-zA-Z0-9_]*).*$')
+      if name == nil then
+        return nil
+      end
+      if not utils.startswith(name:lower(), 'test') then
+        return nil
+      end
+      path[#path + 1] = name
+    end
+    node = node:parent()
+    if node == nil then
+      break
+    end
+  end
+  if not path then
+    return nil
+  end
+  return table.concat(reverse(path), '::')
+end
+
 M.setup = function()
+  local yabs = require('yabs')
+
+  yabs:setup({
+    languages = {
+      python = {
+        tasks = {
+          ['Run All Tests in File'] = {
+            command = function()
+              return '/home/jurica/local_workenv3.sh python -m pytest %'
+            end,
+            output = 'terminal',
+          },
+          ['Run Current Test'] = {
+            type = 'lua',
+            command = function()
+              local ts_utils = require('nvim-treesitter.ts_utils')
+              local node = ts_utils.get_node_at_cursor()
+              local test_path = M.get_path(node)
+              if test_path == nil then
+                vim.notify('No test found at the current position')
+                return
+              end
+              local bufname = vim.fn.expand('%')
+              local command = string.format('%s -m pytest %s::%s',
+                                            '/home/jurica/local_workenv3.sh python',
+                                            bufname, test_path)
+              yabs.run_command(command, 'terminal', { open_on_run = 'always' })
+            end,
+          },
+        },
+      },
+    }
+  })
+
   local action_layout = require("telescope.actions.layout")
   require('telescope').setup({
     defaults = {
@@ -121,6 +205,7 @@ M.setup = function()
     },
   })
   require('telescope').load_extension('fzf')
+  require('telescope').load_extension('yabs')
 
   map('n', '<C-p>', ":lua require('config.telescope').find_files(vim.fn.getcwd())<CR>", {})
   map('n', '<Leader>b', ':Telescope buffers theme=dropdown previewer=false<CR>', {})
@@ -128,7 +213,10 @@ M.setup = function()
   map('n', '<Leader>f', ":lua require('config.telescope').treesitter_kind('function')<CR>", {})
   map('n', '<Leader>t', ":lua require('config.telescope').treesitter_kind('type')<CR>", {})
 
-  vim.api.nvim_add_user_command('Rg', live_grep_cb, {})
+  vim.api.nvim_create_user_command('Rg', live_grep_cb, {})
+  vim.api.nvim_create_user_command('Files',
+                                   function(opts) M.find_files(opts.args) end,
+                                   {nargs=1, complete = 'dir', desc='Pick files'})
 
 end
 

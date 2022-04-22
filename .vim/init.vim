@@ -177,6 +177,10 @@ Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
 Plug 'martinsione/darkplus.nvim'
 
+Plug 'AckslD/nvim-trevJ.lua'
+
+Plug 'pianocomposer321/yabs.nvim'
+
 call plug#end()
 
 lua require('config.telescope').setup()
