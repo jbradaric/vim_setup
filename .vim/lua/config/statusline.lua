@@ -211,8 +211,10 @@ M.setup = function()
   vim.o.winbar = "%{%v:lua.require('config.statusline').winbar()%}"
 
   vim.api.nvim_command('highlight WinBarBackground guibg=#0066cc')
-  vim.api.nvim_command('highlight WinBarFilename gui=bold guifg=white guibg=#0066cc')
+  vim.api.nvim_command('highlight WinBarFilenameActive gui=bold guifg=white guibg=#0066cc')
+  vim.api.nvim_command('highlight WinBarFilenameInactive guifg=white guibg=#0066cc')
   vim.api.nvim_command('highlight WinBarSeparator guifg=#0066cc guibg=NONE')
+  vim.api.nvim_command('highlight WinBarGPS guifg=cyan guibg=NONE')
 
   local id = vim.api.nvim_create_augroup("RedrawWinbar", { clear = true })
   vim.api.nvim_create_autocmd({'CursorMoved'}, {
@@ -256,16 +258,23 @@ M.winbar = function()
   end
   local icon, color = devicons.get_icon_color(path, nil, { default = true })
   local border_right = ''
+  local filename_style
+  if vim.api.nvim_get_current_win() == tonumber(vim.g.actual_curwin) then
+    filename_style = '%%#WinBarFilenameActive#'
+  else
+    filename_style = '%%#WinBarFilenameInactive#'
+  end
+
   local fmt = '%%#%s#'
            .. ' %s'
-           .. '%%#WinBarFilename#'
+           .. filename_style
            .. ' %s '
            .. '%%#WinBarSeparator#'
            .. '%s'
            .. '%%#Normal#'
   local status = string.format(fmt, get_highlight(color), icon, vim.fn.fnamemodify(path, ':t'), border_right)
   if gps.is_available() then
-    status = status .. '%=' .. gps.get_location() .. ' '
+    status = status .. '%=' .. '%#WinBarGPS#' .. gps.get_location() .. '  '
   end
   return status
 end
