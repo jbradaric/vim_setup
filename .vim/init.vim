@@ -43,6 +43,7 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'SmiteshP/nvim-gps'
 
 " Text objects
 Plug 'kana/vim-textobj-indent'
