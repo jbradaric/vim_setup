@@ -93,7 +93,7 @@ local function setup_lsp()
 
     nvim_lsp_status.on_attach(client)
 
-    if client.resolved_capabilities.document_symbol then
+    if client.server_capabilities.document_symbol then
       vim.cmd([[augroup lsp_status]])
       vim.cmd([[  autocmd CursorHold,BufEnter <buffer> lua require('lsp-status').update_current_function()]])
       vim.cmd([[augroup END]])
@@ -372,7 +372,7 @@ local function remove_args(s)
 end
 
 local function statusline()
-  line = require('nvim-treesitter').statusline(1000)
+  line = require('nvim-treesitter').statusline({indicator_size = 1000})
   if line == nil then
     return nil
   end
