@@ -25,23 +25,6 @@ conf.active[1] = {
       }
     end,
   },
-  -- {
-  --   provider = 'file_info',
-  --   hl = {
-  --     fg = 'white',
-  --     bg = 'oceanblue',
-  --     style = 'bold',
-  --   },
-  --   left_sep = {
-  --     'slant_left_2',
-  --     { str = ' ', hl = { bg = 'oceanblue', fg = 'NONE' } },
-  --   },
-  --   right_sep = {
-  --     { str = ' ', hl = { bg = 'oceanblue', fg = 'NONE' } },
-  --     'slant_right_2',
-  --     ' ',
-  --   },
-  -- },
   {
     provider = 'position',
     left_sep = ' ',
@@ -76,20 +59,6 @@ conf.active[1] = {
 }
 
 conf.active[2] = {
-  -- {
-  --   provider = function()
-  --       return gps.get_location()
-  --   end,
-  --   enabled = function()
-  --     return gps.is_available()
-  --   end,
-  --   hl = {
-  --     fg = 'cyan',
-  --     bg = 'bg',
-  --   },
-  --   left_sep = 'slant_right',
-  --   right_sep = 'slant_left',
-  -- },
   {
     provider = 'git_branch',
     hl = {
@@ -220,9 +189,6 @@ M.setup = function()
   vim.api.nvim_create_autocmd({'CursorMoved'}, {
     callback = on_cursor_moved,
   })
-
-
-  -- vim.o.statusline = "%{%v:lua.require('config.statusline').my_statusline()%}"
 end
 
 M.my_statusline = function()

@@ -1,95 +1,23 @@
-local api = vim.api
-local json = require 'json'
-
-local function read_compile_commands(buf)
-  local f = io.open(api.nvim_buf_get_var(buf, 'compile_commands_path'), 'rb')
-  if f == nil then
-    return nil
-  end
-  local contents = f:read '*a'
-  f:close()
-  return json.decode(contents)
-end
-
-local function init_ale()
-  local buf = api.nvim_get_current_buf()
-  if pcall(api.nvim_buf_get_var, buf, 'ale_cpp_clang_options') or
-    pcall(api.nvim_buf_get_var, buf, 'ale_c_clang_options') then
-    return
-  end
-  if not pcall(api.nvim_buf_get_var, buf, 'compile_commands_path') then
-    local project_root = vim.fn.FindRootDirectory()
-    if project_root == '' then
-      return
-    end
-    local path = project_root .. '/compile_commands.json'
-    api.nvim_buf_set_var(buf, 'compile_commands_path', path)
-  end
-
-  if not vim.fn.filereadable(api.nvim_buf_get_var(buf, 'compile_commands_path')) then
-    return
-  end
-
-  local t = read_compile_commands(buf)
-  if t == nil then
-    return
-  end
-  local buf_name = api.nvim_buf_get_name(buf)
-  for _, v in pairs(t) do
-    if (v['directory'] .. '/' .. v['file']) == buf_name then
-      local arr = {}
-      local skip_count = 1
-      for _, arg in pairs(v['arguments']) do
-        if skip_count > 0 then
-          skip_count = skip_count - 1
-          goto continue
-        end
-        if arg == v['file'] then
-          goto continue
-        end
-        if arg == v['file']:sub(v['directory']:len() + 2) then
-          goto continue
-        end
-        if arg == '-c' then
-          goto continue
-        end
-        if arg == '-o' then
-          skip_count = 1
-          goto continue
-        end
-        table.insert(arr, arg)
-        ::continue::
-      end
-      table.insert(arr, '-Wno-tautological-constant-out-of-range-compare')
-      table.insert(arr, '-Wno-unsupported-friend')
-      local options = table.concat(arr, ' ')
-      if api.nvim_buf_get_option(buf, 'filetype') == 'c' then
-        api.nvim_buf_set_var(buf, 'ale_c_clang_options', options)
-      else
-        api.nvim_buf_set_var(buf, 'ale_cpp_clang_options', options)
-      end
-    end
-  end
-end
-
 local nvim_lsp = require 'lspconfig'
 local nvim_lsp_status = require 'lsp-status'
 
-local function setup_lsp()
+local M = {}
+
+M.setup_lsp = function()
 
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   capabilities = vim.tbl_extend('keep', capabilities or {}, nvim_lsp_status.capabilities)
     
   local function on_attach(client, bufnr)
 
-    api.nvim_command('setlocal signcolumn=yes:1')
-    api.nvim_buf_set_var(bufnr, 'show_signs', true)
+    vim.api.nvim_command('setlocal signcolumn=yes:1')
+    vim.api.nvim_buf_set_var(bufnr, 'show_signs', true)
 
     local opts = { noremap = true, silent = true }
-    api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 
     nvim_lsp_status.on_attach(client)
 
@@ -195,7 +123,7 @@ local function setup_lsp()
 
 end
 
-local function setup_treesitter()
+M.setup_treesitter = function()
   require'nvim-treesitter.configs'.setup {
     highlight = {
       enable = true,
@@ -251,7 +179,7 @@ local function setup_treesitter()
   }
 end
 
-local function setup_nvim_compe()
+M.setup_nvim_compe = function()
   require'compe'.setup {
     enabled = true;
     autocomplete = true;
@@ -277,26 +205,7 @@ local function setup_nvim_compe()
   };
 end
 
--- local function setup_lsp_icons()
---   require('lspkind').init({
---     with_text = true,
---     symbol_map = {
---       Function = '',
---       Method = '',
---       Class = '',
---       Constructor = '襁',
---       Constant = '',
---       Module = '亮',
---       Keyword = 'ﱃ',
---       Variable = '勇',
---       File = '',
---       Folder = '',
---       Struct = 'פּ',
---     },
---   })
--- end
-
-local function setup_lsp_icons()
+M.setup_lsp_icons = function()
   require('lspkind').init({
     -- with_text = false,
     mode = 'symbol_text',
@@ -330,7 +239,7 @@ local function setup_lsp_icons()
   })
 end
 
-function setup_neogit()
+M.setup_neogit = function()
   local neogit = require('neogit')
   neogit.setup({
     disable_commit_confirmation = true,
@@ -340,68 +249,4 @@ function setup_neogit()
   })
 end
 
-function Split(p, d)
-  local t, ll, l
-  t = {}
-  ll = 0
-  if(#p == 1) then return {p} end
-  while true do
-    l = string.find(p, d, ll, true) -- find the next d in the string
-    if l ~= nil then -- if "not not" found then..
-      table.insert(t, string.sub(p, ll, l - 1)) -- Save it in our array.
-      ll = l + #d -- save just after where we found it for searching next time.
-    else
-      table.insert(t, string.sub(p, ll)) -- Save what's left in our array.
-      break -- Break at end, as it should be, according to the lua manual.
-    end
-  end
-  return t
-end
-
-local function startswith(text, prefix)
-  return string.sub(text, 1, string.len(prefix)) == prefix
-end
-
-local function remove_args(s)
-  local l = string.find(s, '(', 1, true)
-  if l ~= nil then
-    return string.sub(s, 1, l - 1)
-  else
-    return s
-  end
-end
-
-local function statusline()
-  line = require('nvim-treesitter').statusline({indicator_size = 1000})
-  if line == nil then
-    return nil
-  end
-  result = {}
-  for k, part in ipairs(Split(line, ' -> ')) do
-    if startswith(part, 'class ') then
-      local cls_name = remove_args(string.sub(part, string.len('class ')))
-      table.insert(result, "פּ" .. cls_name)
-    else
-      if startswith(part, 'def ') then
-        local fn_name = remove_args(string.sub(part, string.len('def ')))
-        table.insert(result, "" .. fn_name)
-      else
-        table.insert(result, part)
-      end
-    end
-  end
-  return table.concat(result, ' > ')
-end
-
-return {
-  init_ale = init_ale,
-  setup_lsp = setup_lsp,
-  setup_treesitter = setup_treesitter,
-  setup_nvim_compe = setup_nvim_compe,
-  setup_lsp_icons = setup_lsp_icons,
-  setup_neogit = setup_neogit,
-  Split = Split,
-  statusline = statusline,
-  remove_args = remove_args,
-  startswith = startswith,
-}
+return M
