@@ -97,13 +97,12 @@ M.get_path = function(node)
   if not node then
     return nil
   end
-  local ts_utils = require('nvim-treesitter.ts_utils')
   local utils = require('config.utils')
   local path = {}
   while node do
     local type = node:type()
     if type == 'function_definition' then
-      local line = vim.trim(ts_utils.get_node_text(node)[1] or '')
+      local line = vim.trim(vim.treesitter.get_node_text(node)[1] or '')
       local name = string.match(line, '^def ([a-zA-Z_][a-zA-Z0-9_]*).*$')
       if name == nil then
         return nil
@@ -114,7 +113,7 @@ M.get_path = function(node)
       path[#path + 1] = name
     end
     if type == 'class_definition' then
-      local line = vim.trim(ts_utils.get_node_text(node)[1] or '')
+      local line = vim.trim(vim.treesitter.get_node_text(node)[1] or '')
       local name = string.match(line, '^class ([a-zA-Z_][a-zA-Z0-9_]*).*$')
       if name == nil then
         return nil
