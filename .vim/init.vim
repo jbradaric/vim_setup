@@ -196,7 +196,7 @@ local function highlight(group, properties)
   vim.api.nvim_command(cmd)
 end
 highlight('TSComment', { fg = darkplus_colors.gray, style = 'italic' })
-highlight('VertSplit', { fg = darkplus_colors.bg, bg = '#444444' })
+highlight('VertSplit', { fg = '#444444', bg = '#444444' })
 highlight('TSString', { fg = '#6bab37' })
 highlight('Normal', { fg = '#f6f3e8', bg = '#1e1e1e' })
 highlight('NormalNC', { bg = '#212121' })
