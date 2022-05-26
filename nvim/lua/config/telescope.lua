@@ -97,7 +97,6 @@ M.get_path = function(node)
   if not node then
     return nil
   end
-  local utils = require('config.utils')
   local path = {}
   while node do
     local type = node:type()
@@ -107,7 +106,7 @@ M.get_path = function(node)
       if name == nil then
         return nil
       end
-      if not utils.startswith(name:lower(), 'test') then
+      if not vim.startswith(name:lower(), 'test') then
         return nil
       end
       path[#path + 1] = name
@@ -118,7 +117,7 @@ M.get_path = function(node)
       if name == nil then
         return nil
       end
-      if not utils.startswith(name:lower(), 'test') then
+      if not vim.startswith(name:lower(), 'test') then
         return nil
       end
       path[#path + 1] = name
