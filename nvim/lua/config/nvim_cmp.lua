@@ -12,7 +12,9 @@ end
 
 local M = {}
 
-function M.setup_nvim_cmp()
+M.setup = function()
+  vim.o.completeopt = 'menu,menuone,noselect'
+
   cmp.setup({
     snippet = {
       -- REQUIRED - you must specify a snippet engine

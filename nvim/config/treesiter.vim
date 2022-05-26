@@ -1,4 +1,4 @@
-lua require('config/utils').setup_treesitter()
+lua require('config.treesitter').setup()
 
 hi link TSFuncBuiltin Function
 hi link TSConstBuiltin MyConstant
