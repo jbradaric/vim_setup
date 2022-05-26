@@ -184,11 +184,6 @@ M.setup = function()
   vim.api.nvim_command('highlight WinBarFilenameInactive guifg=white guibg=#0066cc')
   vim.api.nvim_command('highlight WinBarSeparator guifg=#0066cc guibg=NONE')
   vim.api.nvim_command('highlight WinBarGPS guifg=cyan guibg=NONE')
-
-  local id = vim.api.nvim_create_augroup("RedrawWinbar", { clear = true })
-  vim.api.nvim_create_autocmd({'CursorMoved'}, {
-    callback = on_cursor_moved,
-  })
 end
 
 M.my_statusline = function()
