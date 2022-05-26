@@ -1,5 +1,25 @@
 local M = {}
 
+local function setup_highlights()
+  vim.api.nvim_command('hi link TSFuncBuiltin Function')
+  vim.api.nvim_command('hi link TSConstBuiltin MyConstant')
+  vim.api.nvim_command('hi link TSBoolean MyConstant')
+  vim.api.nvim_command('hi link TSOperator MyConstant')
+  vim.api.nvim_command('hi link TSInclude MyConditional')
+  vim.api.nvim_command('hi link TSConditional TSInclude')
+  vim.api.nvim_command('hi link TSRepeat TSInclude')
+  vim.api.nvim_command('hi link TSParameter FunctionParameter')
+end
+
+local function setup_utils()
+  vim.cmd([[
+function! SynGroup()
+    let l:s = synID(line('.'), col('.'), 1)
+    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfun
+  ]])
+end
+
 M.setup = function()
   require'nvim-treesitter.configs'.setup {
     highlight = {
@@ -54,6 +74,9 @@ M.setup = function()
       },
     },
   }
+
+  setup_highlights()
+  setup_utils()
 end
 
 return M

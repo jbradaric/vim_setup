@@ -4,6 +4,7 @@ local MODULES = {
   'lsp_icons',
   'neogit',
   'nvim_cmp',
+  'rooter',
   'statusline',
   'telescope',
   'treesitter',
