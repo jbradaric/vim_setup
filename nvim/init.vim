@@ -35,7 +35,7 @@ let mapleader = ','
 "-------------------------------------------------------------------------"}}}
 " Set up VimPlug
 "-------------------------------------------------------------------------"{{{
-call plug#begin('~/.vim/bundle')
+call plug#begin(stdpath('cache') . '/plugins')
 
 " Appearance
 Plug 'feline-nvim/feline.nvim'

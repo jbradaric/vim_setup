@@ -1,10 +1,5 @@
 #!/bin/sh
 
-if [ -e $HOME/.vimrc -o -e $HOME/.vim ]; then
-    echo "$HOME/.vimrc or $HOME/.vim already exist"
-    exit 1
-fi
-
 if [ -e $HOME/.config/nvim ]; then
     echo "$HOME/.config/nvim already exists"
     exit 1
@@ -23,7 +18,7 @@ else
     NVIM_DATA_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/nvim"
 fi
 
-ln -s $PWD/.vim "$NVIM_CONFIG_DIR"
+ln -s $PWD/nvim "$NVIM_CONFIG_DIR"
 
 mkdir -p "$NVIM_CONFIG_DIR/backup"
 mkdir -p "$NVIM_CONFIG_DIR/tmp"
@@ -38,6 +33,3 @@ mkdir -p "$NVIM_CONFIG_DIR/spell"
 mkdir -p "$NVIM_DATA_DIR/shada"
 mkdir -p "$NVIM_DATA_DIR/undo"
 mkdir -p "$NVIM_DATA_DIR/view"
-
-ln -s "$NVIM_CONFIG_DIR" $HOME/.vim
-ln -s "$NVIM_CONFIG_DIR/init.vim" $HOME/.vimrc
