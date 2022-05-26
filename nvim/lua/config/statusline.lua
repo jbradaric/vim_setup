@@ -3,6 +3,8 @@ local feline_defaults = require('feline.defaults')
 local nvim_treesitter = require('nvim-treesitter')
 local gps = require('nvim-gps')
 
+local highlight = require('config.utils').highlight
+
 local conf = {
   active = {},
   inactive = {},
@@ -179,11 +181,11 @@ M.setup = function()
   vim.o.laststatus = 3
   vim.o.winbar = "%{%v:lua.require('config.statusline').winbar()%}"
 
-  vim.api.nvim_command('highlight WinBarBackground guibg=#0066cc')
-  vim.api.nvim_command('highlight WinBarFilenameActive gui=bold guifg=white guibg=#0066cc')
-  vim.api.nvim_command('highlight WinBarFilenameInactive guifg=white guibg=#0066cc')
-  vim.api.nvim_command('highlight WinBarSeparator guifg=#0066cc guibg=NONE')
-  vim.api.nvim_command('highlight WinBarGPS guifg=cyan guibg=NONE')
+  highlight('WinBarBackground', {bg='#0066cc'})
+  highlight('WinBarFilenameActive', {style='bold', fg='white', bg='#0066cc'})
+  highlight('WinBarFilenameInactive', {fg='white', bg='#0066cc'})
+  highlight('WinBarSeparator', {fg='#0066cc', bg='NONE'})
+  highlight('WinBarGPS', {fg='cyan', bg='NONE'})
 end
 
 M.my_statusline = function()

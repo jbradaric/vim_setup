@@ -1,14 +1,16 @@
+local link_highlight = require('config.utils').link_highlight
+
 local M = {}
 
 local function setup_highlights()
-  vim.api.nvim_command('hi link TSFuncBuiltin Function')
-  vim.api.nvim_command('hi link TSConstBuiltin MyConstant')
-  vim.api.nvim_command('hi link TSBoolean MyConstant')
-  vim.api.nvim_command('hi link TSOperator MyConstant')
-  vim.api.nvim_command('hi link TSInclude MyConditional')
-  vim.api.nvim_command('hi link TSConditional TSInclude')
-  vim.api.nvim_command('hi link TSRepeat TSInclude')
-  vim.api.nvim_command('hi link TSParameter FunctionParameter')
+  link_highlight('TSFuncBuiltin', 'Function')
+  link_highlight('TSConstBuiltin', 'MyConstant')
+  link_highlight('TSBoolean', 'MyConstant')
+  link_highlight('TSOperator', 'MyConstant')
+  link_highlight('TSInclude', 'MyConditional')
+  link_highlight('TSConditional', 'TSInclude')
+  link_highlight('TSRepeat', 'TSInclude')
+  link_highlight('TSParameter', 'FunctionParameter')
 end
 
 local function setup_utils()
