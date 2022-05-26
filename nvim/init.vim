@@ -82,7 +82,6 @@ Plug 'avakhov/vim-yaml', { 'for': ['yaml'] }
 Plug 'cespare/vim-toml', { 'for': ['toml'] }
 
 " Git
-Plug 'junegunn/gv.vim', { 'on': ['GV'] }
 Plug 'nvim-lua/plenary.nvim'
 Plug 'TimUntersberger/neogit'
 
@@ -123,8 +122,6 @@ Plug 'neovim/nvim-lspconfig'
 
 sign define DiagnosticSignError text=✖ texthl=DiagnosticSignError linehl= numhl=
 sign define DiagnosticSignWarn text=⚠ texthl=DiagnosticSignWarn linehl= numhl=
-
-set completeopt=menuone,noselect
 
 if exists('&pumblend')
   set pumblend=5
@@ -232,7 +229,6 @@ set splitbelow                   " split new horizontal windows below the curren
 set encoding=utf-8               " set the default encoding to UTF-8
 set scrolloff=3                  " always show at least 3 lines after the current one
 set ttyfast
-set completeopt-=preview
 set lazyredraw                   " speed up on large files
 set updatetime=750               " trigger CursorHold sooner, 4 seconds is too long
 "-------------------------------------------------------------------------"}}}
