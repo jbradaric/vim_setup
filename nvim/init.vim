@@ -95,7 +95,6 @@ Plug 'chrisbra/NrrwRgn', { 'on': ['NRV'] }
 Plug 'mtth/scratch.vim'
 Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-Plug 'PeterRincker/vim-argumentative'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
 
