@@ -47,20 +47,13 @@ M.setup = function()
     on_attach = on_attach,
   }
 
-  nvim_lsp.jedi_language_server.setup {
+  local jedi_config = {
     capabilities = capabilities,
     on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,
     },
-    -- cmd = {
-    --   "/home/jurica/.virtualenvs/local-py3.9/bin/python",
-    --   "/home/jurica/.virtualenvs/local-py3.9/bin/jedi-language-server",
-    -- },
     init_options = {
-      -- jediSettings = {
-      --   autoImportModules = {"act", "age", "gtk", "gio", "glib", "gobject", "numpy"},
-      -- },
       completion = {
         disableSnippets = true,
       },
@@ -68,13 +61,20 @@ M.setup = function()
         enable = false,
       },
       workspace = {
-        extraPaths = { "/home/jurica/src/local/act-py3/src/python", "/home/jurica/src/stfw/src" },
         symbols = {
-          ignoreFolders = { "doc", "__pycache__", ".ccls-cache", ".mypy_cache", ".pytest_cache" },
+          ignoreFolders = { "__pycache__", ".ccls-cache", ".mypy_cache", ".pytest_cache" },
         }
       }
     }
   }
+
+  -- Override jedi settings with machine-specific settings if available
+  local have_lc, local_config = pcall(require, 'local_config')
+  if have_lc then
+    vim.tbl_deep_extend('force', jedi_config, local_config.get_jedi_settings())
+  end
+
+  nvim_lsp.jedi_language_server.setup(jedi_config)
 
   nvim_lsp.diagnosticls.setup {
     capabilities = capabilities,
