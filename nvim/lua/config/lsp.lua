@@ -9,7 +9,7 @@ M.setup = function()
 
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   capabilities = vim.tbl_extend('keep', capabilities or {}, nvim_lsp_status.capabilities)
-    
+
   local function on_attach(client, bufnr)
     vim.api.nvim_command('setlocal signcolumn=yes:1')
     vim.api.nvim_buf_set_var(bufnr, 'show_signs', true)
@@ -29,11 +29,11 @@ M.setup = function()
     end
   end
 
-  vim.diagnostic.config({severity_sort = true})
+  vim.diagnostic.config({ severity_sort = true })
 
-  nvim_lsp.ccls.setup{
-    capabilities=capabilities,
-    on_attach=on_attach,
+  nvim_lsp.ccls.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
     init_options = {
       compilationDatabaseDirectory = 'build',
       completion = {
@@ -42,14 +42,14 @@ M.setup = function()
     },
   }
 
-  nvim_lsp.rls.setup{
-    capabilities=capabilities,
-    on_attach=on_attach,
+  nvim_lsp.rls.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
   }
 
-  nvim_lsp.jedi_language_server.setup{
-    capabilities=capabilities,
-    on_attach=on_attach,
+  nvim_lsp.jedi_language_server.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,
     },
@@ -68,17 +68,17 @@ M.setup = function()
         enable = false,
       },
       workspace = {
-        extraPaths = {"/home/jurica/src/local/act-py3/src/python", "/home/jurica/src/stfw/src"},
+        extraPaths = { "/home/jurica/src/local/act-py3/src/python", "/home/jurica/src/stfw/src" },
         symbols = {
-          ignoreFolders = {"doc", "__pycache__", ".ccls-cache", ".mypy_cache", ".pytest_cache"},
+          ignoreFolders = { "doc", "__pycache__", ".ccls-cache", ".mypy_cache", ".pytest_cache" },
         }
       }
     }
   }
 
-  nvim_lsp.diagnosticls.setup{
-    capabilities=capabilities,
-    filetypes = {"python"},
+  nvim_lsp.diagnosticls.setup {
+    capabilities = capabilities,
+    filetypes = { "python" },
     init_options = {
       linters = {
         flake8 = {
@@ -121,6 +121,37 @@ M.setup = function()
   -- nvim_lsp.rust_analyzer.setup {
   --   on_attach=on_attach,
   -- }
+
+  nvim_lsp.sumneko_lua.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+      Lua = {
+        runtime = {
+          version = 'LuaJIT',
+        },
+        diagnostics = {
+          globals = { 'vim' },
+          neededFileStatus = {
+            ['codestyle-check'] = "Any",
+          },
+        },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file('', true),
+        },
+        telemetry = {
+          enable = false,
+        },
+        format = {
+          enable = true,
+          defaultConfig = {
+            indent_style = "space",
+            indent_size = "2",
+          },
+        },
+      },
+    },
+  }
 
 end
 
