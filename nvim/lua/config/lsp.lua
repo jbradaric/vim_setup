@@ -1,36 +1,10 @@
-local nvim_lsp = require 'lspconfig'
-local nvim_lsp_status = require 'lsp-status'
+local nvim_lsp = require('lspconfig')
+local nvim_lsp_status = require('lsp-status')
+local utils = require('config.utils')
 
 local M = {}
 
-M.setup = function()
-  vim.api.nvim_command('hi LspDiagnosticsErrorSign guifg=Red guibg=#000000')
-  vim.api.nvim_command('hi LspDiagnosticsWarningSign guifg=Yellow guibg=#000000')
-
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  capabilities = vim.tbl_extend('keep', capabilities or {}, nvim_lsp_status.capabilities)
-
-  local function on_attach(client, bufnr)
-    vim.api.nvim_command('setlocal signcolumn=yes:1')
-    vim.api.nvim_buf_set_var(bufnr, 'show_signs', true)
-
-    local opts = { noremap = true, silent = true }
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-
-    nvim_lsp_status.on_attach(client)
-
-    if client.server_capabilities.document_symbol then
-      vim.cmd([[augroup lsp_status]])
-      vim.cmd([[  autocmd CursorHold,BufEnter <buffer> lua require('lsp-status').update_current_function()]])
-      vim.cmd([[augroup END]])
-    end
-  end
-
-  vim.diagnostic.config({ severity_sort = true })
-
+local function setup_ccls(capabilities, on_attach)
   nvim_lsp.ccls.setup {
     capabilities = capabilities,
     on_attach = on_attach,
@@ -41,12 +15,16 @@ M.setup = function()
       },
     },
   }
+end
 
+local function setup_rls(capabilities, on_attach)
   nvim_lsp.rls.setup {
     capabilities = capabilities,
     on_attach = on_attach,
   }
+end
 
+local function setup_jedi_language_server(capabilities, on_attach)
   local jedi_config = {
     capabilities = capabilities,
     on_attach = on_attach,
@@ -75,7 +53,9 @@ M.setup = function()
   end
 
   nvim_lsp.jedi_language_server.setup(jedi_config)
+end
 
+local function setup_diagnosticls(capabilities, on_attach)
   nvim_lsp.diagnosticls.setup {
     capabilities = capabilities,
     filetypes = { "python" },
@@ -117,11 +97,9 @@ M.setup = function()
       }
     }
   }
+end
 
-  -- nvim_lsp.rust_analyzer.setup {
-  --   on_attach=on_attach,
-  -- }
-
+local function setup_lua_language_server(capabilities, on_attach)
   nvim_lsp.sumneko_lua.setup {
     capabilities = capabilities,
     on_attach = on_attach,
@@ -152,7 +130,53 @@ M.setup = function()
       },
     },
   }
+end
 
+local function setup_vim_diagnostic()
+  vim.diagnostic.config({ severity_sort = true })
+end
+
+local function setup_highlights()
+  utils.highlight('LspDiagnosticsErrorSign', { fg = 'Red', bg = '#000000' })
+  utils.highlight('LspDiagnosticsWarningSign', { fg = 'Yellow', bg = '#000000' })
+end
+
+local function on_attach(client, bufnr)
+  vim.api.nvim_command('setlocal signcolumn=yes:1')
+  vim.api.nvim_buf_set_var(bufnr, 'show_signs', true)
+
+  local opts = { noremap = true, silent = true }
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+
+  nvim_lsp_status.on_attach(client)
+
+  if client.server_capabilities.document_symbol then
+    vim.cmd([[augroup lsp_status]])
+    vim.cmd([[  autocmd CursorHold,BufEnter <buffer> lua require('lsp-status').update_current_function()]])
+    vim.cmd([[augroup END]])
+  end
+end
+
+local function get_capabilities()
+  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  capabilities = vim.tbl_extend('keep', capabilities or {}, nvim_lsp_status.capabilities)
+
+  return capabilities
+end
+
+M.setup = function()
+  setup_highlights()
+  setup_vim_diagnostic()
+
+  local capabilities = get_capabilities()
+  setup_ccls(capabilities, on_attach)
+  setup_rls(capabilities, on_attach)
+  setup_jedi_language_server(capabilities, on_attach)
+  setup_diagnosticls(capabilities, on_attach)
+  setup_lua_language_server(capabilities, on_attach)
 end
 
 return M
