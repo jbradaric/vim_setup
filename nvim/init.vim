@@ -37,6 +37,10 @@ let mapleader = ','
 "-------------------------------------------------------------------------"{{{
 call plug#begin(stdpath('cache') . '/plugins')
 
+if isdirectory(expand('~/src/misc/nvim-work-config'))
+  Plug '~/src/misc/nvim-work-config'
+endif
+
 " Appearance
 Plug 'feline-nvim/feline.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -265,11 +269,6 @@ let html_no_pre         = 1     " Don't wrap lines in <pre>
 
 " Global configuration
 for fpath in split(globpath('~/.config/nvim/config', '*.vim'), '\n')
-    exe 'source' fpath
-endfor
-
-" Machine-specific configuration
-for fpath in split(globpath('~/.config/nvim/local-config', '*.vim'), '\n')
     exe 'source' fpath
 endfor
 "-------------------------------------------------------------------------"}}}
