@@ -48,8 +48,13 @@ local function setup_jedi_language_server(capabilities, on_attach)
   -- Override jedi settings with machine-specific settings if available
   local have_lc, local_config = pcall(require, 'local_config')
   if have_lc then
-    vim.tbl_deep_extend('force', jedi_config, local_config.get_jedi_settings())
+    jedi_config['cmd'] = local_config.jedi_cmd
+    jedi_config['init_options']['jediSettings'] = {}
+    jedi_config['init_options']['jediSettings']['autoImportModules'] = local_config.autoimport_modules
+    jedi_config['init_options']['workspace']['extraPaths'] = local_config.extra_paths
+    jedi_config['init_options']['workspace']['symbols']['ignoreFolders'] = local_config.ignore_folders
   end
+
 
   nvim_lsp.jedi_language_server.setup(jedi_config)
 end
