@@ -25,6 +25,10 @@ if exists('b:did_indent')
 endif
 let b:did_indent = 1
 
+function! GetSynType(lnum, colnum)
+  return luaeval("require('config.indent').get_node_type_at_pos(_A[1], _A[2])", [a:lnum, a:colnum])
+endfunction
+
 setlocal nolisp
 setlocal autoindent
 setlocal indentexpr=GetPythonPEPIndent(v:lnum)
@@ -66,7 +70,7 @@ else
 endif
 let s:stop_statement = '^\s*\(break\|continue\|raise\|return\|pass\)\>'
 
-let s:skip_after_opening_paren = 'synIDattr(synID(line("."), col("."), 0), "name") ' .
+let s:skip_after_opening_paren = 'GetSynType(line("."), col(".")) ' .
             \ '=~? "\\vcomment|jedi\\S"'
 
 let s:special_chars_syn_pattern = "\\vstring|comment|^pythonbytes%(contents)=$|pythonTodo|jedi\\S"
@@ -76,7 +80,7 @@ if !get(g:, 'python_pep8_indent_skip_concealed', 0) || !has('conceal')
     " jedi* refers to syntax definitions from jedi-vim for call signatures, which
     " are inserted temporarily into the buffer.
     function! s:_skip_special_chars(line, col)
-        return synIDattr(synID(a:line, a:col, 0), 'name')
+        return GetSynType(a:line, a:col)
               \ =~? s:special_chars_syn_pattern
     endfunction
 else
@@ -91,7 +95,7 @@ else
     endfunction
 
     function! s:_skip_special_chars(line, col)
-        return synIDattr(synID(a:line, a:col, 0), 'name')
+        return GetSynType(a:line, a:col)
               \ =~? s:special_chars_syn_pattern
               \ || s:is_concealed(a:line, a:col)
     endfunction
@@ -112,7 +116,7 @@ endif
 " Find backwards the closest open parenthesis/bracket/brace.
 function! s:find_opening_paren(lnum, col)
     " Return if cursor is in a comment.
-    if synIDattr(synID(a:lnum, a:col, 0), 'name') =~? 'comment'
+    if GetSynType(a:lnum, a:col) =~? 'comment'
         return [0, 0]
     endif
 
@@ -365,10 +369,9 @@ function! s:is_python_string(lnum, ...)
       let cols = range(1, max([1, len(line)]))
     endif
     for cnum in cols
-        if match(map(synstack(a:lnum, cnum),
-                    \ "synIDattr(v:val, 'name')"), 'python\S*String') == -1
-            return 0
-        end
+      if GetSynType(a:lnum, cnum) !=? 'string'
+        return 0
+      end
     endfor
     return 1
 endfunction
