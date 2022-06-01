@@ -44,7 +44,6 @@ endif
 " Appearance
 Plug 'feline-nvim/feline.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'nvim-lua/lsp-status.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'SmiteshP/nvim-gps'

@@ -1,5 +1,4 @@
 local nvim_lsp = require('lspconfig')
-local nvim_lsp_status = require('lsp-status')
 local utils = require('config.utils')
 
 local M = {}
@@ -150,21 +149,10 @@ local function on_attach(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-
-  nvim_lsp_status.on_attach(client)
-
-  if client.server_capabilities.document_symbol then
-    vim.cmd([[augroup lsp_status]])
-    vim.cmd([[  autocmd CursorHold,BufEnter <buffer> lua require('lsp-status').update_current_function()]])
-    vim.cmd([[augroup END]])
-  end
 end
 
 local function get_capabilities()
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  capabilities = vim.tbl_extend('keep', capabilities or {}, nvim_lsp_status.capabilities)
-
-  return capabilities
+  return require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 end
 
 M.setup = function()

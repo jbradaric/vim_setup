@@ -1,6 +1,4 @@
 local vi_mode_utils = require('feline.providers.vi_mode')
-local feline_defaults = require('feline.defaults')
-local nvim_treesitter = require('nvim-treesitter')
 local gps = require('nvim-gps')
 
 local highlight = require('config.utils').highlight
