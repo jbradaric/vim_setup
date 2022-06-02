@@ -39,7 +39,7 @@ local function setup_jedi_language_server(capabilities, on_attach)
       },
       workspace = {
         symbols = {
-          ignoreFolders = { "__pycache__", ".ccls-cache", ".mypy_cache", ".pytest_cache" },
+          ignoreFolders = { '__pycache__', '.ccls-cache', '.mypy_cache', '.pytest_cache' },
         }
       }
     }
@@ -62,24 +62,24 @@ end
 local function setup_diagnosticls(capabilities, on_attach)
   nvim_lsp.diagnosticls.setup {
     capabilities = capabilities,
-    filetypes = { "python" },
+    filetypes = { 'python' },
     init_options = {
       linters = {
         flake8 = {
-          command = "flake8",
+          command = 'flake8',
           debounce = 100,
           args = {
-            "--append-config",
-            "/home/jurica/.config/flake8",
-            "--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s",
-            "-"
+            '--append-config',
+            '/home/jurica/.config/flake8',
+            '--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s',
+            '-'
           },
           offsetLine = 0,
           offsetColumn = 0,
-          sourceName = "flake8",
+          sourceName = 'flake8',
           formatLines = 1,
           formatPattern = {
-            "(\\d+),(\\d+),([A-Z]),(.*)(\\r|\\n)*$",
+            '(\\d+),(\\d+),([A-Z]),(.*)(\\r|\\n)*$',
             {
               line = 1,
               column = 2,
@@ -88,16 +88,16 @@ local function setup_diagnosticls(capabilities, on_attach)
             }
           },
           securities = {
-            W = "info",
-            E = "warning",
-            F = "error",
-            C = "info",
-            N = "hint"
+            W = 'info',
+            E = 'warning',
+            F = 'error',
+            C = 'info',
+            N = 'hint'
           }
         }
       },
       filetypes = {
-        python = "flake8",
+        python = 'flake8',
       }
     }
   }
@@ -107,6 +107,7 @@ local function setup_lua_language_server(capabilities, on_attach)
   nvim_lsp.sumneko_lua.setup {
     capabilities = capabilities,
     on_attach = on_attach,
+    single_file_support = true,
     settings = {
       Lua = {
         runtime = {
@@ -115,7 +116,7 @@ local function setup_lua_language_server(capabilities, on_attach)
         diagnostics = {
           globals = { 'vim' },
           neededFileStatus = {
-            ['codestyle-check'] = "Any",
+            ['codestyle-check'] = 'Any',
           },
         },
         workspace = {
@@ -127,8 +128,13 @@ local function setup_lua_language_server(capabilities, on_attach)
         format = {
           enable = true,
           defaultConfig = {
-            indent_style = "space",
-            indent_size = "2",
+            indent_style = 'space',
+            indent_size = '2',
+            quote_style = 'single',
+            align_call_args = 'true',
+            align_function_define_params = 'true',
+            continuous_assign_table_field_align_to_equal_sign = 'false',
+
           },
         },
       },
