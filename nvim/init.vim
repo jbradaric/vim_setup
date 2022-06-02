@@ -261,13 +261,3 @@ set nofoldenable " Turn off folding because I never use it
 let html_use_css        = 1     " Use stylesheet instead of inline style
 let html_number_lines   = 0     " Don't show line numbers
 let html_no_pre         = 1     " Don't wrap lines in <pre>
-"-------------------------------------------------------------------------"}}}
-" Plugin configurations
-"-------------------------------------------------------------------------"{{{
-" runtime! macros/matchit.vim
-
-" Global configuration
-for fpath in split(globpath('~/.config/nvim/config', '*.vim'), '\n')
-    exe 'source' fpath
-endfor
-"-------------------------------------------------------------------------"}}}
