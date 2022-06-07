@@ -47,6 +47,8 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'SmiteshP/nvim-gps'
+Plug 'stevearc/dressing.nvim'
+Plug 'rcarriga/nvim-notify'
 
 " Text objects
 Plug 'kana/vim-textobj-indent'

@@ -8,6 +8,7 @@ local MODULES = {
   'statusline',
   'telescope',
   'treesitter',
+  'ui',
 }
 
 local M = {}
