@@ -3,6 +3,7 @@ local MODULES = {
   'lsp',
   'lsp_icons',
   'neogit',
+  'notify',
   'nvim_cmp',
   'rooter',
   'statusline',
