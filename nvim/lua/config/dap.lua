@@ -11,7 +11,7 @@ local function debug_current_function()
   require('dap-python').test_method()
 end
 
-local function stop_debugging()
+M.stop_debugging = function()
   dap.close()
   dapui.close()
 end
@@ -25,9 +25,9 @@ M.setup = function()
   dap_python.setup('/usr/bin/python3')
   dap_python.test_runner = 'pytest'
 
-  create_command('Debug', debug_file, 'Run file in debugger')
-  create_command('DebugFunction', debug_current_function, 'Debug current function')
-  create_command('Stop', stop_debugging, 'Stop debugging')
+  create_command('Debug', function() debug_file() end, 'Run file in debugger')
+  create_command('DebugFunction', function() debug_current_function() end, 'Debug current function')
+  create_command('Stop', function() M.stop_debugging() end, 'Stop debugging')
   create_command('Into', function() dap.step_into() end, 'Step into')
   create_command('Over', function() dap.step_over() end, 'Step over')
   create_command('Up', function() dap.up() end, 'Go up')

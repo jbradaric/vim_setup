@@ -179,11 +179,11 @@ M.setup = function()
   vim.o.laststatus = 3
   vim.o.winbar = "%{%v:lua.require('config.statusline').winbar()%}"
 
-  highlight('WinBarBackground', {bg='#0066cc'})
-  highlight('WinBarFilenameActive', {style='bold', fg='white', bg='#0066cc'})
-  highlight('WinBarFilenameInactive', {fg='white', bg='#0066cc'})
-  highlight('WinBarSeparator', {fg='#0066cc', bg='NONE'})
-  highlight('WinBarGPS', {fg='cyan', bg='NONE'})
+  highlight('WinBarBackground', { bg = '#0066cc' })
+  highlight('WinBarFilenameActive', { style = 'bold', fg = 'white', bg = '#0066cc' })
+  highlight('WinBarFilenameInactive', { fg = 'white', bg = '#0066cc' })
+  highlight('WinBarSeparator', { fg = '#0066cc', bg = 'NONE' })
+  highlight('WinBarGPS', { fg = 'cyan', bg = 'NONE' })
 end
 
 M.my_statusline = function()
@@ -207,7 +207,54 @@ local function get_highlight(color)
   return name
 end
 
+M.continue = function(...)
+  require('dap').continue()
+end
+
+M.step_over = function(...)
+  require('dap').step_over()
+end
+
+M.step_into = function(...)
+  require('dap').step_into()
+end
+
+M.step_out = function(...)
+  require('dap').step_out()
+end
+
+M.up = function(...)
+  require('dap').up()
+end
+
+M.down = function(...)
+  require('dap').down()
+end
+
+M.stop = function(...)
+  require('config.dap').stop_debugging()
+end
+
 M.winbar = function()
+  local ftype = vim.opt_local.filetype:get()
+  if ftype == 'dapui_scopes' then
+    return 'VARIABLES'
+  end
+  if ftype == 'dapui_breakpoints' then
+    return 'BREAKPOINTS'
+  end
+  if ftype == 'dapui_stacks' then
+    return 'STACKS'
+  end
+  if ftype == 'dapui_watches' then
+    return 'WATCHES'
+  end
+  if ftype == 'dapui_console' then
+    return 'CONSOLE'
+  end
+  if ftype == 'dap-repl' then
+    return 'REPL'
+  end
   local devicons = require('nvim-web-devicons')
   local buf = vim.api.nvim_get_current_buf()
   local path = vim.api.nvim_buf_get_name(buf)
@@ -227,13 +274,23 @@ M.winbar = function()
   end
 
   local fmt = '%%#%s#'
-           .. ' %s'
-           .. filename_style
-           .. ' %s '
-           .. '%%#WinBarSeparator#'
-           .. '%s'
-           .. '%%#Normal#'
+      .. ' %s'
+      .. filename_style
+      .. ' %s '
+      .. '%%#WinBarSeparator#'
+      .. '%s'
+      .. '%%#Normal#'
   local status = string.format(fmt, get_highlight(color), icon, vim.fn.fnamemodify(path, ':t'), border_right)
+  if require('dap').session() then
+    status = status
+      .. " %@v:lua.require'config.statusline'.continue@ 契%X"
+      .. " %@v:lua.require'config.statusline'.step_over@  %X"
+      .. " %@v:lua.require'config.statusline'.step_into@  %X"
+      .. " %@v:lua.require'config.statusline'.step_out@  %X"
+      .. " %@v:lua.require'config.statusline'.up@  %X"
+      .. " %@v:lua.require'config.statusline'.down@  %X"
+      .. " %@v:lua.require'config.statusline'.stop@ 栗%X"
+  end
   if gps.is_available() then
     status = status .. '%=' .. '%#WinBarGPS#' .. gps.get_location() .. '  '
   end
