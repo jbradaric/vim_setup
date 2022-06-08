@@ -106,8 +106,6 @@ Plug 'ludovicchabant/vim-gutentags'
 let g:gutentags_add_default_project_roots = 1
 let g:gutentags_file_list_command = 'fd'
 
-Plug 'jaxbot/semantic-highlight.vim', { 'on': ['SemanticHighlight', 'SemanticHighlightToggle', 'SemanticHighlightRevert'] }
-
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
