@@ -151,6 +151,10 @@ Plug 'AckslD/nvim-trevJ.lua'
 
 Plug 'pianocomposer321/yabs.nvim'
 
+Plug 'mfussenegger/nvim-dap'
+Plug 'mfussenegger/nvim-dap-python'
+Plug 'rcarriga/nvim-dap-ui'
+
 call plug#end()
 
 " Configure plugins

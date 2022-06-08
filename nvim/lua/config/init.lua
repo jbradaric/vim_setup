@@ -1,5 +1,6 @@
 local MODULES = {
   'colorscheme',
+  'dap',
   'lsp',
   'lsp_icons',
   'neogit',
