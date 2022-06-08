@@ -22,8 +22,14 @@ endfun
   ]])
 end
 
+local function setup_context()
+  require('treesitter-context').setup({
+    max_lines = 3,
+  })
+end
+
 M.setup = function()
-  require'nvim-treesitter.configs'.setup {
+  require('nvim-treesitter.configs').setup {
     highlight = {
       enable = true,
       use_languagetree = true,
@@ -79,6 +85,7 @@ M.setup = function()
 
   setup_highlights()
   setup_utils()
+  setup_context()
 end
 
 return M

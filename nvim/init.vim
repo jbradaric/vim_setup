@@ -141,6 +141,7 @@ Plug 'gabrielelana/vim-markdown'
 Plug 'jbradaric/nvim-miniyank'
 
 Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
