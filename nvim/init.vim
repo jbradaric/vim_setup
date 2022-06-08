@@ -61,7 +61,6 @@ Plug 'wellle/targets.vim'
 " Motions
 Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/vim-easyoperator-line'
-Plug 'terryma/vim-expand-region'
 
 " Search
 Plug 'haya14busa/incsearch.vim'
