@@ -26,7 +26,7 @@ endif
 let b:did_indent = 1
 
 function! GetSynType(lnum, colnum)
-  return luaeval("require('config.indent').get_node_type_at_pos(_A[1], _A[2])", [a:lnum, a:colnum])
+  return luaeval("require('config.indent').get_node_type_at_pos(_A[1], _A[2] - 1)", [a:lnum, a:colnum])
 endfunction
 
 setlocal nolisp
