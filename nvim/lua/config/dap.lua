@@ -22,8 +22,13 @@ local function create_command(name, callback, desc)
 end
 
 M.setup = function()
-  dap_python.setup('/usr/bin/python3')
-  dap_python.test_runner = 'pytest'
+  local have_lc, local_config = pcall(require, 'local_config')
+  if have_lc then
+    local_config.setup_dap()
+  else
+    dap_python.setup('/usr/bin/python3')
+    dap_python.test_runner = 'pytest'
+  end
 
   create_command('Debug', function() debug_file() end, 'Run file in debugger')
   create_command('DebugFunction', function() debug_current_function() end, 'Debug current function')
