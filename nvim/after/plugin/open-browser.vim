@@ -28,4 +28,4 @@ function! s:open_selected_url()
   call openbrowser#open(text)
 endfunction
 
-vmap gx :<c-u>call <sid>open_selected_url()<cr>
+vmap gx :<c-u>silent! call <sid>open_selected_url()<cr>

@@ -28,6 +28,9 @@ if has('gui_running')
 endif
 set previewheight=20 " Height of the preview window
 
+lua vim.opt.guifont = 'UbuntuMono Nerd Font Mono:h12.5'
+let g:neovide_cursor_animation = 0
+
 "-------------------------------------------------------------------------"}}}
 " Remap <Leader> to ,
 "-------------------------------------------------------------------------"{{{
@@ -49,6 +52,9 @@ Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'SmiteshP/nvim-gps'
 Plug 'stevearc/dressing.nvim'
 Plug 'rcarriga/nvim-notify'
+Plug 'b0o/incline.nvim'
+Plug 'sam4llis/nvim-tundra'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
 " Text objects
 Plug 'kana/vim-textobj-indent'
@@ -63,7 +69,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/vim-easyoperator-line'
 
 " Search
-Plug 'haya14busa/incsearch.vim'
+" Plug 'haya14busa/incsearch.vim'
 Plug 'mg979/vim-visual-multi'
 Plug 'jbradaric/vim-interestingwords'
 
@@ -145,6 +151,10 @@ Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
 Plug 'martinsione/darkplus.nvim'
+Plug 'tomasiser/vim-code-dark'
+Plug 'Mofiqul/vscode.nvim'
+Plug 'monsonjeremy/onedark.nvim'
+Plug 'norcalli/nvim-colorizer.lua'
 
 Plug 'AckslD/nvim-trevJ.lua'
 
@@ -153,6 +163,8 @@ Plug 'pianocomposer321/yabs.nvim'
 Plug 'mfussenegger/nvim-dap'
 Plug 'mfussenegger/nvim-dap-python'
 Plug 'rcarriga/nvim-dap-ui'
+
+Plug 'nvim-neorg/neorg'
 
 call plug#end()
 
@@ -207,6 +219,7 @@ set scrolloff=3                  " always show at least 3 lines after the curren
 set ttyfast
 set lazyredraw                   " speed up on large files
 set updatetime=750               " trigger CursorHold sooner, 4 seconds is too long
+set splitkeep=cursor             " Keep the same relative cursor position.
 "-------------------------------------------------------------------------"}}}
 " Search settings
 "-------------------------------------------------------------------------"{{{

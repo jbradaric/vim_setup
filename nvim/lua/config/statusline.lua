@@ -170,20 +170,23 @@ M.setup = function()
     numhl = true,
     current_line_blame = false,
   })
-  require('nvim-gps').setup()
+  -- require('nvim-gps').setup()
   require('feline').setup({
     components = { active = conf.active, inactive = conf.inactive },
     highlight_reset_triggers = {},
   })
+  require('incline').setup()
 
   vim.o.laststatus = 3
-  vim.o.winbar = "%{%v:lua.require('config.statusline').winbar()%}"
+  -- vim.o.winbar = "%{%v:lua.require('config.statusline').winbar()%}"
 
-  highlight('WinBarBackground', { bg = '#0066cc' })
-  highlight('WinBarFilenameActive', { style = 'bold', fg = 'white', bg = '#0066cc' })
-  highlight('WinBarFilenameInactive', { fg = 'white', bg = '#0066cc' })
-  highlight('WinBarSeparator', { fg = '#0066cc', bg = 'NONE' })
-  highlight('WinBarGPS', { fg = 'cyan', bg = 'NONE' })
+  -- highlight('WinBarBackground', { bg = '#0066cc' })
+  -- highlight('WinBarFilenameActive', { style = 'bold', fg = 'white', bg = '#0066cc' })
+  -- highlight('WinBarFilenameInactive', { fg = 'white', bg = '#0066cc' })
+  -- highlight('WinBarSeparator', { fg = '#0066cc', bg = 'NONE' })
+  -- highlight('WinBarGPS', { fg = 'cyan', bg = 'NONE' })
+  highlight('InclineNormal', { style = 'bold', fg = 'white', bg = '#0066cc' })
+  highlight('InclineNormalNC', { fg = 'white', bg = '#0066cc' })
 end
 
 M.my_statusline = function()

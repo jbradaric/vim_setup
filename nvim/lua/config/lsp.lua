@@ -28,7 +28,7 @@ local function setup_jedi_language_server(capabilities, on_attach)
     capabilities = capabilities,
     on_attach = on_attach,
     flags = {
-      debounce_text_changes = 150,
+      debounce_text_changes = 1000,
     },
     init_options = {
       completion = {
@@ -59,6 +59,81 @@ local function setup_jedi_language_server(capabilities, on_attach)
   nvim_lsp.jedi_language_server.setup(jedi_config)
 end
 
+local function setup_pyright(capabilities, on_attach)
+  nvim_lsp.pyright.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    init_options = {
+      python = {
+        analysis = {
+          typeCheckingMode = "off",
+        },
+      },
+    }
+  })
+
+  local function filter(arr, func)
+    -- Filter in place
+    -- https://stackoverflow.com/questions/49709998/how-to-filter-a-lua-array-inplace
+    local new_index = 1
+    local size_orig = #arr
+    for old_index, v in ipairs(arr) do
+      if func(v, old_index) then
+        arr[new_index] = v
+        new_index = new_index + 1
+      end
+    end
+    for i = new_index, size_orig do arr[i] = nil end
+  end
+
+  local function filter_diagnostics(diagnostic)
+    -- Only filter out Pyright stuff for now
+    if diagnostic.source ~= "Pyright" then
+      return true
+    end
+
+    -- Ignore all Pyright diagnostics
+    if diagnostic.source == "Pyright" then
+      return false
+    end
+
+    -- Allow kwargs to be unused, sometimes you want many functions to take the
+    -- same arguments but you don't use all the arguments in all the functions,
+    -- so kwargs is used to suck up all the extras
+    if diagnostic.message == '"kwargs" is not accessed' then
+      return false
+    end
+
+    -- Allow unused function arguments, just because we override a function 
+    -- doesn't mean that we need all the arguments.
+    if string.match(diagnostic.message, '".+" is not accessed') then
+      return false
+    end
+
+    -- Allow variables starting with an underscore
+    if string.match(diagnostic.message, '"_.+" is not accessed') then
+      return false
+    end
+
+    if string.match(diagnostic.message, 'Import ".+" could not be resolved from source') then
+      return false
+    end
+
+    if string.match(diagnostic.message, '".+" is not a known member of module') then
+      return false
+    end
+
+    return true
+  end
+
+  local function on_publish_diagnostics(a, params, client_id, c, config)
+    filter(params.diagnostics, filter_diagnostics)
+    vim.lsp.diagnostic.on_publish_diagnostics(a, params, client_id, c, config)
+  end
+
+  vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(on_publish_diagnostics, {})
+end
+
 local function setup_diagnosticls(capabilities, on_attach)
   nvim_lsp.diagnosticls.setup {
     capabilities = capabilities,
@@ -67,7 +142,7 @@ local function setup_diagnosticls(capabilities, on_attach)
       linters = {
         flake8 = {
           command = 'flake8',
-          debounce = 100,
+          debounce = 1000,
           args = {
             '--append-config',
             '/home/jurica/.config/flake8',
@@ -152,14 +227,19 @@ local function setup_highlights()
 end
 
 local function on_attach(client, bufnr)
-  vim.api.nvim_command('setlocal signcolumn=yes:1')
-  vim.api.nvim_buf_set_var(bufnr, 'show_signs', true)
+  -- vim.api.nvim_command('setlocal signcolumn=yes:1')
+  -- vim.api.nvim_buf_set_var(bufnr, 'show_signs', true)
+  vim.b.show_signs = true
 
-  local opts = { noremap = true, silent = true }
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+  local opts = { noremap = true, silent = true, buffer = bufnr }
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', 'gD', vim.lsp.buf.implementation, opts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.declaration, opts)
+
+  vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev({ float = false }) end, opts)
+  vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next({ float = false }) end, opts)
+  vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
+  vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
 end
 
 local function get_capabilities()
@@ -170,10 +250,18 @@ M.setup = function()
   setup_highlights()
   setup_vim_diagnostic()
 
+  vim.opt.signcolumn = 'yes:1'
+
   local capabilities = get_capabilities()
   setup_ccls(capabilities, on_attach)
   setup_rls(capabilities, on_attach)
-  setup_jedi_language_server(capabilities, on_attach)
+  -- setup_jedi_language_server(capabilities, on_attach)
+    setup_pyright(capabilities, on_attach)
+  -- if vim.env.USE_JEDI then
+  --   setup_jedi_language_server(capabilities, on_attach)
+  -- else
+  --   setup_pyright(capabilities, on_attach)
+  -- end
   setup_diagnosticls(capabilities, on_attach)
   setup_lua_language_server(capabilities, on_attach)
 end

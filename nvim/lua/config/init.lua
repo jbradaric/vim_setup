@@ -1,8 +1,9 @@
 local MODULES = {
   'colorscheme',
   'dap',
-  'lsp',
+  'filetypes',
   'lsp_icons',
+  'lsp',
   'neogit',
   'notify',
   'nvim_cmp',

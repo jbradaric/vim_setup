@@ -14,7 +14,7 @@
   },
   "Set breakpoint": {
     "prefix": "pdb",
-    "body": "import pdb; pdb.set_trace()"
+    "body": "breakpoint()"
   },
   "uuid": {
     "prefix": "uuid",
