@@ -69,7 +69,6 @@ Plug 'easymotion/vim-easymotion'
 Plug 'haya14busa/vim-easyoperator-line'
 
 " Search
-" Plug 'haya14busa/incsearch.vim'
 Plug 'mg979/vim-visual-multi'
 Plug 'jbradaric/vim-interestingwords'
 
