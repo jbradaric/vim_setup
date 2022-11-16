@@ -45,9 +45,8 @@ M.find_files = function(search_dir)
 end
 
 local function live_grep_cb(opts)
-  local opts = {
-    prompt_title = 'Search...',
-  }
+  opts = opts or {}
+  opts.prompt_title = 'Search...'
   local theme_opts = get_theme_opts({ max_lines = 30 })
   opts = vim.tbl_extend('force', opts, theme_opts)
   require('telescope.builtin').live_grep(opts)
