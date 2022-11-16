@@ -36,7 +36,7 @@ end
 
 M.find_files = function(search_dir)
   local opts = {
-    find_command = { 'fd', '--ignore-file', Path:new('~/.config/nvim/my_ignores'):expand() },
+    find_command = { 'fd', '--no-hidden', '--ignore-file', Path:new('~/.config/nvim/my_ignores'):expand() },
     search_dirs = { Path:new(search_dir):expand() },
   }
   local theme_opts = get_theme_opts({})
