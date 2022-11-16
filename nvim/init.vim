@@ -165,6 +165,9 @@ Plug 'rcarriga/nvim-dap-ui'
 
 Plug 'nvim-neorg/neorg'
 
+Plug 'yioneko/nvim-yati'
+Plug 'yioneko/vim-tmindent'
+
 call plug#end()
 
 " Configure plugins

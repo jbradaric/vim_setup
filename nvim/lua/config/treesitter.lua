@@ -29,6 +29,8 @@ local function setup_context()
 end
 
 M.setup = function()
+  local tm_fts = { 'python' }
+
   require('nvim-treesitter.configs').setup {
     highlight = {
       enable = true,
@@ -80,6 +82,19 @@ M.setup = function()
           ["<leader>A"] = "@parameter.inner",
         },
       },
+    },
+    yati = {
+      enable = true,
+      default_lazy = true,
+      default_fallback = function(lnum, computed, bufnr)
+        if vim.tbl_contains(tm_fts, vim.bo[bufnr].filetype) then
+          return require('tmindent').get_indent(lnum, bufnr) + computed
+        end
+        return require('nvim-yati.fallback').vim_auto(lnum, computed, bufnr)
+      end,
+    },
+    indent = {
+      enable = false,
     },
   }
 
