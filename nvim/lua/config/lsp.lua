@@ -23,6 +23,13 @@ local function setup_rls(capabilities, on_attach)
   }
 end
 
+local function setup_rust_analyzer(capabilities, on_attach)
+  nvim_lsp.rust_analyzer.setup {
+    capabilities = capabilities,
+    on_attach = on_attach,
+  }
+end
+
 local function setup_jedi_language_server(capabilities, on_attach)
   local jedi_config = {
     capabilities = capabilities,
@@ -254,14 +261,14 @@ M.setup = function()
 
   local capabilities = get_capabilities()
   setup_ccls(capabilities, on_attach)
-  setup_rls(capabilities, on_attach)
   -- setup_jedi_language_server(capabilities, on_attach)
-    setup_pyright(capabilities, on_attach)
+  setup_pyright(capabilities, on_attach)
   -- if vim.env.USE_JEDI then
   --   setup_jedi_language_server(capabilities, on_attach)
   -- else
   --   setup_pyright(capabilities, on_attach)
   -- end
+  setup_rust_analyzer(capabilities, on_attach)
   setup_diagnosticls(capabilities, on_attach)
   setup_lua_language_server(capabilities, on_attach)
 end
