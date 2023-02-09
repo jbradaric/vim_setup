@@ -102,7 +102,7 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 " Misc
 Plug 'chrisbra/NrrwRgn', { 'on': ['NRV'] }
 Plug 'mtth/scratch.vim'
-Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
+" Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
@@ -127,6 +127,7 @@ Plug 'liuchengxu/vista.vim'
 
 Plug 'onsails/lspkind-nvim'
 Plug 'neovim/nvim-lspconfig'
+Plug 'simrat39/rust-tools.nvim'
 
 sign define DiagnosticSignError text=✖ texthl=DiagnosticSignError linehl= numhl=
 sign define DiagnosticSignWarn text=⚠ texthl=DiagnosticSignWarn linehl= numhl=
@@ -205,9 +206,6 @@ set showbreak=↪                  " indicate wrapped lines
 set listchars=tab:→\ ,trail:•    " strings to use in 'list' mode
 set mouse=a                      " enable the use of the mouse
 set nowrap                       " do not wrap lines
-if !has('nvim')
-  set popt=left:8pc,right:3pc    " print options
-endif
 set ruler                        " show the cursor position all the time
 set shiftwidth=4                 " number of spaces to use for each step of indent
 set showcmd                      " display incomplete commands

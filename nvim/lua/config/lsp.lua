@@ -253,6 +253,18 @@ local function get_capabilities()
   return require('cmp_nvim_lsp').default_capabilities()
 end
 
+local function setup_rust_tools(capabilities, on_attach2)
+  local rt = require('rust-tools')
+  rt.setup({
+    server = {
+      capabilities = capabilities,
+      on_attach = function(client, bufnr)
+        on_attach2(client, bufnr)
+      end
+    },
+  })
+end
+
 M.setup = function()
   setup_highlights()
   setup_vim_diagnostic()
@@ -268,7 +280,11 @@ M.setup = function()
   -- else
   --   setup_pyright(capabilities, on_attach)
   -- end
-  setup_rust_analyzer(capabilities, on_attach)
+
+  -- Rust
+  -- setup_rust_analyzer(capabilities, on_attach)
+  setup_rust_tools(capabilities, on_attach)
+
   setup_diagnosticls(capabilities, on_attach)
   setup_lua_language_server(capabilities, on_attach)
 end
