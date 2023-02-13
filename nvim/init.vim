@@ -65,8 +65,9 @@ Plug 'michaeljsmith/vim-indent-object'
 Plug 'wellle/targets.vim'
 
 " Motions
-Plug 'easymotion/vim-easymotion'
-Plug 'haya14busa/vim-easyoperator-line'
+Plug 'phaazon/hop.nvim'
+
+Plug 'folke/paint.nvim'
 
 " Search
 Plug 'mg979/vim-visual-multi'
@@ -168,6 +169,8 @@ Plug 'nvim-neorg/neorg'
 Plug 'yioneko/nvim-yati'
 Plug 'yioneko/vim-tmindent'
 
+Plug 'luukvbaal/statuscol.nvim'
+
 call plug#end()
 
 " Configure plugins
@@ -199,7 +202,9 @@ set showbreak=↪                  " indicate wrapped lines
 set listchars=tab:→\ ,trail:•    " strings to use in 'list' mode
 set mouse=a                      " enable the use of the mouse
 set nowrap                       " do not wrap lines
-set popt=left:8pc,right:3pc      " print options
+if !has('nvim')
+  set popt=left:8pc,right:3pc    " print options
+endif
 set ruler                        " show the cursor position all the time
 set shiftwidth=4                 " number of spaces to use for each step of indent
 set showcmd                      " display incomplete commands
