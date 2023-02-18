@@ -7,7 +7,7 @@ local function map(mode, lhs, rhs, opts)
   if opts then
     options = vim.tbl_extend('force', options, opts)
   end
-  vim.api.nvim_set_keymap(mode, lhs, rhs, opts)
+  vim.keymap.set(mode, lhs, rhs, opts)
 end
 
 local M = {}
@@ -204,17 +204,22 @@ M.setup = function()
   require('telescope').load_extension('fzf')
   require('telescope').load_extension('yabs')
 
-  map('n', '<C-p>', ":lua require('config.telescope').find_files(vim.fn.getcwd())<CR>", {})
-  map('n', '<Leader>b', ':Telescope buffers theme=dropdown previewer=false<CR>', {})
-  map('n', '<Leader>l', ':Telescope current_buffer_fuzzy_find skip_empty_lines=true theme=dropdown previewer=false<CR>',
+  map('n', '<C-p>', function() require('config.telescope').find_files(vim.fn.getcwd()) end, {})
+  map('n', '<Leader>b', function() vim.cmd('Telescope buffers theme=dropdown previewer=false') end, {})
+  map('n', '<Leader>l', function() vim.cmd('Telescope current_buffer_fuzzy_find skip_empty_lines=true theme=dropdown previewer=false') end,
       {})
-  map('n', '<Leader>f', ":lua require('config.telescope').treesitter_kind('function')<CR>", {})
-  map('n', '<Leader>t', ":lua require('config.telescope').treesitter_kind('type')<CR>", {})
+  map('n', '<Leader>f', function() require('config.telescope').treesitter_kind('function') end, {})
+  map('n', '<Leader>t', function() require('config.telescope').treesitter_kind('type') end, {})
 
   vim.api.nvim_create_user_command('Rg', live_grep_cb, {})
   vim.api.nvim_create_user_command('Files',
                                    function(opts) M.find_files(opts.args) end,
                                    { nargs = 1, complete = 'dir', desc = 'Pick files' })
+
+  map('n', '<Space>/', function()
+    vim.cmd('Rooter')
+    live_grep_cb()
+  end, {})
 
 end
 

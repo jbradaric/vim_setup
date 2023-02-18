@@ -171,6 +171,9 @@ Plug 'yioneko/vim-tmindent'
 
 Plug 'luukvbaal/statuscol.nvim'
 
+Plug 'MunifTanjim/nui.nvim'
+Plug 'folke/noice.nvim'
+
 call plug#end()
 
 " Configure plugins
@@ -224,7 +227,6 @@ set splitbelow                   " split new horizontal windows below the curren
 set encoding=utf-8               " set the default encoding to UTF-8
 set scrolloff=3                  " always show at least 3 lines after the current one
 set ttyfast
-set lazyredraw                   " speed up on large files
 set updatetime=750               " trigger CursorHold sooner, 4 seconds is too long
 set splitkeep=cursor             " Keep the same relative cursor position.
 "-------------------------------------------------------------------------"}}}

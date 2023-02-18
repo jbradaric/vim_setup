@@ -18,7 +18,7 @@ endif
 " -------------------------------------------------------------- }}}
 " Use rg
 " -------------------------------------------------------------- {{{
-nnoremap <Space>/ :<C-U>Rooter<CR>:Rg<CR>
+" nnoremap <Space>/ :<C-U>Rooter<CR>:Rg<CR>
 
 if executable('rg')
   set grepprg=rg\ --vimgrep\ $*
