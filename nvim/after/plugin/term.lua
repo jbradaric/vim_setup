@@ -124,7 +124,7 @@ local function run_term(same_buffer)
     vim.cmd('vnew')
   end
 
-  if term.last_id == -1 or not vim.fn.bufexists(term.last_id) then
+  if term.last_id == -1 or vim.fn.bufexists(term.last_id) == 0 then
     term:open_new()
   else
     term:open_existing()
