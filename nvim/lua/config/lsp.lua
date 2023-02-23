@@ -226,6 +226,8 @@ end
 
 local function setup_vim_diagnostic()
   vim.diagnostic.config({ severity_sort = true })
+
+  require('trouble').setup()
 end
 
 local function setup_highlights()

@@ -55,6 +55,9 @@ M.setup = function()
   setup_vscode()
   setup_terminal()
 
+  local highlight = require('config.utils').highlight
+  highlight('StatusLine', { bg = '#1e1e1e' })
+
   -- setup_onedark()
 end
 

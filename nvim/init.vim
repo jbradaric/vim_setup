@@ -45,16 +45,15 @@ if isdirectory(expand('~/src/misc/nvim-work-config'))
 endif
 
 " Appearance
-Plug 'feline-nvim/feline.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'junegunn/rainbow_parentheses.vim'
-Plug 'SmiteshP/nvim-gps'
 Plug 'stevearc/dressing.nvim'
 Plug 'rcarriga/nvim-notify'
-Plug 'b0o/incline.nvim'
 Plug 'sam4llis/nvim-tundra'
 Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
+Plug 'folke/trouble.nvim'
+Plug 'rebelot/heirline.nvim'
 
 " Text objects
 Plug 'kana/vim-textobj-indent'
