@@ -70,7 +70,7 @@ M.setup = function()
         filter = {
           event = 'msg_show',
           kind = '',
-          find = 'line less; ',
+          find = 'changes; after',
         },
         opts = { skip = true },
       },
@@ -78,7 +78,7 @@ M.setup = function()
         filter = {
           event = 'msg_show',
           kind = '',
-          find = 'more line; ',
+          find = 'line less',
         },
         opts = { skip = true },
       },
@@ -86,7 +86,7 @@ M.setup = function()
         filter = {
           event = 'msg_show',
           kind = '',
-          find = 'more lines; ',
+          find = 'more line',
         },
         opts = { skip = true },
       },
@@ -94,7 +94,15 @@ M.setup = function()
         filter = {
           event = 'msg_show',
           kind = '',
-          find = 'fewer lines; ',
+          find = 'more lines',
+        },
+        opts = { skip = true },
+      },
+      {
+        filter = {
+          event = 'msg_show',
+          kind = '',
+          find = 'fewer lines',
         },
         opts = { skip = true },
       },
@@ -125,6 +133,22 @@ M.setup = function()
           event = 'msg_show',
           kind = 'emsg',
           find = 'Pattern not found',
+        },
+        opts = { skip = true },
+      },
+      {
+        filter = {
+          event = 'msg_show',
+          kind = '',
+          find = 'lines to indent',
+        },
+        opts = { skip = true },
+      },
+      {
+        filter = {
+          event = 'msg_show',
+          kind = '',
+          find = 'lines indented',
         },
         opts = { skip = true },
       },
