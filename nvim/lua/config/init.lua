@@ -2,7 +2,7 @@ local MODULES = {
   'colorscheme',
   'dap',
   'filetypes',
-  -- 'hop',
+  'hop',
   'lsp_icons',
   'lsp',
   'neogit',

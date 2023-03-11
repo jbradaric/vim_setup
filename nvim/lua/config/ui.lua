@@ -152,6 +152,14 @@ M.setup = function()
         },
         opts = { skip = true },
       },
+      {
+        filter = {
+          event = 'msg_show',
+          kind = 'echo',
+          find = 'Hop',
+        },
+        opts = { skip = true },
+      },
     },
   })
 end
