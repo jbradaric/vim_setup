@@ -22,6 +22,7 @@ local function setup_vscode()
   require('vscode').setup({
     italic_comments = true,
   })
+  require('vscode').load('dark')
 end
 
 local function setup_terminal()
