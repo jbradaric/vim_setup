@@ -1,6 +1,7 @@
 local conditions = require('heirline.conditions')
 local utils = require('heirline.utils')
 local rooter = require('rooter')
+local icons = require('dapui.config').controls.icons
 
 local M = {}
 
@@ -272,6 +273,109 @@ FileNameBlock = utils.insert(FileNameBlock,
   { provider = '%<' } -- this means that the statusline is cut here when there's not enough space
 )
 
+local DapMessages = {
+  condition = function()
+    local session = require('dap').session()
+    return session ~= nil
+  end,
+  {
+    provider = function()
+      local session = require('dap').session()
+      if not session or session.stopped_thread_id then
+        return ' ' .. icons.play .. ' '
+      else
+        return ' ' .. icons.pause .. ' '
+      end
+    end,
+    on_click = {
+      callback = function()
+        local session = require('dap').session()
+        if not session or session.stopped_thread_id then
+          require('dap').continue()
+        else
+          require('dap').pause()
+        end
+      end,
+      name = 'heirline_dap_continue',
+    },
+    hl = 'DapUIPlayPause'
+  },
+  Space,
+  {
+    provider = function()
+      return ' ' .. icons.step_into .. ' '
+    end,
+    on_click = {
+      callback = function()
+        require('dap').step_into()
+      end,
+      name = 'heirline_dap_step_into',
+    },
+    hl = 'DapUIStepInto'
+  },
+  Space,
+  {
+    provider = function()
+      return ' ' .. icons.step_over .. ' '
+    end,
+    on_click = {
+      callback = function()
+        require('dap').step_over()
+      end,
+      name = 'heirline_dap_step_over',
+    },
+    hl = 'DapUIStepOver'
+  },
+  Space,
+  {
+    provider = function()
+      return ' ' .. icons.step_out .. ' '
+    end,
+    on_click = {
+      callback = function()
+        require('dap').step_out()
+      end,
+      name = 'heirline_dap_step_out',
+    },
+    hl = 'DapUIStepOut'
+  },
+  Space,
+  {
+    provider = function()
+      return ' ' .. icons.run_last .. ' '
+    end,
+    on_click = {
+      callback = function()
+        require('dap').run_last()
+      end,
+      name = 'heirline_dap_run_last',
+    },
+    hl = 'DapUIRestart'
+  },
+  Space,
+  {
+    provider = function()
+      return ' ' .. icons.terminate .. ' '
+    end,
+    on_click = {
+      callback = function()
+        require('dap').terminate()
+      end,
+      name = 'heirline_dap_terminate',
+    },
+    hl = 'DapUIStop'
+  },
+
+  Align,
+
+  {
+    provider = function()
+      return ' ' .. require('dap').status() .. ' '
+    end,
+    hl = 'Debug',
+  },
+}
+
 local WinBars = {
   fallthrough = false,
   {   -- Hide the winbar for special buffers
@@ -351,7 +455,7 @@ M.setup = function()
       Align,
       GitBranchName, Space, RulerPercent, Space, ScrollBar,
     },
-    winbar = WinBars,
+    winbar = { WinBars, Align, DapMessages },
   })
 end
 

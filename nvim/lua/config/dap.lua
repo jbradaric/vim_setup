@@ -4,19 +4,19 @@ local dap_python = require('dap-python')
 local M = {}
 
 local keymaps = {
-  ["<F5>"] = function()
+  ['<F5>'] = function()
     require('dap').continue()
   end;
-  ["<F10>"] = function()
+  ['<F10>'] = function()
     require('dap').step_over()
   end;
-  ["<F11>"] = function()
+  ['<F11>'] = function()
     require('dap').step_into()
   end;
-  ["<S-F11>"] = function()
+  ['<S-F11>'] = function()
     require('dap').step_out()
   end;
-  ["<S-F5>"] = function()
+  ['<S-F5>'] = function()
     M.stop_debugging()
   end;
 }
@@ -44,7 +44,7 @@ end
 M.stop_debugging = function()
   teardown_mappings()
   dap.close()
-  dapui.close(nil)
+  dapui.close()
 end
 
 local function create_command(name, callback, desc)
@@ -70,10 +70,37 @@ M.setup = function()
   create_command('Down', function() dap.down() end, 'Go down')
   create_command('Break', function() dap.toggle_breakpoint() end, 'Toggle breakpoint')
 
-  dapui.setup()
+  local dapui_layout = {
+    {
+      elements = {
+        { id = 'scopes', size = 0.25 },
+        { id = 'stacks', size = 0.50 },
+      },
+      position = 'left',
+      size = 40
+    },
+    {
+      elements = {
+        { id = 'repl', size = 0.5 },
+        { id = 'console', size = 0.5 },
+      },
+      position = 'bottom',
+      size = 10
+    }
+  }
+
+  dapui.setup({
+    layouts = dapui_layout,
+  })
   dap.listeners.after.event_initialized['dapui_config'] = function()
     setup_mappings()
-    dapui.open(nil)
+    dapui.open()
+  end
+  dap.listeners.before.event_terminated['dapui_config'] = function()
+    dapui.close()
+  end
+  dap.listeners.before.event_exited['dapui_config'] = function()
+    dapui.close()
   end
 end
 
