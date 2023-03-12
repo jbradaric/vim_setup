@@ -1,5 +1,5 @@
-local conditions = require("heirline.conditions")
-local utils = require("heirline.utils")
+local conditions = require('heirline.conditions')
+local utils = require('heirline.utils')
 local rooter = require('rooter')
 
 local M = {}
@@ -30,7 +30,7 @@ local ScrollBar = {
         local i = math.floor((curr_line - 1) / lines * #self.sbar) + 1
         return string.rep(self.sbar[i], 2)
     end,
-    hl = { fg = "blue", bg = "bright_bg" },
+    hl = { fg = 'blue', bg = 'bright_bg' },
 }
 
 local Align = { provider = '%=' }
@@ -46,8 +46,8 @@ local ViMode = {
     -- execute this only once, this is required if you want the ViMode
     -- component to be updated on operator pending mode
     if not self.once then
-      vim.api.nvim_create_autocmd("ModeChanged", {
-        pattern = "*:*o",
+      vim.api.nvim_create_autocmd('ModeChanged', {
+        pattern = '*:*o',
         command = 'redrawstatus'
       })
       self.once = true
@@ -58,55 +58,55 @@ local ViMode = {
   -- them at initialisation time.
   static = {
     mode_names = { -- change the strings if you like it vvvvverbose!
-      n = "N",
-      no = "N?",
-      nov = "N?",
-      noV = "N?",
-      ["no\22"] = "N?",
-      niI = "Ni",
-      niR = "Nr",
-      niV = "Nv",
-      nt = "Nt",
-      v = "V",
-      vs = "Vs",
-      V = "V_",
-      Vs = "Vs",
-      ["\22"] = "^V",
-      ["\22s"] = "^V",
-      s = "S",
-      S = "S_",
-      ["\19"] = "^S",
-      i = "I",
-      ic = "Ic",
-      ix = "Ix",
-      R = "R",
-      Rc = "Rc",
-      Rx = "Rx",
-      Rv = "Rv",
-      Rvc = "Rv",
-      Rvx = "Rv",
-      c = "C",
-      cv = "Ex",
-      r = "...",
-      rm = "M",
-      ["r?"] = "?",
-      ["!"] = "!",
-      t = "T",
+      n = 'N',
+      no = 'N?',
+      nov = 'N?',
+      noV = 'N?',
+      ['no\22'] = 'N?',
+      niI = 'Ni',
+      niR = 'Nr',
+      niV = 'Nv',
+      nt = 'Nt',
+      v = 'V',
+      vs = 'Vs',
+      V = 'V_',
+      Vs = 'Vs',
+      ['\22'] = '^V',
+      ['\22s'] = '^V',
+      s = 'S',
+      S = 'S_',
+      ['\19'] = '^S',
+      i = 'I',
+      ic = 'Ic',
+      ix = 'Ix',
+      R = 'R',
+      Rc = 'Rc',
+      Rx = 'Rx',
+      Rv = 'Rv',
+      Rvc = 'Rv',
+      Rvx = 'Rv',
+      c = 'C',
+      cv = 'Ex',
+      r = '...',
+      rm = 'M',
+      ['r?'] = '?',
+      ['!'] = '!',
+      t = 'T',
     },
     mode_colors = {
-      n = "green" ,
-      i = "red",
-      v = "blue",
-      V =  "blue",
-      ["\22"] =  "cyan",
-      c =  "orange",
-      s =  "purple",
-      S =  "purple",
-      ["\19"] =  "purple",
-      R =  "orange",
-      r =  "orange",
-      ["!"] =  "red",
-      t =  "red",
+      n = 'green',
+      i = 'red',
+      v = 'blue',
+      V = 'blue',
+      ['\22'] = 'cyan',
+      c = 'orange',
+      s = 'purple',
+      S = 'purple',
+      ['\19'] = 'purple',
+      R = 'orange',
+      r = 'orange',
+      ['!'] = 'red',
+      t = 'red',
     }
   },
   -- We can now access the value of mode() that, by now, would have been
@@ -116,7 +116,7 @@ local ViMode = {
   -- To be extra meticulous, we can also add some vim statusline syntax to
   -- control the padding and make sure our string is always at least 2
   -- characters long. Plus a nice Icon.
-  provider = " ",
+  provider = ' ',
   -- Same goes for the highlight. Now the foreground will change according to the current mode.
   hl = function(self)
     local mode = self.mode:sub(1, 1) -- get only the first mode character
@@ -126,7 +126,7 @@ local ViMode = {
   -- This is not required in any way, but it's there, and it's a small
   -- performance improvement.
   update = {
-    "ModeChanged",
+    'ModeChanged',
   },
 }
 
@@ -135,8 +135,8 @@ local Diagnostics = {
   condition = conditions.has_diagnostics,
 
   static = {
-    error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
-    warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
+    error_icon = vim.fn.sign_getdefined('DiagnosticSignError')[1].text,
+    warn_icon = vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text,
   },
 
   init = function(self)
@@ -144,7 +144,7 @@ local Diagnostics = {
     self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
   end,
 
-  update = { "DiagnosticChanged", "BufEnter" },
+  update = { 'DiagnosticChanged', 'BufEnter' },
 
   on_click = {
     callback = function()
@@ -156,15 +156,15 @@ local Diagnostics = {
   {
     provider = function(self)
       -- 0 is just another output, we can decide to print it or not!
-      return self.errors > 0 and (self.error_icon .. self.errors .. " ")
+      return self.errors > 0 and (self.error_icon .. self.errors .. ' ')
     end,
-    hl = { fg = "diag_error" },
+    hl = { fg = 'diag_error' },
   },
   {
     provider = function(self)
-      return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
+      return self.warnings > 0 and (self.warn_icon .. self.warnings .. ' ')
     end,
-    hl = { fg = "diag_warn" },
+    hl = { fg = 'diag_warn' },
   },
 }
 
@@ -176,11 +176,11 @@ local GitBranchName = {
     self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or self.status_dict.changed ~= 0
   end,
 
-  hl = { fg = "orange" },
+  hl = { fg = 'orange' },
 
   {   -- git branch name
     provider = function(self)
-      return " " .. self.status_dict.head
+      return ' ' .. self.status_dict.head
     end,
     hl = { fg = 'white', bold = true }
   },
@@ -197,11 +197,11 @@ local FileNameBlock = {
 local FileIcon = {
   init = function(self)
     local filename = self.filename
-    local extension = vim.fn.fnamemodify(filename, ":e")
-    self.icon, self.icon_color = require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
+    local extension = vim.fn.fnamemodify(filename, ':e')
+    self.icon, self.icon_color = require('nvim-web-devicons').get_icon_color(filename, extension, { default = true })
   end,
   provider = function(self)
-    return self.icon and (self.icon .. " ")
+    return self.icon and (self.icon .. ' ')
   end,
   hl = function(self)
     return { fg = self.icon_color }
@@ -216,7 +216,7 @@ local FileName = {
   provider = function(self)
     -- show the filename relative to root directory
     local filename = self.filename
-    if filename == "" then return "[No Name]" end
+    if filename == '' then return '[No Name]' end
     local root_dir = rooter.find_root(filename)
     if root_dir ~= nil and startswith(filename, root_dir .. '/') then
       local prefix = root_dir .. '/'
@@ -230,7 +230,7 @@ local FileName = {
     end
     return filename
   end,
-  hl = { fg = utils.get_highlight("Directory").fg },
+  hl = { fg = utils.get_highlight('Directory').fg },
 }
 
 local FileFlags = {
@@ -238,15 +238,15 @@ local FileFlags = {
     condition = function()
       return vim.bo.modified
     end,
-    provider = "[+]",
-    hl = { fg = "green" },
+    provider = '[+]',
+    hl = { fg = 'green' },
   },
   {
     condition = function()
       return not vim.bo.modifiable or vim.bo.readonly
     end,
-    provider = "",
-    hl = { fg = "orange" },
+    provider = '',
+    hl = { fg = 'orange' },
   },
 }
 
@@ -259,7 +259,7 @@ local FileNameModifer = {
   hl = function()
     if vim.bo.modified then
       -- use `force` because we need to override the child's hl foreground
-      return { fg = "cyan", bold = true, force=true }
+      return { fg = 'cyan', bold = true, force = true }
     end
   end,
 }
@@ -269,7 +269,7 @@ FileNameBlock = utils.insert(FileNameBlock,
   FileIcon,
   utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
   FileFlags,
-  { provider = '%<'} -- this means that the statusline is cut here when there's not enough space
+  { provider = '%<' } -- this means that the statusline is cut here when there's not enough space
 )
 
 local WinBars = {
@@ -289,10 +289,10 @@ local WinBars = {
     condition = function()
       return not conditions.is_active()
     end,
-    utils.surround({ "", "" }, "bright_bg", { hl = { fg = "gray", force = true }, FileNameBlock }),
+    utils.surround({ '', '' }, 'bright_bg', { hl = { fg = 'gray', force = true }, FileNameBlock }),
   },
   -- A winbar for regular files
-  utils.surround({ "", "" }, "bright_bg", FileNameBlock),
+  utils.surround({ '', '' }, 'bright_bg', FileNameBlock),
 }
 
 M.setup = function()
