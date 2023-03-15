@@ -21,6 +21,13 @@ end
 local function setup_vscode()
   require('vscode').setup({
     italic_comments = true,
+    color_overrides = {
+      vscBack = '#141b1e',
+    },
+    group_overrides = {
+      Pmenu = { fg = '#d9d9d9', bg = '#10171a' },
+      PmenuSel = { fg = '#000000', bg = '#8ccf7e' },
+    },
   })
   require('vscode').load('dark')
 end
