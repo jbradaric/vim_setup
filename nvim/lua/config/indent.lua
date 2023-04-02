@@ -3,7 +3,10 @@ local ts = vim.treesitter
 local M = {}
 
 function M.get_node_type_at_pos(line, col)
-  local node = ts.get_node_at_pos(0, line - 1, col)
+  local node = ts.get_node({
+    bufnr = 0,
+    pos = { line - 1, col },
+  })
   if not node then
     return ''
   end

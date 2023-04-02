@@ -166,9 +166,6 @@ Plug 'rcarriga/nvim-dap-ui'
 
 Plug 'nvim-neorg/neorg'
 
-Plug 'yioneko/nvim-yati'
-Plug 'yioneko/vim-tmindent'
-
 Plug 'luukvbaal/statuscol.nvim'
 
 Plug 'MunifTanjim/nui.nvim'
