@@ -434,21 +434,6 @@ M.setup = function()
 
   heirline.load_colors(colors)
 
-  vim.api.nvim_create_autocmd('User', {
-    pattern = 'HeirlineInitWinbar',
-    callback = function(args)
-      local buf = args.buf
-      local buftype = vim.tbl_contains(
-        { 'prompt', 'nofile', 'help', 'quickfix', 'terminal' },
-        vim.bo[buf].buftype
-      )
-      local filetype = vim.tbl_contains({ 'gitcommit', 'fugitive' }, vim.bo[buf].filetype)
-      if buftype or filetype then
-        vim.opt_local.winbar = nil
-      end
-    end,
-  })
-
   heirline.setup({
     statusline = {
       LeftBorder, Space, ViMode, Space, Ruler, Space, Diagnostics,
@@ -456,6 +441,14 @@ M.setup = function()
       GitBranchName, Space, RulerPercent, Space, ScrollBar,
     },
     winbar = { WinBars, Align, DapMessages },
+    opts = {
+      disable_winbar_cb = function(args)
+        return conditions.buffer_matches({
+          buftype = { 'prompt', 'nofile', 'help', 'quickfix', 'terminal', },
+          filetype = { '^git.*', 'fugitive', 'Trouble' },
+        }, args.buf)
+      end,
+    },
   })
 end
 
