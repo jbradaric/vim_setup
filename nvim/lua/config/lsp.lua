@@ -6,11 +6,16 @@ local M = {}
 local function setup_ccls(capabilities, on_attach)
   nvim_lsp.ccls.setup {
     capabilities = capabilities,
-    on_attach = on_attach,
+    on_attach = function(client, bufnr)
+      on_attach(client, bufnr)
+    end,
     init_options = {
-      compilationDatabaseDirectory = 'build',
+      -- compilationDatabaseDirectory = 'build',
       completion = {
         enableSnippetInsertion = false,
+      },
+      index = {
+        threads = 4,
       },
     },
   }
@@ -185,6 +190,23 @@ local function setup_diagnosticls(capabilities, on_attach)
   }
 end
 
+local function setup_ruff(capabilities, on_attach)
+  nvim_lsp.ruff_lsp.setup({
+    capabilities = capabilities,
+    on_attach = function(client, bufnr)
+      -- Disable hover in favor of Pyright
+      client.server_capabilities.hoverProvider = false
+      on_attach(client, bufnr)
+    end,
+    init_options = {
+      settings = {
+        -- Any extra CLI arguments for `ruff` go here.
+        args = {},
+      }
+    }
+  })
+end
+
 local function setup_lua_language_server(capabilities, on_attach)
   nvim_lsp.lua_ls.setup {
     capabilities = capabilities,
@@ -223,6 +245,8 @@ local function setup_lua_language_server(capabilities, on_attach)
     },
   }
 end
+
+
 
 local function setup_vim_diagnostic()
   vim.diagnostic.config({ severity_sort = true })
@@ -267,6 +291,27 @@ local function setup_rust_tools(capabilities, on_attach2)
   })
 end
 
+local function setup_pylsp(capabilities, on_attach)
+  local disabled_plugins = {
+    'autopep8', 'flake8', 'jedi_completion', 'jedi_definition',
+    'jedi_hover', 'jedi_references', 'jedi_signature_help', 'jedi_symbols', 'mccabe',
+    'preload', 'pycodestyle', 'pydocstyle', 'pyflakes', 'pylint', 'rope_autoimport',
+    'rope_completion', 'yapf'
+  }
+  local plugin_settings = {}
+  for _, name in ipairs(disabled_plugins) do
+    plugin_settings[name] = { enabled = false }
+  end
+  nvim_lsp.pylsp.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+    settings = {
+      plugins = plugin_settings,
+    },
+    cmd = { 'pylsp', '-v', '--log-file', '/tmp/pylsp.log' },
+  })
+end
+
 M.setup = function()
   setup_highlights()
   setup_vim_diagnostic()
@@ -274,9 +319,12 @@ M.setup = function()
   vim.opt.signcolumn = 'yes:1'
 
   local capabilities = get_capabilities()
+  capabilities['workspace'] = { didChangeWatchedFiles = { dynamicRegistration = false }}
   setup_ccls(capabilities, on_attach)
   -- setup_jedi_language_server(capabilities, on_attach)
   setup_pyright(capabilities, on_attach)
+  setup_ruff(capabilities, on_attach)
+  -- setup_pylsp(capabilities, on_attach)
   -- if vim.env.USE_JEDI then
   --   setup_jedi_language_server(capabilities, on_attach)
   -- else
@@ -287,7 +335,7 @@ M.setup = function()
   -- setup_rust_analyzer(capabilities, on_attach)
   setup_rust_tools(capabilities, on_attach)
 
-  setup_diagnosticls(capabilities, on_attach)
+  -- setup_diagnosticls(capabilities, on_attach)
   setup_lua_language_server(capabilities, on_attach)
 end
 

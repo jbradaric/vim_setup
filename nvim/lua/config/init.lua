@@ -2,7 +2,6 @@ local MODULES = {
   'colorscheme',
   'dap',
   'filetypes',
-  'hop',
   'lsp_icons',
   'lsp',
   'neogit',
@@ -13,6 +12,7 @@ local MODULES = {
   'telescope',
   'treesitter',
   'ui',
+  'refactoring',
 }
 
 local M = {}

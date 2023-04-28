@@ -130,7 +130,7 @@ M.setup = function()
 
   setup_highlights()
   setup_utils()
-  setup_context()
+  -- setup_context()
 end
 
 return M

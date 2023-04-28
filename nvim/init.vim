@@ -4,28 +4,6 @@
 "===================================================================================
 " GENERAL SETTINGS
 "===================================================================================
-"-------------------------------------------------------------------------"{{{
-" Colors and other UI options
-"-------------------------------------------------------------------------"}}}
-" if has('termguicolors')  " Turn on true colors
-"   if has('nvim') || !(&term =~# '^tmux')
-"     set termguicolors
-"     if &term =~# '^screen'
-"       let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-"       let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-"     endif
-"   endif
-" endif
-" if has('gui_running') || (has('termguicolors') && &termguicolors)
-"   colorscheme wombat
-" else
-"   colorscheme desert256
-" endif
-" if has('gui_running')
-"   set guifont=Consolas\ 11
-"   set guioptions=ac
-"   set lines=999
-" endif
 set previewheight=20 " Height of the preview window
 
 lua vim.opt.guifont = 'UbuntuMono Nerd Font Mono:h12.5'
@@ -47,11 +25,8 @@ endif
 " Appearance
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lewis6991/gitsigns.nvim'
-Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'stevearc/dressing.nvim'
 Plug 'rcarriga/nvim-notify'
-Plug 'sam4llis/nvim-tundra'
-Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 Plug 'folke/trouble.nvim'
 Plug 'rebelot/heirline.nvim'
 
@@ -62,9 +37,6 @@ Plug 'kana/vim-textobj-underscore'
 Plug 'kana/vim-textobj-user'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'wellle/targets.vim'
-
-" Motions
-Plug 'phaazon/hop.nvim'
 
 Plug 'folke/paint.nvim'
 
@@ -101,7 +73,6 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 " Misc
 Plug 'chrisbra/NrrwRgn', { 'on': ['NRV'] }
 Plug 'mtth/scratch.vim'
-" Plug 'junegunn/vim-easy-align', { 'on': ['<Plug>(EasyAlign)', 'EasyAlign'] }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-notes', { 'on': ['Note', 'NoteFromSelectedText'] }
@@ -146,30 +117,19 @@ Plug 'gabrielelana/vim-markdown'
 Plug 'jbradaric/nvim-miniyank'
 
 Plug 'nvim-treesitter/nvim-treesitter'
-Plug 'nvim-treesitter/nvim-treesitter-context'
-Plug 'nvim-treesitter/nvim-treesitter-refactor'
-Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
-Plug 'martinsione/darkplus.nvim'
-Plug 'tomasiser/vim-code-dark'
 Plug 'Mofiqul/vscode.nvim'
-Plug 'monsonjeremy/onedark.nvim'
-Plug 'norcalli/nvim-colorizer.lua'
-
-Plug 'AckslD/nvim-trevJ.lua'
-
-Plug 'pianocomposer321/yabs.nvim'
 
 Plug 'mfussenegger/nvim-dap'
 Plug 'mfussenegger/nvim-dap-python'
 Plug 'rcarriga/nvim-dap-ui'
 
-Plug 'nvim-neorg/neorg'
-
 Plug 'luukvbaal/statuscol.nvim'
 
 Plug 'MunifTanjim/nui.nvim'
 Plug 'folke/noice.nvim'
+Plug 'echasnovski/mini.nvim'
+Plug 'ThePrimeagen/refactoring.nvim'
 
 call plug#end()
 

@@ -133,40 +133,6 @@ M.get_path = function(node)
 end
 
 M.setup = function()
-  local yabs = require('yabs')
-
-  yabs:setup({
-    languages = {
-      python = {
-        tasks = {
-          ['Run All Tests in File'] = {
-            command = function()
-              return '/home/jurica/local_workenv3.sh python -m pytest %'
-            end,
-            output = 'terminal',
-          },
-          ['Run Current Test'] = {
-            type = 'lua',
-            command = function()
-              local ts_utils = require('nvim-treesitter.ts_utils')
-              local node = ts_utils.get_node_at_cursor()
-              local test_path = M.get_path(node)
-              if test_path == nil then
-                vim.notify('No test found at the current position')
-                return
-              end
-              local bufname = vim.fn.expand('%')
-              local command = string.format('%s -m pytest %s::%s',
-                                            '/home/jurica/local_workenv3.sh python',
-                                            bufname, test_path)
-              yabs.run_command(command, 'terminal', { open_on_run = 'always' })
-            end,
-          },
-        },
-      },
-    }
-  })
-
   local action_layout = require('telescope.actions.layout')
   require('telescope').setup({
     defaults = {
@@ -202,7 +168,6 @@ M.setup = function()
     },
   })
   require('telescope').load_extension('fzf')
-  require('telescope').load_extension('yabs')
 
   map('n', '<C-p>', function() require('config.telescope').find_files(vim.fn.getcwd()) end, {})
   map('n', '<Leader>b', function() vim.cmd('Telescope buffers theme=dropdown previewer=false') end, {})
