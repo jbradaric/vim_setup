@@ -75,10 +75,10 @@ local function setup_pyright(capabilities, on_attach)
   nvim_lsp.pyright.setup({
     capabilities = capabilities,
     on_attach = on_attach,
-    init_options = {
+    settings = {
       python = {
         analysis = {
-          typeCheckingMode = "off",
+          typeCheckingMode = 'off',
         },
       },
     }
