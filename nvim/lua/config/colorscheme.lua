@@ -1,23 +1,5 @@
 local M = {}
 
-local function setup_darkplus()
-  local highlight = require('config.utils').highlight
-  local darkplus_colors = require('darkplus.colors')
-  vim.cmd('colorscheme darkplus')
-
-  highlight('TSComment', { fg = darkplus_colors.gray, style = 'italic' })
-  highlight('VertSplit', { fg = '#444444', bg = '#444444' })
-  highlight('TSString', { fg = '#6bab37' })
-  highlight('Normal', { fg = '#f6f3e8', bg = '#1e1e1e' })
-  highlight('NormalNC', { bg = '#212121' })
-end
-
-local function setup_vim_code_dark()
-  vim.g.codedark_conservative = 0
-  vim.g.codedark_italics = 1
-  vim.cmd([[colorscheme codedark]])
-end
-
 local function setup_vscode()
   require('vscode').setup({
     italic_comments = true,
@@ -51,22 +33,12 @@ local function setup_terminal()
   vim.g.terminal_color_15 = '#ffffff'
 end
 
-local function setup_onedark()
-  require('onedark').setup({})
-  vim.cmd([[ colorscheme onedark ]])
-end
-
 M.setup = function()
-  -- setup_darkplus()
-  -- setup_vim_code_dark()
-
   setup_vscode()
   setup_terminal()
 
   local highlight = require('config.utils').highlight
   highlight('StatusLine', { bg = '#1e1e1e' })
-
-  -- setup_onedark()
 end
 
 return M
