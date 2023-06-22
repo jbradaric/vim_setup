@@ -17,16 +17,6 @@ function M.get_node_type_at_pos(line, col)
     end
     x = x:parent()
   end
-  -- if node:type() == 'escape_sequence' then
-  --   if node:parent() and (node:parent():type() == 'string' or node:parent():type() == 'string_content') then
-  --     return 'string'
-  --   end
-  -- end
-  -- if node:type() == 'string_content' then
-  --   if node:parent() and node:parent():type() == 'string' then
-  --     return 'string'
-  --   end
-  -- end
   return node:type()
 end
 
