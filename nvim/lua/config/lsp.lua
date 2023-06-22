@@ -315,6 +315,13 @@ local function setup_pylsp(capabilities, on_attach)
   })
 end
 
+local function setup_tsserver(capabilities, on_attach)
+  nvim_lsp.tsserver.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+  })
+end
+
 M.setup = function()
   setup_highlights()
   setup_vim_diagnostic()
@@ -340,6 +347,7 @@ M.setup = function()
 
   -- setup_diagnosticls(capabilities, on_attach)
   setup_lua_language_server(capabilities, on_attach)
+  setup_tsserver(capabilities, on_attach);
 end
 
 return M
