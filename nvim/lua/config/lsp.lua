@@ -214,6 +214,9 @@ local function setup_lua_language_server(capabilities, on_attach)
     single_file_support = true,
     settings = {
       Lua = {
+        hint = {
+          enable = true,
+        },
         runtime = {
           version = 'LuaJIT',
         },
