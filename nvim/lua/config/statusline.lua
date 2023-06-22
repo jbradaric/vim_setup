@@ -1,3 +1,4 @@
+local heirline = require('heirline')
 local conditions = require('heirline.conditions')
 local utils = require('heirline.utils')
 local rooter = require('rooter')
@@ -430,10 +431,6 @@ M.setup = function()
     git_change = utils.get_highlight('GitSignsChange').fg,
   }
 
-  local heirline = require('heirline')
-
-  heirline.load_colors(colors)
-
   heirline.setup({
     statusline = {
       LeftBorder, Space, ViMode, Space, Ruler, Space, Diagnostics,
@@ -442,6 +439,7 @@ M.setup = function()
     },
     winbar = { WinBars, Align, DapMessages },
     opts = {
+      colors = colors,
       disable_winbar_cb = function(args)
         return conditions.buffer_matches({
           buftype = { 'prompt', 'nofile', 'help', 'quickfix', 'terminal', },
