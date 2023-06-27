@@ -23,16 +23,16 @@ local RulerPercent = {
 }
 
 local ScrollBar = {
-    static = {
-        sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
-    },
-    provider = function(self)
-        local curr_line = vim.api.nvim_win_get_cursor(0)[1]
-        local lines = vim.api.nvim_buf_line_count(0)
-        local i = math.floor((curr_line - 1) / lines * #self.sbar) + 1
-        return string.rep(self.sbar[i], 2)
-    end,
-    hl = { fg = 'blue', bg = 'bright_bg' },
+  static = {
+    sbar = { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
+  },
+  provider = function(self)
+    local curr_line = vim.api.nvim_win_get_cursor(0)[1]
+    local lines = vim.api.nvim_buf_line_count(0)
+    local i = math.floor((curr_line - 1) / lines * #self.sbar) + 1
+    return string.rep(self.sbar[i], 2)
+  end,
+  hl = { fg = 'blue', bg = 'bright_bg' },
 }
 
 local Align = { provider = '%=' }
@@ -400,6 +400,18 @@ local WinBars = {
   utils.surround({ '', '' }, 'bright_bg', FileNameBlock),
 }
 
+LSPMessages = {
+  provider = function()
+    local msg = vim.b['lsp_progress']
+    if msg == nil or msg == vim.NIL then
+      return ''
+    else
+      return msg
+    end
+  end,
+  hl = 'Debug',
+}
+
 M.setup = function()
   require('gitsigns').setup({
     signcolumn = false,
@@ -435,7 +447,7 @@ M.setup = function()
     statusline = {
       LeftBorder, Space, ViMode, Space, Ruler, Space, Diagnostics,
       Align,
-      GitBranchName, Space, RulerPercent, Space, ScrollBar,
+      LSPMessages, Space, GitBranchName, Space, RulerPercent, Space, ScrollBar,
     },
     winbar = { WinBars, Align, DapMessages },
     opts = {
@@ -447,6 +459,48 @@ M.setup = function()
         }, args.buf)
       end,
     },
+  })
+
+  local timer = nil
+
+  vim.api.nvim_create_autocmd('LspProgress', {
+    pattern = { '*' },
+    callback = function(args)
+      local bufnr = args.buf
+      if not vim.lsp.buf_is_attached(bufnr, args.data.client_id) then
+        return
+      end
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
+      local msg = args.data.result
+      local status = nil
+      if msg == nil then
+        status = nil
+      elseif msg.value == nil then
+        status = nil
+      elseif msg.value.kind == 'end' or msg.value.kind == 'begin' then
+        status = nil
+      elseif msg.value.kind ~= 'report' then
+        status = nil
+      else
+        status = msg.value.message
+        local title = msg.value.title or ''
+        if title ~= '' and title ~= nil then
+          status = string.format('[%s] %s - %s', client.name, title, msg.value.message)
+        else
+          status = string.format('[%s] %s', client.name, msg.value.message)
+        end
+      end
+      vim.api.nvim_buf_set_var(bufnr, 'lsp_progress', status)
+      if timer == nil then
+        timer = vim.uv.new_timer()
+        timer:start(200, 0, function()
+          timer:stop()
+          timer:close()
+          vim.schedule(vim.cmd['redrawstatus'])
+          timer = nil
+        end)
+      end
+    end
   })
 end
 
