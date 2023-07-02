@@ -64,7 +64,7 @@ Plug 'cespare/vim-toml', { 'for': ['toml'] }
 
 " Git
 Plug 'nvim-lua/plenary.nvim'
-Plug 'TimUntersberger/neogit'
+Plug 'NeogitOrg/neogit'
 
 " Fuzzy search
 Plug 'nvim-telescope/telescope.nvim'
