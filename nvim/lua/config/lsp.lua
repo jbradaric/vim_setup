@@ -249,14 +249,6 @@ local function setup_lua_language_server(capabilities, on_attach)
   }
 end
 
-
-
-local function setup_vim_diagnostic()
-  vim.diagnostic.config({ severity_sort = true })
-
-  require('trouble').setup()
-end
-
 local function setup_highlights()
   utils.highlight('LspDiagnosticsErrorSign', { fg = 'Red', bg = '#000000' })
   utils.highlight('LspDiagnosticsWarningSign', { fg = 'Yellow', bg = '#000000' })
@@ -324,7 +316,7 @@ end
 
 M.setup = function()
   setup_highlights()
-  setup_vim_diagnostic()
+  -- setup_vim_diagnostic()
 
   vim.opt.signcolumn = 'yes:1'
 

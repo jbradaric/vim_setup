@@ -1,10 +1,37 @@
 return {
   { 'nvim-tree/nvim-web-devicons', lazy = true },
-  { 'lewis6991/gitsigns.nvim' },
+  {
+    'lewis6991/gitsigns.nvim',
+    opts = {
+      signcolumn = false,
+      numhl = true,
+      current_line_blame = false,
+    },
+    config = true,
+  },
   { 'stevearc/dressing.nvim' },
-  { 'rcarriga/nvim-notify' },
-  { 'folke/trouble.nvim' },
-  { 'rebelot/heirline.nvim' },
+  {
+    'rcarriga/nvim-notify',
+    config = function()
+      require('config.notify').setup()
+    end
+  },
+  {
+    'folke/trouble.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = true,
+  },
+  {
+    'rebelot/heirline.nvim',
+    dependencies = {
+      'lewis6991/gitsigns.nvim',
+      'jbradaric/rooter.nvim',
+      'rcarriga/nvim-dap-ui',
+    },
+    config = function()
+      require('config.statusline').setup()
+    end,
+  },
   {
     'kana/vim-textobj-user',
     config = function()
@@ -67,8 +94,23 @@ return {
   { 'avakhov/vim-yaml', ft = 'yaml' },
   { 'cespare/vim-toml', ft = 'toml' },
   { 'nvim-lua/plenary.nvim' },
-  { 'NeogitOrg/neogit' },
-  { 'nvim-telescope/telescope.nvim' },
+  {
+    'NeogitOrg/neogit',
+    config = function()
+      require('config.neogit').setup()
+    end,
+  },
+  {
+    'nvim-telescope/telescope.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require('config.telescope').setup()
+    end,
+  },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   { 'chrisbra/NrrwRgn', cmd = 'NRV' },
   {
@@ -103,27 +145,29 @@ return {
       vim.g.gutentags_file_list_command = 'fd'
     end,
   },
-  { 'hrsh7th/cmp-nvim-lsp' },
-  { 'hrsh7th/cmp-buffer' },
-  { 'hrsh7th/cmp-path' },
-  { 'hrsh7th/cmp-cmdline' },
-  { 'hrsh7th/nvim-cmp' },
-  { 'hrsh7th/cmp-vsnip' },
-  {
-    'hrsh7th/vim-vsnip',
-    init = function()
-      vim.g.vsnip_extra_mapping = false
-      vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/global-snippets')
-    end,
-  },
   { 'liuchengxu/vista.vim' },
 
-  { 'onsails/lspkind-nvim' },
-  { 'neovim/nvim-lspconfig' },
+  {
+    'onsails/lspkind-nvim',
+    config = function()
+      require('config.lsp_icons').setup()
+    end,
+  },
+  {
+    'neovim/nvim-lspconfig',
+    config = function()
+      require('config.lsp').setup()
+    end,
+  },
   { 'simrat39/rust-tools.nvim' },
 
   { 'justinmk/vim-dirvish' },
-  { 'jbradaric/rooter.nvim' },
+  {
+    'jbradaric/rooter.nvim',
+    config = function()
+      require('config.rooter').setup()
+    end
+  },
   { 'tyru/open-browser.vim' },
   { 'gabrielelana/vim-markdown' },
   {
@@ -135,14 +179,45 @@ return {
       vim.cmd([[map <A-n> <Plug>(miniyank-cycleback)]])
     end,
   },
-  { 'nvim-treesitter/nvim-treesitter' },
-  { 'Mofiqul/vscode.nvim' },
-  { 'mfussenegger/nvim-dap' },
-  { 'mfussenegger/nvim-dap-python' },
-  { 'rcarriga/nvim-dap-ui' },
-  { 'luukvbaal/statuscol.nvim' },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    config = function()
+      require('config.treesitter').setup()
+    end,
+  },
+  {
+    'Mofiqul/vscode.nvim',
+    priority = 10000,
+    config = function()
+      require('config.colorscheme').setup()
+    end,
+  },
+  {
+    'mfussenegger/nvim-dap',
+    config = function()
+      require('config.dap').setup()
+    end
+  },
+  {
+    'mfussenegger/nvim-dap-python',
+    dependencies = { 'mfussenegger/nvim-dap' },
+  },
+  {
+    'rcarriga/nvim-dap-ui',
+    dependencies = { 'mfussenegger/nvim-dap' },
+  },
+  {
+    'luukvbaal/statuscol.nvim',
+    opts = {
+      setopt = true,
+    },
+  },
   { 'MunifTanjim/nui.nvim' },
-  { 'folke/noice.nvim' },
   { 'echasnovski/mini.nvim' },
-  { 'ThePrimeagen/refactoring.nvim' },
+  {
+    'ThePrimeagen/refactoring.nvim',
+    config = function()
+      require('config.refactoring').setup()
+    end
+  },
 }

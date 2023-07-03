@@ -413,11 +413,11 @@ LSPMessages = {
 }
 
 M.setup = function()
-  require('gitsigns').setup({
-    signcolumn = false,
-    numhl = true,
-    current_line_blame = false,
-  })
+  -- require('gitsigns').setup({
+  --   signcolumn = false,
+  --   numhl = true,
+  --   current_line_blame = false,
+  -- })
 
   vim.o.laststatus = 3
 
