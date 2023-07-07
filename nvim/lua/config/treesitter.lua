@@ -62,6 +62,17 @@ M.setup = function()
   local tm_fts = { 'python' }
 
   require('nvim-treesitter.configs').setup {
+    ensure_installed = {
+      'c',
+      'cpp',
+      'lua',
+      'python',
+      'rust',
+      'typescript',
+      'vimdoc',
+      'vim',
+      'markdown',
+    },
     highlight = {
       enable = true,
       use_languagetree = true,
