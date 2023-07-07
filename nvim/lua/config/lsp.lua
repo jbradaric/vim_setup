@@ -263,11 +263,6 @@ local function on_attach(client, bufnr)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', 'gD', vim.lsp.buf.implementation, opts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.declaration, opts)
-
-  vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev({ float = false }) end, opts)
-  vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next({ float = false }) end, opts)
-  vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
-  vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
 end
 
 local function get_capabilities()
@@ -316,7 +311,6 @@ end
 
 M.setup = function()
   setup_highlights()
-  -- setup_vim_diagnostic()
 
   vim.opt.signcolumn = 'yes:1'
 
