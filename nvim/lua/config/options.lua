@@ -29,6 +29,12 @@ local options = {
   pumblend = 5,
   previewheight = 20,
   shortmess = { 'c', 'C' },
+  inccommand = 'nosplit',
+  viewoptions = 'cursor',
+  grepprg = 'rg --color=never --no-heading --with-filename --line-number --column $*',
+  grepformat = '%f:%l:%c:%m',
+  showmatch = true,
+  matchtime = 2,
 }
 
 for name, value in pairs(options) do

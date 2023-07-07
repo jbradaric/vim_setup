@@ -1,29 +1,3 @@
-" Miscellaneous options
-" -------------------------------------------------------------- {{{
-set viewoptions=cursor
-nnoremap <C-s> :Git<CR>
-
-" Don't use Ex mode, use Q for formatting.
-map Q gq
-
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-" Revert with ":iunmap <C-U>".
-inoremap <C-U> <C-G>u<C-U>
-
-" Show the effects of a command incrementally, while typing.
-if exists('&inccommand')
-  set inccommand=nosplit
-endif
-" -------------------------------------------------------------- }}}
-" Use rg
-" -------------------------------------------------------------- {{{
-" nnoremap <Space>/ :<C-U>Rooter<CR>:Rg<CR>
-
-if executable('rg')
-  set grepprg=rg\ --vimgrep\ $*
-endif
-set grepformat=%f:%l:%c:%m
 " -------------------------------------------------------------- }}}
 " Insert the word under cursor in the command line
 cnoremap <C-w> <C-r><C-w>
@@ -32,17 +6,6 @@ cnoremap <C-w> <C-r><C-w>
 " -------------------------------------------------------------- {{{
 vnoremap <Leader>d64 c<C-R>=system('base64 --decode', @")<CR><ESC>
 vnoremap <Leader>e64 c<C-R>=system('base64', @")<CR><ESC>
-" -------------------------------------------------------------- }}}
-" Always show the status line
-" -------------------------------------------------------------- {{{
-if !has('nvim')
-  set laststatus=2
-endif
-" -------------------------------------------------------------- }}}
-" When a bracket is inserted, briefly jump to the matching one.
-" -------------------------------------------------------------- {{{
-set showmatch
-set matchtime=2
 " -------------------------------------------------------------- }}}
 " Fast window moves
 " -------------------------------------------------------------- {{{
