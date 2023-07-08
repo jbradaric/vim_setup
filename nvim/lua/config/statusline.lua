@@ -184,7 +184,7 @@ local GitBranchName = {
     provider = function(self)
       return ' ' .. self.status_dict.head
     end,
-    hl = { fg = 'white', bold = true }
+    hl = { fg = 'purple', bold = true }
   },
 }
 
@@ -283,10 +283,10 @@ local FileNameModifer = {
 
 -- let's add the children to our FileNameBlock component
 FileNameBlock = utils.insert(FileNameBlock,
-  FileIcon,
-  utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
-  FileFlags,
-  { provider = '%<' } -- this means that the statusline is cut here when there's not enough space
+                             FileIcon,
+                             utils.insert(FileNameModifer, FileName), -- a new table where FileName is a child of FileNameModifier
+                             FileFlags,
+                             { provider = '%<' } -- this means that the statusline is cut here when there's not enough space
 )
 
 local DapMessages = {
@@ -427,6 +427,23 @@ LSPMessages = {
   hl = 'Debug',
 }
 
+LSP = {
+  init = function(self)
+    local names = {}
+    for _, server in pairs(vim.lsp.buf_get_clients(0)) do
+      table.insert(names, server.name)
+    end
+    self.lsp_names = names
+  end,
+  condition = function(self)
+    return self.lsp_names ~= nil and #self.lsp_names > 0
+  end,
+  provider = function(self)
+    return table.concat(self.lsp_names, ',')
+  end,
+  hl = { fg = 'blue' },
+}
+
 M.setup = function()
   -- require('gitsigns').setup({
   --   signcolumn = false,
@@ -462,7 +479,7 @@ M.setup = function()
     statusline = {
       LeftBorder, Space, ViMode, Space, Ruler, Space, Diagnostics,
       Align,
-      LSPMessages, Space, GitBranchName, Space, RulerPercent, Space, ScrollBar,
+      LSPMessages, Space, LSP, Space, GitBranchName, Space, RulerPercent, Space, ScrollBar,
     },
     winbar = { WinBars, Align, DapMessages },
     opts = {
