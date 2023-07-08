@@ -188,10 +188,15 @@ local GitBranchName = {
   },
 }
 
+local special_files = {
+  fugitiveblame = '[Fugitive]',
+}
+
 local FileNameBlock = {
   -- let's first set up some attributes needed by this component and it's children
   init = function(self)
     self.filename = vim.api.nvim_buf_get_name(0)
+    self.filetype = vim.opt_local.filetype:get()
   end,
 }
 -- We can now define some children separately and add them later
@@ -201,6 +206,9 @@ local FileIcon = {
     local filename = self.filename
     local extension = vim.fn.fnamemodify(filename, ':e')
     self.icon, self.icon_color = require('nvim-web-devicons').get_icon_color(filename, extension, { default = true })
+  end,
+  condition = function(self)
+    return special_files[self.filetype] == nil
   end,
   provider = function(self)
     return self.icon and (self.icon .. ' ')
@@ -216,6 +224,10 @@ end
 
 local FileName = {
   provider = function(self)
+    local special = special_files[self.filetype]
+    if special ~= nil then
+      return special
+    end
     -- show the filename relative to root directory
     local filename = self.filename
     if filename == '' then return '[No Name]' end
@@ -244,7 +256,10 @@ local FileFlags = {
     hl = { fg = 'green' },
   },
   {
-    condition = function()
+    condition = function(self)
+      if special_files[self.filetype] ~= nil then
+        return false
+      end
       return not vim.bo.modifiable or vim.bo.readonly
     end,
     provider = '',
