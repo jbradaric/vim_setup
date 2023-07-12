@@ -10,6 +10,11 @@ return {
       signcolumn = false,
       numhl = true,
       current_line_blame = false,
+      on_attach = function(bufnr)
+        local gitsigns = package.loaded.gitsigns
+        vim.keymap.set('n', ']g', function() vim.schedule(gitsigns.next_hunk) end, { buffer = bufnr })
+        vim.keymap.set('n', '[g', function() vim.schedule(gitsigns.prev_hunk) end, { buffer = bufnr })
+      end,
     },
     config = true,
   },
