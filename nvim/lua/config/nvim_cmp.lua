@@ -33,8 +33,18 @@ M.setup = function()
         vim.fn['vsnip#anonymous'](args.body) -- For `vsnip` users.
       end,
     },
-    experimental = {
-      ghost_text = false,
+    sorting = {
+      comparators = {
+        cmp.config.compare.sort_text,
+        cmp.config.compare_offset,
+        cmp.config.compare.exact,
+        cmp.config.compare.score,
+        cmp.config.compare.recently_used,
+        cmp.config.compare.locality,
+        cmp.config.compare.kind,
+        cmp.config.compare.length,
+        cmp.config.compare.order,
+      },
     },
     mapping = {
       ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
