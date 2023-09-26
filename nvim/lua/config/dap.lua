@@ -4,32 +4,46 @@ local dap_python = require('dap-python')
 local M = {}
 
 local keymaps = {
-  ['<F5>'] = function()
-    require('dap').continue()
-  end;
-  ['<F10>'] = function()
-    require('dap').step_over()
-  end;
-  ['<F11>'] = function()
-    require('dap').step_into()
-  end;
-  ['<S-F11>'] = function()
-    require('dap').step_out()
-  end;
-  ['<S-F5>'] = function()
-    M.stop_debugging()
-  end;
+  n = {
+    ['<F5>'] = function()
+      require('dap').continue()
+    end;
+    ['<F10>'] = function()
+      require('dap').step_over()
+    end;
+    ['<F11>'] = function()
+      require('dap').step_into()
+    end;
+    ['<S-F11>'] = function()
+      require('dap').step_out()
+    end;
+    ['<S-F5>'] = function()
+      M.stop_debugging()
+    end;
+    ['<M-e>'] = function()
+      require('dapui').eval()
+    end;
+  },
+  v = {
+    ['<M-e>'] = function()
+      require('dapui').eval()
+    end;
+  }
 }
 
 local function setup_mappings()
-  for key, callback in pairs(keymaps) do
-    vim.keymap.set('n', key, callback)
+  for mode, mappings in pairs(keymaps) do
+    for key, callback in pairs(mappings) do
+      vim.keymap.set(mode, key, callback)
+    end
   end
 end
 
 local function teardown_mappings()
-  for key, _ in pairs(keymaps) do
-    vim.keymap.del('n', key)
+  for mode, mappings in pairs(keymaps) do
+    for key, _ in pairs(mappings) do
+      vim.keymap.del(mode, key)
+    end
   end
 end
 
@@ -61,6 +75,9 @@ M.setup = function()
     dap_python.test_runner = 'pytest'
   end
 
+  vim.keymap.set('n', '<F29>', '<cmd>DapContinue<CR>')
+  vim.keymap.set('n', '<F9>', '<cmd>DapToggleBreakpoint<CR>')
+
   create_command('Debug', function() debug_file() end, 'Run file in debugger')
   create_command('DebugFunction', function() debug_current_function() end, 'Debug current function')
   create_command('Stop', function() M.stop_debugging() end, 'Stop debugging')
@@ -77,7 +94,7 @@ M.setup = function()
         { id = 'stacks', size = 0.50 },
       },
       position = 'left',
-      size = 40
+      size = 50
     },
     {
       elements = {
@@ -85,26 +102,14 @@ M.setup = function()
         { id = 'console', size = 0.5 },
       },
       position = 'bottom',
-      size = 10
+      size = 15
     }
   }
 
   dapui.setup({
     layouts = dapui_layout,
     icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
-    controls = {
-      icons = {
-        pause = '⏸',
-        play = '▶',
-        step_into = '⏎',
-        step_over = '⏭',
-        step_out = '⏮',
-        step_back = 'b',
-        run_last = '▶▶',
-        terminate = '⏹',
-        disconnect = '⏏',
-      },
-    },
+    expand_lines = true,
   })
   dap.listeners.after.event_initialized['dapui_config'] = function()
     setup_mappings()
