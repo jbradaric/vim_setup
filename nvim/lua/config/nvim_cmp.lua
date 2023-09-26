@@ -63,6 +63,7 @@ M.setup = function()
       ['<S-Tab>'] = cmp.mapping.select_prev_item(),
     },
     sources = cmp.config.sources({
+      { name = 'copilot' },
       { name = 'nvim_lsp' },
       { name = 'vsnip' }, -- For vsnip users.
     }, {

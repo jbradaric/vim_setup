@@ -39,6 +39,7 @@ M.setup = function()
 
   local highlight = require('config.utils').highlight
   highlight('StatusLine', { bg = '#1e1e1e' })
+  highlight('CmpItemKindCopilot', { fg = '#6CC644' })
 end
 
 return M

@@ -29,7 +29,8 @@ M.setup = function()
       Struct = 'פּ',
       Event = '',
       Operator = '',
-      TypeParameter = ''
+      TypeParameter = '',
+      Copilot = '',
     },
   })
 end
