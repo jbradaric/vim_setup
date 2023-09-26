@@ -7,7 +7,15 @@ M.setup = function()
   neogit.setup({
     disable_commit_confirmation = true,
     sections = {
-      stashes = false,
+      stashes = {
+        hidden = true,
+      },
+    },
+    mappings = {
+      status = {
+        ['[n'] = 'GoToPreviousHunkHeader',
+        [']n'] = 'GoToNextHunkHeader',
+      },
     },
   })
 end
