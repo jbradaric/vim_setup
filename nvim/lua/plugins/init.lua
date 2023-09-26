@@ -241,6 +241,26 @@ return {
   },
   { dir = vim.fn.expand('~/src/misc/nvim-work-config') },
   {
+    'nvim-neorg/neorg',
+    build = ':Neorg sync-parsers',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = true,
+    opts = {
+      load = {
+        ['core.defaults'] = {}, -- Loads default behaviour
+        ['core.concealer'] = {}, -- Adds pretty icons to your documents
+        ['core.qol.todo_items'] = {},  -- TODO support
+        ['core.dirman'] = { -- Manages Neorg workspaces
+          config = {
+            workspaces = {
+              notes = '~/notes',
+            },
+          },
+        },
+      },
+    },
+  },
+  {
     'zbirenbaum/copilot.lua',
     cmd = 'Copilot',
     event = 'InsertEnter',
