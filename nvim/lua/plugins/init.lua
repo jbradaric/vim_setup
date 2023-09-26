@@ -3,6 +3,12 @@ return {
     'folke/neodev.nvim',
     opts = {},
   },
+  {
+    'jbradaric/rooter.nvim',
+    config = function()
+      require('config.rooter').setup()
+    end
+  },
   { 'nvim-tree/nvim-web-devicons', lazy = true },
   {
     'lewis6991/gitsigns.nvim',
@@ -181,12 +187,6 @@ return {
   { 'simrat39/rust-tools.nvim' },
 
   { 'justinmk/vim-dirvish' },
-  {
-    'jbradaric/rooter.nvim',
-    config = function()
-      require('config.rooter').setup()
-    end
-  },
   { 'tyru/open-browser.vim' },
   { 'gabrielelana/vim-markdown' },
   {
