@@ -239,6 +239,7 @@ return {
       require('config.refactoring').setup()
     end
   },
+  { dir = vim.fn.expand('~/src/misc/nvim-work-config') },
   {
     'zbirenbaum/copilot.lua',
     cmd = 'Copilot',
