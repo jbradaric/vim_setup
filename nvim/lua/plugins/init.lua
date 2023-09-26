@@ -92,7 +92,7 @@ return {
   {
     'tpope/vim-fugitive',
     init = function()
-      vim.keymap.set('n', '<leader>gco', '<cmd>Git checkout<space>', { silent = true })
+      vim.keymap.set('n', '<leader>gco', '<cmd>Telescope git_branches', { silent = true })
       vim.keymap.set('n', '<leader>gcm', '<cmd>Git checkout master<cr>', { silent = true })
       vim.keymap.set('n', '<leader>gpl', '<cmd>Git pull<cr>', { silent = true })
       vim.keymap.set('n', '<leader>gpu', '<cmd>Git push<cr>', { silent = true })
