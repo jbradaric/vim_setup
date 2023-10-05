@@ -5,17 +5,17 @@ return {
   { 'hrsh7th/cmp-cmdline' },
   {
     'hrsh7th/nvim-cmp',
-    dependencies = { 'onsails/lspkind-nvim' },
+    dependencies = { 'onsails/lspkind-nvim', 'L3MON4D3/LuaSnip' },
     config = function()
       require('config.nvim_cmp').setup()
     end,
   },
-  { 'hrsh7th/cmp-vsnip' },
   {
-    'hrsh7th/vim-vsnip',
-    init = function()
-      vim.g.vsnip_extra_mapping = false
-      vim.g.vsnip_snippet_dir = vim.fn.expand('~/.config/nvim/global-snippets')
+    'L3MON4D3/LuaSnip',
+    dependencies = { 'saadparwaiz1/cmp_luasnip' },
+    version = '2.*',
+    config = function()
+      require('config.snippets').setup()
     end,
-  },
+  }
 }
