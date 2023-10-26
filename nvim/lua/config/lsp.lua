@@ -264,6 +264,7 @@ local function on_attach(client, bufnr)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', 'gD', vim.lsp.buf.implementation, opts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.declaration, opts)
+  vim.keymap.set('n', '\\i', function() vim.lsp.inlay_hint(bufnr, nil) end, opts)
 end
 
 local function get_capabilities()
