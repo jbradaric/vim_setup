@@ -394,17 +394,6 @@ local DapMessages = {
 
 local WinBars = {
   fallthrough = false,
-  {   -- Hide the winbar for special buffers
-    condition = function()
-      return conditions.buffer_matches({
-        buftype = { 'nofile', 'prompt', 'help', 'quickfix', 'terminal' },
-        filetype = { '^git.*', 'fugitive' },
-      })
-    end,
-    init = function()
-      vim.opt_local.winbar = nil
-    end
-  },
   {   -- An inactive winbar for regular files
     condition = function()
       return not conditions.is_active()
