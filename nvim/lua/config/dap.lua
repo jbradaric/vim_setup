@@ -17,7 +17,13 @@ local keymaps = {
     ['<S-F11>'] = function()
       require('dap').step_out()
     end;
+    ['<F23>'] = function()
+      require('dap').step_out()
+    end;
     ['<S-F5>'] = function()
+      M.stop_debugging()
+    end;
+    ['<F17>'] = function()
       M.stop_debugging()
     end;
     ['<M-e>'] = function()
@@ -55,15 +61,62 @@ local function debug_current_function()
   require('dap-python').test_method()
 end
 
+local debug_win = nil
+local debug_tab = nil
+local debug_tabnr = nil
+
+local function open_in_tab()
+  if debug_win and vim.api.nvim_win_is_valid(debug_win) then
+    vim.api.nvim_set_current_win(debug_win)
+    return
+  end
+
+  vim.cmd('tabedit %')
+  debug_win = vim.fn.win_getid()
+  if debug_win == nil then
+    return
+  end
+  debug_tab = vim.api.nvim_win_get_tabpage(debug_win)
+  debug_tabnr = vim.api.nvim_tabpage_get_number(debug_tab)
+
+  setup_mappings()
+  dapui.open()
+end
+
+local function close_tab()
+  dapui.close()
+
+  if debug_tab and vim.api.nvim_tabpage_is_valid(debug_tab) then
+    vim.api.nvim_exec('tabclose ' .. debug_tabnr, false)
+  end
+
+  debug_win = nil
+  debug_tab = nil
+  debug_tabnr = nil
+end
+
 M.stop_debugging = function()
   teardown_mappings()
   dap.close()
-  dapui.close()
+  close_tab()
 end
 
 local function create_command(name, callback, desc)
   local opts = { desc = desc, force = true }
   vim.api.nvim_create_user_command(name, callback, opts)
+end
+
+local function setup_dap_events()
+  -- Attach DAP UI to DAP events
+  dap.listeners.after.event_initialized['dapui_config'] = function()
+    open_in_tab()
+  end
+  dap.listeners.before.event_terminated['dapui_config'] = function()
+    close_tab()
+  end
+  dap.listeners.before.event_exited['dapui_config'] = function()
+    close_tab()
+  end
 end
 
 M.setup = function()
@@ -111,16 +164,7 @@ M.setup = function()
     icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
     expand_lines = true,
   })
-  dap.listeners.after.event_initialized['dapui_config'] = function()
-    setup_mappings()
-    dapui.open()
-  end
-  dap.listeners.before.event_terminated['dapui_config'] = function()
-    dapui.close()
-  end
-  dap.listeners.before.event_exited['dapui_config'] = function()
-    dapui.close()
-  end
+  setup_dap_events()
 end
 
 return M
