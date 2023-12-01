@@ -235,6 +235,35 @@ return {
   },
   { dir = vim.fn.expand('~/src/misc/nvim-work-config') },
   {
+    'nvim-neotest/neotest',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+      -- 'antoinemadec/FixCursorHold.nvim',
+      'nvim-neotest/neotest-python',
+    },
+    init = function()
+      vim.keymap.set('n', '<space>tt', function() require('neotest').run.run() end, { desc = 'Run nearest test' })
+      vim.keymap.set('n', '<space>td', function() require('neotest').run.run({ strategy = 'dap' }) end, { desc = 'Debug nearest test' })
+      vim.keymap.set('n', '<space>tf', function() require('neotest').run.run(vim.fn.expand('%')) end,
+                     { desc = 'Run current file' })
+      vim.keymap.set('n', '<space>to', function() require('neotest').output.open({ enter = true, quiet = true, auto_close = true }) end,
+                     { desc = 'Show current test output' })
+    end,
+    config = function()
+      require('neotest').setup({
+        output = {
+          open_on_run = 'full',
+        },
+        adapters = {
+          require('neotest-python')({
+            python = '/home/jurica/.virtualenvs/local-py3.11/bin/python3',
+          }),
+        },
+      })
+    end,
+  },
+  {
     'nvim-neorg/neorg',
     build = ':Neorg sync-parsers',
     dependencies = { 'nvim-lua/plenary.nvim' },
