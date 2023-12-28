@@ -178,8 +178,11 @@ return {
       require('config.lsp').setup()
     end,
   },
-  { 'simrat39/rust-tools.nvim' },
-
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^3',
+    ft = { 'rust' },
+  },
   { 'justinmk/vim-dirvish' },
   { 'tyru/open-browser.vim' },
   { 'gabrielelana/vim-markdown' },
