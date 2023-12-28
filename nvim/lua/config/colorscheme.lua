@@ -9,6 +9,9 @@ local function setup_vscode()
     group_overrides = {
       Pmenu = { fg = '#d9d9d9', bg = '#10171a' },
       PmenuSel = { fg = '#000000', bg = '#8ccf7e' },
+      WinSeparator = { fg = '#555555' },
+      WinBar = { bg = '#141b1e' },
+      WinBarNC = { bg = '#141b1e' },
     },
   })
   require('vscode').load('dark')
