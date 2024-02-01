@@ -21,56 +21,6 @@ local function setup_ccls(capabilities, on_attach)
   }
 end
 
-local function setup_rls(capabilities, on_attach)
-  nvim_lsp.rls.setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-  }
-end
-
-local function setup_rust_analyzer(capabilities, on_attach)
-  nvim_lsp.rust_analyzer.setup {
-    capabilities = capabilities,
-    on_attach = on_attach,
-  }
-end
-
-local function setup_jedi_language_server(capabilities, on_attach)
-  local jedi_config = {
-    capabilities = capabilities,
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 1000,
-    },
-    init_options = {
-      completion = {
-        disableSnippets = true,
-      },
-      diagnostics = {
-        enable = false,
-      },
-      workspace = {
-        symbols = {
-          ignoreFolders = { '__pycache__', '.ccls-cache', '.mypy_cache', '.pytest_cache' },
-        }
-      }
-    }
-  }
-
-  -- Override jedi settings with machine-specific settings if available
-  local have_lc, local_config = pcall(require, 'local_config')
-  if have_lc then
-    jedi_config['cmd'] = local_config.jedi_cmd
-    jedi_config['init_options']['jediSettings'] = {}
-    jedi_config['init_options']['jediSettings']['autoImportModules'] = local_config.autoimport_modules
-    jedi_config['init_options']['workspace']['extraPaths'] = local_config.extra_paths
-    jedi_config['init_options']['workspace']['symbols']['ignoreFolders'] = local_config.ignore_folders
-  end
-
-
-  nvim_lsp.jedi_language_server.setup(jedi_config)
-end
-
 local function setup_pyright(capabilities, on_attach)
   nvim_lsp.pyright.setup({
     capabilities = capabilities,
@@ -146,50 +96,6 @@ local function setup_pyright(capabilities, on_attach)
   vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(on_publish_diagnostics, {})
 end
 
-local function setup_diagnosticls(capabilities, on_attach)
-  nvim_lsp.diagnosticls.setup {
-    capabilities = capabilities,
-    filetypes = { 'python' },
-    init_options = {
-      linters = {
-        flake8 = {
-          command = 'flake8',
-          debounce = 1000,
-          args = {
-            '--append-config',
-            '/home/jurica/.config/flake8',
-            '--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s',
-            '-'
-          },
-          offsetLine = 0,
-          offsetColumn = 0,
-          sourceName = 'flake8',
-          formatLines = 1,
-          formatPattern = {
-            '(\\d+),(\\d+),([A-Z]),(.*)(\\r|\\n)*$',
-            {
-              line = 1,
-              column = 2,
-              security = 3,
-              message = 4
-            }
-          },
-          securities = {
-            W = 'info',
-            E = 'warning',
-            F = 'error',
-            C = 'info',
-            N = 'hint'
-          }
-        }
-      },
-      filetypes = {
-        python = 'flake8',
-      }
-    }
-  }
-end
-
 local function setup_ruff(capabilities, on_attach)
   nvim_lsp.ruff_lsp.setup({
     capabilities = capabilities,
@@ -255,9 +161,7 @@ local function setup_highlights()
   utils.highlight('LspDiagnosticsWarningSign', { fg = 'Yellow', bg = '#000000' })
 end
 
-local function on_attach(client, bufnr)
-  -- vim.api.nvim_command('setlocal signcolumn=yes:1')
-  -- vim.api.nvim_buf_set_var(bufnr, 'show_signs', true)
+local function on_attach(_, bufnr)
   vim.b.show_signs = true
 
   local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -278,39 +182,6 @@ local function get_capabilities()
   return require('cmp_nvim_lsp').default_capabilities()
 end
 
-local function setup_rust_tools(capabilities, on_attach2)
-  local rt = require('rust-tools')
-  rt.setup({
-    server = {
-      capabilities = capabilities,
-      on_attach = function(client, bufnr)
-        on_attach2(client, bufnr)
-      end
-    },
-  })
-end
-
-local function setup_pylsp(capabilities, on_attach)
-  local disabled_plugins = {
-    'autopep8', 'flake8', 'jedi_completion', 'jedi_definition',
-    'jedi_hover', 'jedi_references', 'jedi_signature_help', 'jedi_symbols', 'mccabe',
-    'preload', 'pycodestyle', 'pydocstyle', 'pyflakes', 'pylint', 'rope_autoimport',
-    'rope_completion', 'yapf'
-  }
-  local plugin_settings = {}
-  for _, name in ipairs(disabled_plugins) do
-    plugin_settings[name] = { enabled = false }
-  end
-  nvim_lsp.pylsp.setup({
-    capabilities = capabilities,
-    on_attach = on_attach,
-    settings = {
-      plugins = plugin_settings,
-    },
-    cmd = { 'pylsp', '-v', '--log-file', '/tmp/pylsp.log' },
-  })
-end
-
 local function setup_tsserver(capabilities, on_attach)
   nvim_lsp.tsserver.setup({
     capabilities = capabilities,
@@ -324,23 +195,10 @@ M.setup = function()
   vim.opt.signcolumn = 'yes:1'
 
   local capabilities = get_capabilities()
-  capabilities['workspace'] = { didChangeWatchedFiles = { dynamicRegistration = false }}
+  capabilities['workspace'] = { didChangeWatchedFiles = { dynamicRegistration = false } }
   setup_ccls(capabilities, on_attach)
-  -- setup_jedi_language_server(capabilities, on_attach)
   setup_pyright(capabilities, on_attach)
   setup_ruff(capabilities, on_attach)
-  -- setup_pylsp(capabilities, on_attach)
-  -- if vim.env.USE_JEDI then
-  --   setup_jedi_language_server(capabilities, on_attach)
-  -- else
-  --   setup_pyright(capabilities, on_attach)
-  -- end
-
-  -- Rust
-  -- setup_rust_analyzer(capabilities, on_attach)
-  -- setup_rust_tools(capabilities, on_attach)
-
-  -- setup_diagnosticls(capabilities, on_attach)
   setup_lua_language_server(capabilities, on_attach)
   setup_tsserver(capabilities, on_attach);
 
