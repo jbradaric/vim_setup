@@ -264,7 +264,14 @@ local function on_attach(client, bufnr)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', 'gD', vim.lsp.buf.implementation, opts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.declaration, opts)
-  vim.keymap.set('n', '\\i', function() vim.lsp.inlay_hint(bufnr, nil) end, opts)
+  vim.keymap.set('n', '\\i',
+                 function()
+                   vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled(nil))
+                 end,
+                 opts)
+  if vim.bo[bufnr].filetype == 'rust' then
+    vim.keymap.set('n', '\\a', '<cmd>RustLsp codeAction<CR>')
+  end
 end
 
 local function get_capabilities()
@@ -331,11 +338,17 @@ M.setup = function()
 
   -- Rust
   -- setup_rust_analyzer(capabilities, on_attach)
-  setup_rust_tools(capabilities, on_attach)
+  -- setup_rust_tools(capabilities, on_attach)
 
   -- setup_diagnosticls(capabilities, on_attach)
   setup_lua_language_server(capabilities, on_attach)
   setup_tsserver(capabilities, on_attach);
+
+  vim.g.rustaceanvim = {
+    server = {
+      on_attach = on_attach,
+    },
+  }
 end
 
 return M
