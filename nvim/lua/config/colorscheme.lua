@@ -43,6 +43,11 @@ M.setup = function()
   local highlight = require('config.utils').highlight
   highlight('StatusLine', { bg = '#1e1e1e' })
   highlight('CmpItemKindCopilot', { fg = '#6CC644' })
+
+
+  local hint_fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('NonText')), 'fg#')
+  highlight('LspInlayHint', { fg = hint_fg, style = 'italic' })
+  highlight('LspReferenceRead', { bg = '#24292e' })
 end
 
 return M
