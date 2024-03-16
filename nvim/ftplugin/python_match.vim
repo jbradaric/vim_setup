@@ -6,6 +6,7 @@
 " URL:		http://www.vim.org/scripts/script.php?script_id=386 
 
 " allow user to prevent loading and prevent duplicate loading
+finish
 if exists("b:loaded_py_match") || &cp
   finish
 endif

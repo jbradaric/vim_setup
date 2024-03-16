@@ -63,7 +63,40 @@ return {
       vim.g.targets_argClosing = '[]})]'
     end,
   },
-  { 'folke/paint.nvim' },
+  {
+    'folke/paint.nvim',
+    config = function()
+      require('paint').setup({
+        highlights = {
+          {
+            filter = { filetype = 'python' },
+            pattern = '%s*#[^@]*(@%w+)',
+            hl = 'Constant',
+          },
+          {
+            filter = { filetype = 'python' },
+            pattern = '%s*#.*(TODO)',
+            hl = 'Constant',
+          },
+          {
+            filter = { filetype = 'python' },
+            pattern = '%s*#.*(XXX)',
+            hl = 'Constant',
+          },
+          {
+            filter = { filetype = 'python' },
+            pattern = '%s*#.*(NOTE)',
+            hl = 'Constant',
+          },
+          {
+            filter = { filetype = 'lua' },
+            pattern = '%s*%-%-%-%s*(@%w+)',
+            hl = 'Constant',
+          },
+        }
+      })
+    end,
+  },
   {
     'mg979/vim-visual-multi',
     init = function()
@@ -82,11 +115,10 @@ return {
       vim.keymap.set('n', '<C-k>', '<cmd>call InterestingWords("n")<cr>', { silent = true })
     end,
   },
-  { 'tpope/vim-commentary' },
   {
     'tpope/vim-fugitive',
     init = function()
-      vim.keymap.set('n', '<leader>gco', '<cmd>Telescope git_branches', { silent = true })
+      vim.keymap.set('n', '<leader>gco', '<cmd>Telescope git_branches<cr>', { silent = true })
       vim.keymap.set('n', '<leader>gcm', '<cmd>Git checkout master<cr>', { silent = true })
       vim.keymap.set('n', '<leader>gpl', '<cmd>Git pull<cr>', { silent = true })
       vim.keymap.set('n', '<leader>gpu', '<cmd>Git push<cr>', { silent = true })
@@ -229,7 +261,13 @@ return {
     },
   },
   { 'MunifTanjim/nui.nvim' },
-  { 'echasnovski/mini.nvim' },
+  {
+    'echasnovski/mini.nvim',
+    version = false,
+    config = function()
+      require('mini.comment').setup({})
+    end,
+  },
   {
     'ThePrimeagen/refactoring.nvim',
     config = function()
@@ -249,9 +287,9 @@ return {
       vim.keymap.set('n', '<space>tt', function() require('neotest').run.run() end, { desc = 'Run nearest test' })
       vim.keymap.set('n', '<space>td', function() require('neotest').run.run({ strategy = 'dap' }) end, { desc = 'Debug nearest test' })
       vim.keymap.set('n', '<space>tf', function() require('neotest').run.run(vim.fn.expand('%')) end,
-                     { desc = 'Run current file' })
+        { desc = 'Run current file' })
       vim.keymap.set('n', '<space>to', function() require('neotest').output.open({ enter = true, quiet = true, auto_close = true }) end,
-                     { desc = 'Show current test output' })
+        { desc = 'Show current test output' })
     end,
     config = function()
       require('neotest').setup({
@@ -266,42 +304,56 @@ return {
       })
     end,
   },
+  -- {
+  --   'nvim-neorg/neorg',
+  --   build = ':Neorg sync-parsers',
+  --   dependencies = { 'nvim-lua/plenary.nvim' },
+  --   config = true,
+  --   opts = {
+  --     load = {
+  --       ['core.defaults'] = {}, -- Loads default behaviour
+  --       ['core.concealer'] = {}, -- Adds pretty icons to your documents
+  --       ['core.qol.todo_items'] = {},  -- TODO support
+  --       ['core.dirman'] = { -- Manages Neorg workspaces
+  --         config = {
+  --           workspaces = {
+  --             notes = '~/notes',
+  --           },
+  --         },
+  --       },
+  --     },
+  --   },
+  -- },
   {
-    'nvim-neorg/neorg',
-    build = ':Neorg sync-parsers',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    config = true,
-    opts = {
-      load = {
-        ['core.defaults'] = {}, -- Loads default behaviour
-        ['core.concealer'] = {}, -- Adds pretty icons to your documents
-        ['core.qol.todo_items'] = {},  -- TODO support
-        ['core.dirman'] = { -- Manages Neorg workspaces
-          config = {
-            workspaces = {
-              notes = '~/notes',
-            },
-          },
-        },
-      },
-    },
-  },
-  {
-    'zbirenbaum/copilot.lua',
-    cmd = 'Copilot',
-    event = 'InsertEnter',
-    config = function()
-      require('copilot').setup({
-        suggestions = { enabled = false },
-        panel = { enabled = false },
+    'soulis-1256/eagle.nvim',
+    -- config = true,
+    init = function()
+      require('eagle').setup({
+        border = 'single',
       })
+      vim.opt.mousemoveevent = true
     end,
   },
   {
-    'zbirenbaum/copilot-cmp',
-    dependencies = { 'zbirenbaum/copilot.lua', 'hrsh7th/nvim-cmp' },
-    config = function()
-      require('copilot_cmp').setup()
-    end,
-  },
-}
+    'nvim-pack/nvim-spectre',
+    config = true,
+  }
+  -- {
+    --   'zbirenbaum/copilot.lua',
+    --   cmd = 'Copilot',
+    --   event = 'InsertEnter',
+    --   config = function()
+      --     require('copilot').setup({
+        --       suggestions = { enabled = false },
+        --       panel = { enabled = false },
+        --     })
+        --   end,
+        -- },
+        -- {
+          --   'zbirenbaum/copilot-cmp',
+          --   dependencies = { 'zbirenbaum/copilot.lua', 'hrsh7th/nvim-cmp' },
+          --   config = function()
+            --     require('copilot_cmp').setup()
+            --   end,
+            -- },
+          }

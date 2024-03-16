@@ -11,36 +11,6 @@ local function setup_highlights()
   link_highlight('TSConditional', 'TSInclude')
   link_highlight('TSRepeat', 'TSInclude')
   link_highlight('TSParameter', 'FunctionParameter')
-
-  require('paint').setup({
-    highlights = {
-      {
-        filter = { filetype = 'python' },
-        pattern = '%s*#[^@]*(@%w+)',
-        hl = 'Constant',
-      },
-      {
-        filter = { filetype = 'python' },
-        pattern = '%s*#.*(TODO)',
-        hl = 'Constant',
-      },
-      {
-        filter = { filetype = 'python' },
-        pattern = '%s*#.*(XXX)',
-        hl = 'Constant',
-      },
-      {
-        filter = { filetype = 'python' },
-        pattern = '%s*#.*(NOTE)',
-        hl = 'Constant',
-      },
-      {
-        filter = { filetype = 'lua' },
-        pattern = '%s*%-%-%-%s*(@%w+)',
-        hl = 'Constant',
-      },
-    }
-  })
 end
 
 local function setup_utils()

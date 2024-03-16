@@ -82,7 +82,7 @@ M.setup = function()
       end, { 'i', 's' })
     },
     sources = cmp.config.sources({
-      { name = 'copilot' },
+      -- { name = 'copilot' },
       { name = 'luasnip' },
       { name = 'nvim_lsp' },
     }, {

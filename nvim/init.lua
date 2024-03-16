@@ -13,9 +13,9 @@ if not vim.uv.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-
 require('config.options')
 require('config.filetypes')
 require('config.diagnostics')
+require('config.fixes')
 
 require('lazy').setup('plugins')

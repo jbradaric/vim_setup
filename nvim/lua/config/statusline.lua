@@ -142,8 +142,9 @@ local Diagnostics = {
   },
 
   init = function(self)
-    self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-    self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+    local diagnostics = vim.diagnostic.count(0, nil)
+    self.errors = diagnostics[vim.diagnostic.severity.ERROR] or 0
+    self.warnings = diagnostics[vim.diagnostic.severity.WARN] or 0
   end,
 
   update = { 'DiagnosticChanged', 'BufEnter' },
