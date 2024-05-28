@@ -137,8 +137,8 @@ local Diagnostics = {
   condition = conditions.has_diagnostics,
 
   static = {
-    error_icon = vim.fn.sign_getdefined('DiagnosticSignError')[1].text,
-    warn_icon = vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text,
+    error_icon = vim.diagnostic.config()['signs']['text'][vim.diagnostic.severity.ERROR],
+    warn_icon = vim.diagnostic.config()['signs']['text'][vim.diagnostic.severity.WARN],
   },
 
   init = function(self)
