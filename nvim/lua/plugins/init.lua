@@ -353,4 +353,9 @@ return {
     'nvim-pack/nvim-spectre',
     config = true,
   },
+  {
+    "chrisgrieser/nvim-early-retirement",
+    config = true,
+    event = "VeryLazy",
+  },
 }
