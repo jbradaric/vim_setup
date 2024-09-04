@@ -100,7 +100,7 @@ local function setup_pyright(capabilities, on_attach)
 end
 
 local function setup_ruff(capabilities, on_attach)
-  nvim_lsp.ruff_lsp.setup({
+  nvim_lsp.ruff.setup({
     capabilities = capabilities,
     on_attach = function(client, bufnr)
       -- Disable hover in favor of Pyright
@@ -206,7 +206,7 @@ local function on_attach(client, bufnr)
       end,
     })
   end
-  if client.name == 'ruff_lsp' then
+  if client.name == 'ruff' then
     vim.api.nvim_create_autocmd('BufWritePre', {
       buffer = bufnr,
       callback = function()
@@ -219,7 +219,7 @@ local function on_attach(client, bufnr)
           vim.lsp.buf.format({
             bufnr = bufnr,
             async = false,
-            filter = function(c) return c.name == 'ruff_lsp' end,
+            filter = function(c) return c.name == 'ruff' end,
           })
         end
       end,
