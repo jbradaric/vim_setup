@@ -147,6 +147,10 @@ return {
   { 'nvim-lua/plenary.nvim' },
   {
     'NeogitOrg/neogit',
+    branch = 'master',
+    dependencies = {
+      "sindrets/diffview.nvim",
+    },
     config = function()
       require('config.neogit').setup()
     end,
