@@ -22,13 +22,13 @@ local function setup_ccls(capabilities, on_attach)
 end
 
 local function setup_pyright(capabilities, on_attach)
-  nvim_lsp.pyright.setup({
+  nvim_lsp.basedpyright.setup({
     capabilities = capabilities,
     on_attach = on_attach,
-    -- cmd = { 'node', '--inspect', '/home/jurica/src/misc/pyright-inlay-hints/packages/pyright/langserver.index.js', '--stdio' },
     settings = {
-      python = {
+      basedpyright = {
         analysis = {
+          ignore = { "*" },
           typeCheckingMode = 'off',
         },
       },
@@ -91,9 +91,9 @@ local function setup_pyright(capabilities, on_attach)
     return true
   end
 
-  local function on_publish_diagnostics(a, params, client_id, c, config)
-    filter(params.diagnostics, filter_diagnostics)
-    vim.lsp.diagnostic.on_publish_diagnostics(a, params, client_id, c, config)
+  local function on_publish_diagnostics(err, result, ctx, config)
+    filter(result.diagnostics, filter_diagnostics)
+    vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
   end
 
   vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(on_publish_diagnostics, {})
@@ -244,7 +244,6 @@ M.setup = function()
   vim.opt.signcolumn = 'yes:1'
 
   local capabilities = get_capabilities()
-  capabilities['workspace'] = { didChangeWatchedFiles = { dynamicRegistration = false } }
   setup_ccls(capabilities, on_attach)
   setup_pyright(capabilities, on_attach)
   setup_ruff(capabilities, on_attach)
