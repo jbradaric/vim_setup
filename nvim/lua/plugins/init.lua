@@ -132,7 +132,6 @@ return {
       vim.g.surround_no_insert_mappings = 1
     end,
   },
-  { 'tpope/vim-unimpaired' },
   { 'tpope/vim-eunuch' },
   { 'tpope/vim-abolish' },
   {
@@ -269,7 +268,23 @@ return {
     'echasnovski/mini.nvim',
     version = false,
     config = function()
-      require('mini.comment').setup({})
+      require('mini.comment').setup()
+      require('mini.move').setup({
+        mappings = {
+          left = '',
+          right = '',
+          down = ']e',
+          up = '[e',
+
+          line_left = '',
+          line_right = '',
+          line_down = ']e',
+          line_up = '[e',
+        },
+        options = {
+          reindent_linewise = false,
+        },
+      })
     end,
   },
   {
