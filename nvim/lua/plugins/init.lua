@@ -220,7 +220,14 @@ return {
   },
   { 'justinmk/vim-dirvish' },
   { 'tyru/open-browser.vim' },
-  { 'gabrielelana/vim-markdown' },
+  {
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons"
+    }
+  },
   {
     'jbradaric/nvim-miniyank',
     init = function()
