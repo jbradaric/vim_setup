@@ -128,7 +128,7 @@ M.setup = function()
     dap_python.test_runner = 'pytest'
   end
 
-  vim.keymap.set('n', '<F29>', '<cmd>DapContinue<CR>')
+  vim.keymap.set('n', '<F29>', function() dap.run_last() end)
   vim.keymap.set('n', '<F9>', '<cmd>DapToggleBreakpoint<CR>')
 
   create_command('Debug', function() debug_file() end, 'Run file in debugger')
@@ -145,17 +145,17 @@ M.setup = function()
       elements = {
         { id = 'scopes', size = 0.25 },
         { id = 'stacks', size = 0.50 },
+        { id = 'watches', size = 0.25 },
       },
       position = 'left',
       size = 50
     },
     {
       elements = {
-        { id = 'repl', size = 0.5 },
-        { id = 'console', size = 0.5 },
+        { id = 'repl', size = 1.0 },
       },
       position = 'bottom',
-      size = 15
+      size = 20
     }
   }
 
