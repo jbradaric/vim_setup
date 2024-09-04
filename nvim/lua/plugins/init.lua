@@ -330,26 +330,6 @@ return {
       })
     end,
   },
-  -- {
-  --   'nvim-neorg/neorg',
-  --   build = ':Neorg sync-parsers',
-  --   dependencies = { 'nvim-lua/plenary.nvim' },
-  --   config = true,
-  --   opts = {
-  --     load = {
-  --       ['core.defaults'] = {}, -- Loads default behaviour
-  --       ['core.concealer'] = {}, -- Adds pretty icons to your documents
-  --       ['core.qol.todo_items'] = {},  -- TODO support
-  --       ['core.dirman'] = { -- Manages Neorg workspaces
-  --         config = {
-  --           workspaces = {
-  --             notes = '~/notes',
-  --           },
-  --         },
-  --       },
-  --     },
-  --   },
-  -- },
   {
     'soulis-1256/eagle.nvim',
     -- config = true,
@@ -363,23 +343,5 @@ return {
   {
     'nvim-pack/nvim-spectre',
     config = true,
-  }
-  -- {
-    --   'zbirenbaum/copilot.lua',
-    --   cmd = 'Copilot',
-    --   event = 'InsertEnter',
-    --   config = function()
-      --     require('copilot').setup({
-        --       suggestions = { enabled = false },
-        --       panel = { enabled = false },
-        --     })
-        --   end,
-        -- },
-        -- {
-          --   'zbirenbaum/copilot-cmp',
-          --   dependencies = { 'zbirenbaum/copilot.lua', 'hrsh7th/nvim-cmp' },
-          --   config = function()
-            --     require('copilot_cmp').setup()
-            --   end,
-            -- },
-          }
+  },
+}
