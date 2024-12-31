@@ -360,4 +360,8 @@ return {
     config = true,
     event = "VeryLazy",
   },
+  {
+    "3rd/image.nvim",
+    opts = {}
+  },
 }
