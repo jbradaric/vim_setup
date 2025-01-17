@@ -41,28 +41,28 @@ return {
       require('config.statusline').setup()
     end,
   },
-  {
-    'kana/vim-textobj-user',
-    config = function()
-      vim.fn['textobj#user#plugin']('quotes', {
-        quotes = {
-          pattern = { "'", '"' },
-          select = { 'aq', 'iq' },
-        },
-      })
-    end,
-  },
-  { 'kana/vim-textobj-indent', dependencies = { 'kana/vim-textobj-user' } },
-  { 'kana/vim-textobj-lastpat', dependencies = { 'kana/vim-textobj-user' } },
-  { 'kana/vim-textobj-underscore', dependencies = { 'kana/vim-textobj-user' } },
-  { 'michaeljsmith/vim-indent-object' },
-  {
-    'wellle/targets.vim',
-    init = function()
-      vim.g.targets_argOpening = '[({[]'
-      vim.g.targets_argClosing = '[]})]'
-    end,
-  },
+  -- {
+  --   'kana/vim-textobj-user',
+  --   config = function()
+  --     vim.fn['textobj#user#plugin']('quotes', {
+  --       quotes = {
+  --         pattern = { "'", '"' },
+  --         select = { 'aq', 'iq' },
+  --       },
+  --     })
+  --   end,
+  -- },
+  -- { 'kana/vim-textobj-indent', dependencies = { 'kana/vim-textobj-user' } },
+  -- { 'kana/vim-textobj-lastpat', dependencies = { 'kana/vim-textobj-user' } },
+  -- { 'kana/vim-textobj-underscore', dependencies = { 'kana/vim-textobj-user' } },
+  -- { 'michaeljsmith/vim-indent-object' },
+  -- {
+  --   'wellle/targets.vim',
+  --   init = function()
+  --     vim.g.targets_argOpening = '[({[]'
+  --     vim.g.targets_argClosing = '[]})]'
+  --   end,
+  -- },
   {
     'folke/paint.nvim',
     config = function()
@@ -209,8 +209,15 @@ return {
       vim.g.gutentags_file_list_command = 'fd'
     end,
   },
-  { 'liuchengxu/vista.vim' },
-
+  {
+    'stevearc/aerial.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-tree/nvim-web-devicons'
+    },
+  },
   {
     'onsails/lspkind-nvim',
     config = function()
@@ -225,7 +232,7 @@ return {
   },
   {
     'mrcjkb/rustaceanvim',
-    version = '^3',
+    version = '^5',
     ft = { 'rust' },
   },
   { 'justinmk/vim-dirvish' },
@@ -249,6 +256,7 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter',
+    branch = 'fix/matches',
     config = function()
       require('config.treesitter').setup()
     end,
@@ -283,6 +291,7 @@ return {
   { 'MunifTanjim/nui.nvim' },
   {
     'echasnovski/mini.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
     version = false,
     config = function()
       require('mini.comment').setup()
@@ -300,6 +309,31 @@ return {
         },
         options = {
           reindent_linewise = false,
+        },
+      })
+      require('mini.pairs').setup({
+        mappings = {
+          ["'"] = { action = 'closeopen', pair = "''", neigh_pattern = '[^\\].', register = { cr = false } },
+        },
+      })
+      local ai = require('mini.ai')
+      ai.setup({
+        n_lines = 500,
+        custom_textobjects = {
+          o = ai.gen_spec.treesitter({
+            a = { '@block.outer', '@conditional.outer', '@loop.outer' },
+            i = { '@block.inner', '@conditional.inner', '@loop.inner' },
+          }),
+          f = ai.gen_spec.treesitter({
+            a = '@function.outer',
+            i = '@function.inner',
+          }),
+          c = ai.gen_spec.treesitter({
+            a = '@class.outer',
+            i = '@class.inner',
+          }),
+          u = ai.gen_spec.function_call(),
+          U = ai.gen_spec.function_call({ name_pattern = '[%w_]' })
         },
       })
     end,
@@ -355,10 +389,84 @@ return {
     'nvim-pack/nvim-spectre',
     config = true,
   },
+  -- { -- deletes unused buffers
+  --   "chrisgrieser/nvim-early-retirement",
+  --   config = true,
+  --   event = "VeryLazy",
+  -- },
+  -- {
+  --   'github/copilot.vim',
+  -- }
   {
-    "chrisgrieser/nvim-early-retirement",
-    config = true,
-    event = "VeryLazy",
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "hrsh7th/nvim-cmp",            -- Optional: For using slash commands and variables in the chat buffer
+      "nvim-telescope/telescope.nvim", -- Optional: For working with files with slash commands
+    },
+    config = function()
+      require("codecompanion").setup({
+        strategies = {
+          chat = {
+            adapter = "copilot",
+          },
+          inline = {
+            adapter = "copilot",
+          },
+          agent = {
+            adapter = "copilot",
+          },
+        },
+        opts = {
+          log_level = "DEBUG",
+        },
+      })
+    end,
+  },
+  { "miikanissi/modus-themes.nvim", priority = 1000 },
+  { "alduraibi/telescope-glyph.nvim" },
+  { "rest-nvim/rest.nvim" },
+  { 'stevearc/quicker.nvim',
+    event = "FileType qf",
+    opts = {
+      keys = {
+        {
+          '>',
+          function()
+            require('quicker').expand({ before = 2, after = 2, add_to_existing = true })
+          end,
+          desc = 'Expand quickfix context',
+        },
+        {
+          '<',
+          function()
+            require('quicker').collapse()
+          end,
+          desc = 'Collapse quickfix context',
+        },
+      },
+    },
+  },
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    keys = {
+      { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+      { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+    },
+    ---@type snacks.Config
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+      bigfile = { enabled = true },
+      bufdelete = { enabled = true },
+      input = { enabled = true },
+      scratch = { enabled = true },
+      notifier = { enabled = true },
+    },
   },
   {
     "3rd/image.nvim",

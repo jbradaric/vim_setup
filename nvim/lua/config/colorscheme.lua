@@ -48,6 +48,27 @@ M.setup = function()
   local hint_fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('NonText')), 'fg#')
   highlight('LspInlayHint', { fg = hint_fg, style = 'italic' })
   highlight('LspReferenceRead', { bg = '#24292e' })
+
+  -- highlight('@lsp.mod.readonly', { style = 'italic' })
+  -- vim.api.nvim_set_hl(0, '@lsp.type.method', { link = '@method', default = true })
+
+  vim.api.nvim_create_autocmd("LspTokenUpdate", {
+    callback = function(args)
+      local token = args.data.token
+      if token.type == 'decorator' then
+        vim.lsp.semantic_tokens.highlight_token(
+          token, args.buf, args.data.client_id, '@lsp.type.decorator.python',
+          { priority = 120 }
+        )
+      end
+
+      -- if token.modifiers.builtin and token.modifiers.readonly then
+      --   vim.lsp.semantic_tokens.highlight_token(
+      --     token, args.buf, args.data.client_id, '@lsp.mod.builtin'
+      --   )
+      -- end
+    end,
+  })
 end
 
 return M

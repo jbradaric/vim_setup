@@ -42,7 +42,6 @@ vim.api.nvim_create_autocmd('BufEnter', {
 })
 
 vim.api.nvim_create_user_command('OpenInPopup', function(opts)
-  vim.print(opts)
   local buf = vim.api.nvim_get_current_buf()
   local config = {
     style = "minimal",

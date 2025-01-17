@@ -19,3 +19,18 @@
   (#set! injection.language "python")
   )
 
+(assignment
+  left: ((identifier) @id)
+  right: (string
+           (string_content) @injection.content)
+  (#vim-match? @id "^HTML$")
+  (#set! injection.language "html")
+  )
+
+(assignment
+  left: ((identifier) @id)
+  right: (string
+           (string_content) @injection.content)
+  (#vim-match? @id "^JS$")
+  (#set! injection.language "javascript")
+  )

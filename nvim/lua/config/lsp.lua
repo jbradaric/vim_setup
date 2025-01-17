@@ -4,11 +4,12 @@ local utils = require('config.utils')
 local M = {}
 
 local function setup_ccls(capabilities, on_attach)
-  nvim_lsp.ccls.setup({
+  nvim_lsp.clangd.setup({
     capabilities = capabilities,
     on_attach = function(client, bufnr)
       on_attach(client, bufnr)
     end,
+    cmd = { 'clangd', '--log=verbose', '--fallback-style=file:/work/data/src/local/py-cef/.clang-format' },
     init_options = {
       -- compilationDatabaseDirectory = 'build',
       completion = {
@@ -188,7 +189,7 @@ local function on_attach(client, bufnr)
     vim.keymap.set('v', '\\f', vim.lsp.buf.format, opts)
   end
   if client.supports_method('textDocument/codeAction') then
-    vim.keymap.set('n', '\\a', function()
+    vim.keymap.set({ 'n', 'v' }, '\\a', function()
       vim.lsp.buf.code_action()
     end, opts)
   end
@@ -211,11 +212,11 @@ local function on_attach(client, bufnr)
       buffer = bufnr,
       callback = function()
         local buf_path = vim.api.nvim_buf_get_name(bufnr)
-        local root = nvim_lsp.util.find_git_ancestor(buf_path)
+        local root = vim.fs.dirname(vim.fs.find('.git', { path = buf_path, upward = true })[1])
         if root == nil then
           return
         end
-        if nvim_lsp.util.path.exists(nvim_lsp.util.path.join(root, 'ci-ruff.toml')) then
+        if vim.loop.fs_stat(table.concat({ root, 'ci-ruff.toml' }, '/')) then
           vim.lsp.buf.format({
             bufnr = bufnr,
             async = false,
@@ -232,7 +233,7 @@ local function get_capabilities()
 end
 
 local function setup_tsserver(capabilities, on_attach)
-  nvim_lsp.tsserver.setup({
+  nvim_lsp.ts_ls.setup({
     capabilities = capabilities,
     on_attach = on_attach,
   })
@@ -255,6 +256,55 @@ M.setup = function()
       on_attach = on_attach,
     },
   }
+
+  ---@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
+  local progress = vim.defaulttable()
+  local bla = false
+  vim.api.nvim_create_autocmd("LspProgress", {
+    ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+    callback = function(ev)
+      if not bla then
+        return
+      end
+      local client = vim.lsp.get_client_by_id(ev.data.client_id)
+      local value = ev.data.params.value --[[@as {percentage?: number, title?: string, message?: string, kind: "begin" | "report" | "end"}]]
+      if not client or type(value) ~= "table" then
+        return
+      end
+      local p = progress[client.id]
+
+      for i = 1, #p + 1 do
+        if i == #p + 1 or p[i].token == ev.data.params.token then
+          p[i] = {
+            token = ev.data.params.token,
+            msg = ("[%3d%%] %s%s"):format(
+              value.kind == "end" and 100 or value.percentage or 100,
+              value.title or "",
+              value.message and (" **%s**"):format(value.message) or ""
+            ),
+            done = value.kind == "end",
+          }
+          break
+        end
+      end
+
+      local msg = {} ---@type string[]
+      progress[client.id] = vim.tbl_filter(function(v)
+        return table.insert(msg, v.msg) or not v.done
+      end, p)
+
+      local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+      vim.notify(table.concat(msg, "\n"), "info", {
+        id = "lsp_progress",
+        title = client.name,
+        opts = function(notif)
+          notif.icon = #progress[client.id] == 0 and " "
+              or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+        end,
+      })
+    end,
+  })
+
 end
 
 return M
