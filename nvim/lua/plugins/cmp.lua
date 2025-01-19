@@ -13,7 +13,7 @@ return {
   {
     'L3MON4D3/LuaSnip',
     dependencies = { 'saadparwaiz1/cmp_luasnip' },
-    version = '2.*',
+    version = '^2.*',
     config = function()
       require('config.snippets').setup()
     end,

@@ -344,7 +344,10 @@ return {
       require('config.refactoring').setup()
     end
   },
-  { dir = vim.fn.expand('~/src/misc/nvim-work-config') },
+  {
+    dir = vim.fn.expand('~/src/misc/nvim-work-config'),
+    cond = vim.uv.fs_stat(vim.fn.expand('~/src/misc/nvim-work-config')) or false,
+  },
   {
     'nvim-neotest/neotest',
     dependencies = {

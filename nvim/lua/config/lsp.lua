@@ -232,7 +232,7 @@ local function get_capabilities()
   return require('cmp_nvim_lsp').default_capabilities()
 end
 
-local function setup_tsserver(capabilities, on_attach)
+local function setup_ts_ls(capabilities, on_attach)
   nvim_lsp.ts_ls.setup({
     capabilities = capabilities,
     on_attach = on_attach,
@@ -249,7 +249,7 @@ M.setup = function()
   setup_pyright(capabilities, on_attach)
   setup_ruff(capabilities, on_attach)
   setup_lua_language_server(capabilities, on_attach)
-  setup_tsserver(capabilities, on_attach)
+  setup_ts_ls(capabilities, on_attach)
 
   vim.g.rustaceanvim = {
     server = {

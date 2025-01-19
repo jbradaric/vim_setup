@@ -420,7 +420,7 @@ LSPMessages = {
 LSP = {
   init = function(self)
     local names = {}
-    for _, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+    for _, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
       table.insert(names, server.name)
     end
     self.lsp_names = names
@@ -434,17 +434,17 @@ LSP = {
   hl = { fg = 'blue' },
 }
 
-NoiceMode = {
-  provider = function()
-    local mode = require('noice').api.status.mode.get()
-    local extracted = string.match(mode, '(recording @%S+)')
-    return extracted
-  end,
+
+local MacroRec = {
   condition = function()
-    return require('noice').api.status.mode.has()
+    return vim.fn.reg_recording() ~= "" and vim.o.cmdheight == 0
+  end,
+  provider = function()
+    return "recording @" .. vim.fn.reg_recording()
   end,
   update = {
-    'ModeChanged',
+    "RecordingEnter",
+    "RecordingLeave",
   },
   hl = { fg = '#ff9e64' },
 }
@@ -482,7 +482,7 @@ M.setup = function()
 
   heirline.setup({
     statusline = {
-      LeftBorder, Space, ViMode, Space, Ruler, Space, Diagnostics, Space, NoiceMode,
+      LeftBorder, Space, ViMode, Space, Ruler, Space, Diagnostics, Space, MacroRec,
       Align,
       LSPMessages, Space, LSP, Space, GitBranchName, Space, RulerPercent, Space, ScrollBar,
     },
