@@ -239,6 +239,40 @@ local function setup_ts_ls(capabilities, on_attach)
   })
 end
 
+local function setup_cst_lsp(capabilities, on_attach)
+  local util = require 'lspconfig.util'
+  local configs = require 'lspconfig.configs'
+
+  configs.cst_lsp = {
+    default_config = {
+      cmd = { 'cst_lsp' },
+      filetypes = { 'python' },
+      root_dir = function(fname)
+        local root_files = {
+          'pyproject.toml',
+          'setup.py',
+          'setup.cfg',
+          'requirements.txt',
+          'Pipfile',
+        }
+        return util.root_pattern(unpack(root_files))(fname)
+            or vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
+      end,
+      single_file_support = true,
+    },
+    docs = {
+      description = [[
+https://pypi.org/project/cst-lsp/
+    ]],
+    },
+  }
+
+  nvim_lsp.cst_lsp.setup({
+    capabilities = capabilities,
+    on_attach = on_attach,
+  })
+end
+
 M.setup = function()
   setup_highlights()
 
@@ -247,6 +281,7 @@ M.setup = function()
   local capabilities = get_capabilities()
   setup_ccls(capabilities, on_attach)
   setup_pyright(capabilities, on_attach)
+  setup_cst_lsp(capabilities, on_attach)
   setup_ruff(capabilities, on_attach)
   setup_lua_language_server(capabilities, on_attach)
   setup_ts_ls(capabilities, on_attach)
