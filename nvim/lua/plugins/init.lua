@@ -24,7 +24,7 @@ return {
     },
     config = true,
   },
-  { 'stevearc/dressing.nvim' },
+  -- { 'stevearc/dressing.nvim' },
   {
     'folke/trouble.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -237,14 +237,14 @@ return {
   },
   { 'justinmk/vim-dirvish' },
   { 'tyru/open-browser.vim' },
-  {
-    "OXY2DEV/markview.nvim",
-    lazy = false,
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons"
-    }
-  },
+  -- {
+  --   "OXY2DEV/markview.nvim",
+  --   lazy = false,
+  --   dependencies = {
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "nvim-tree/nvim-web-devicons"
+  --   }
+  -- },
   {
     'jbradaric/nvim-miniyank',
     init = function()
@@ -267,6 +267,17 @@ return {
     config = function()
       require('config.colorscheme').setup()
     end,
+  },
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    priority = 1000,
+  },
+  {
+    'navarasu/onedark.nvim',
+    opts = {
+      style = 'warm',
+    },
   },
   {
     'mfussenegger/nvim-dap',
@@ -295,6 +306,7 @@ return {
     version = false,
     config = function()
       require('mini.comment').setup()
+      require('mini.pick').setup()
       require('mini.move').setup({
         mappings = {
           left = '',
@@ -309,11 +321,6 @@ return {
         },
         options = {
           reindent_linewise = false,
-        },
-      })
-      require('mini.pairs').setup({
-        mappings = {
-          ["'"] = { action = 'closeopen', pair = "''", neigh_pattern = '[^\\].', register = { cr = false } },
         },
       })
       local ai = require('mini.ai')
@@ -410,6 +417,11 @@ return {
     },
     config = function()
       require("codecompanion").setup({
+        display = {
+          chat = {
+            show_settings = true,   -- Show LLM settings at the top of the chat buffer?
+          },
+        },
         strategies = {
           chat = {
             adapter = "copilot",
@@ -427,6 +439,16 @@ return {
       })
     end,
   },
+  {
+    "zbirenbaum/copilot.lua",
+    config = function()
+      require('copilot').setup({
+        suggestion = { enabled = false },
+        panel = { enabled = false },
+      })
+    end,
+  },
+  { "zbirenbaum/copilot-cmp" },
   { "miikanissi/modus-themes.nvim", priority = 1000 },
   { "alduraibi/telescope-glyph.nvim" },
   { "rest-nvim/rest.nvim" },
@@ -458,6 +480,18 @@ return {
     keys = {
       { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
       { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+      { "<space>ss", function() Snacks.picker.lsp_symbols({ layout = { preset = 'vscode' } }) end,
+        desc = 'Open LSP symbol picker'
+      },
+      { "<space>sd", function() Snacks.picker.diagnostics_buffer({ layout = { preset = 'vscode' } }) end,
+        desc = 'Open diagnostics picker'
+      },
+      { "<space>sl", function() Snacks.picker.lines({ layout = { preset = 'vscode' } }) end,
+        desc = 'Search lines in the current buffer'
+      },
+      { "<space>/", function() Snacks.picker.grep({ layout = { preset = 'vscode' } }) end,
+        desc = 'Grep in the current project'
+      },
     },
     ---@type snacks.Config
     opts = {
@@ -469,10 +503,56 @@ return {
       input = { enabled = true },
       scratch = { enabled = true },
       notifier = { enabled = true },
+      picker = {
+        win = {
+          input = {
+            keys = {
+              ["<a-g>"] = { "toggle_live", mode = { "i", "n" } },
+              ["<c-g>"] = { "close", mode = { "n", "i" } },
+            },
+          },
+        },
+      },
     },
   },
   {
     "3rd/image.nvim",
     opts = {}
+  },
+  {
+    'stevearc/conform.nvim',
+    opts = {
+      formatters_by_ft = {
+        lua = { "stylua" },
+        -- Conform will run multiple formatters sequentially
+        python = { "ruff" },
+        -- You can customize some of the format options for the filetype (:help conform.format)
+        rust = { "rustfmt", lsp_format = "fallback" },
+        -- Conform will run the first available formatter
+        javascript = { "prettierd", "prettier", stop_after_first = true },
+        typescript = { "prettierd", "prettier", stop_after_first = true },
+        typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+      },
+    },
+  },
+  {
+    'tpope/vim-dadbod',
+  },
+  {
+    'kristijanhusak/vim-dadbod-ui',
+    dependencies = {
+      { 'tpope/vim-dadbod',                     lazy = true },
+      { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true }, -- Optional
+    },
+    cmd = {
+      'DBUI',
+      'DBUIToggle',
+      'DBUIAddConnection',
+      'DBUIFindBuffer',
+    },
+    init = function()
+      -- Your DBUI configuration
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
   },
 }

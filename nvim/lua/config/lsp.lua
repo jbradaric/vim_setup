@@ -23,14 +23,18 @@ local function setup_ccls(capabilities, on_attach)
 end
 
 local function setup_pyright(capabilities, on_attach)
+  local new_capabilities = vim.tbl_deep_extend('force', {}, capabilities)
   nvim_lsp.basedpyright.setup({
-    capabilities = capabilities,
+    capabilities = new_capabilities,
     on_attach = on_attach,
     settings = {
       basedpyright = {
         analysis = {
           ignore = { "*" },
           typeCheckingMode = 'off',
+          diagnosticSeverityOverrides = {
+            reportUnusedFunction = 'none',
+          },
         },
       },
     },
@@ -54,12 +58,12 @@ local function setup_pyright(capabilities, on_attach)
 
   local function filter_diagnostics(diagnostic)
     -- Only filter out Pyright stuff for now
-    if diagnostic.source ~= 'Pyright' then
+    if diagnostic.source ~= 'basedpyright' then
       return true
     end
 
     -- Ignore all Pyright diagnostics
-    if diagnostic.source == 'Pyright' then
+    if diagnostic.source == 'basedpyright' then
       return false
     end
 
@@ -92,12 +96,12 @@ local function setup_pyright(capabilities, on_attach)
     return true
   end
 
-  local function on_publish_diagnostics(err, result, ctx, config)
+  local function on_publish_diagnostics(err, result, ctx)
     filter(result.diagnostics, filter_diagnostics)
-    vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
+    vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx)
   end
 
-  vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(on_publish_diagnostics, {})
+  vim.lsp.handlers['textDocument/publishDiagnostics'] = on_publish_diagnostics
 end
 
 local function setup_ruff(capabilities, on_attach)
@@ -175,15 +179,12 @@ local function on_attach(client, bufnr)
   vim.keymap.set('n', 'gd', vim.lsp.buf.declaration, opts)
   vim.keymap.set('n', '\\i',
     function()
-      vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled(nil))
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
     end,
     opts)
   if vim.bo[bufnr].filetype == 'rust' then
     vim.keymap.set('n', '\\a', '<cmd>RustLsp codeAction<CR>')
   end
-  vim.keymap.set('n', '\\i', function()
-    vim.lsp.inlay_hint.enable(0, not vim.lsp.inlay_hint.is_enabled())
-  end, opts)
   if client.supports_method('textDocument/formatting') then
     vim.keymap.set('n', '\\f', vim.lsp.buf.format, opts)
     vim.keymap.set('v', '\\f', vim.lsp.buf.format, opts)
@@ -216,7 +217,7 @@ local function on_attach(client, bufnr)
         if root == nil then
           return
         end
-        if vim.loop.fs_stat(table.concat({ root, 'ci-ruff.toml' }, '/')) then
+        if vim.uv.fs_stat(table.concat({ root, 'ci-ruff.toml' }, '/')) then
           vim.lsp.buf.format({
             bufnr = bufnr,
             async = false,
@@ -281,7 +282,7 @@ M.setup = function()
   local capabilities = get_capabilities()
   setup_ccls(capabilities, on_attach)
   setup_pyright(capabilities, on_attach)
-  setup_cst_lsp(capabilities, on_attach)
+  -- setup_cst_lsp(capabilities, on_attach)
   setup_ruff(capabilities, on_attach)
   setup_lua_language_server(capabilities, on_attach)
   setup_ts_ls(capabilities, on_attach)
@@ -291,6 +292,13 @@ M.setup = function()
       on_attach = on_attach,
     },
   }
+
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = { '*.ts', '*.tsx', '*.js', '*.jsx' },
+    callback = function(args)
+      require("conform").format({ bufnr = args.buf, async = false })
+    end,
+  })
 
   ---@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
   local progress = vim.defaulttable()

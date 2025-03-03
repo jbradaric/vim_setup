@@ -1,17 +1,19 @@
 local M = {}
 
 local function setup_vscode()
+  local bg_color = '#1f1f1f'
   require('vscode').setup({
     italic_comments = true,
     color_overrides = {
-      vscBack = '#141b1e',
+      -- vscBack = '#141b1e',
+      vscBack = bg_color,
     },
     group_overrides = {
       Pmenu = { fg = '#d9d9d9', bg = '#10171a' },
       PmenuSel = { fg = '#000000', bg = '#8ccf7e' },
       WinSeparator = { fg = '#555555' },
-      WinBar = { bg = '#141b1e' },
-      WinBarNC = { bg = '#141b1e' },
+      WinBar = { bg = bg_color },
+      WinBarNC = { bg = bg_color },
     },
   })
   require('vscode').load('dark')
@@ -44,10 +46,13 @@ M.setup = function()
   highlight('StatusLine', { bg = '#1e1e1e' })
   highlight('CmpItemKindCopilot', { fg = '#6CC644' })
 
-
   local hint_fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('NonText')), 'fg#')
   highlight('LspInlayHint', { fg = hint_fg, style = 'italic' })
   highlight('LspReferenceRead', { bg = '#24292e' })
+
+  -- highlight('SnacksNormal', { bg = '#141b1e' })
+  -- highlight('SnacksPicker', { bg = '#141b1e' })
+  -- highlight('SnacksPickerBoxBorder', { fg = '#d4d4d4' })
 
   -- highlight('@lsp.mod.readonly', { style = 'italic' })
   -- vim.api.nvim_set_hl(0, '@lsp.type.method', { link = '@method', default = true })
@@ -69,6 +74,16 @@ M.setup = function()
       -- end
     end,
   })
+
+  -- Make Sncaks.picker look more similar to telescope
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    pattern = "*",
+    callback = function()
+      vim.api.nvim_set_hl(0, "SnacksPicker", { bg = "none", nocombine = true })
+      vim.api.nvim_set_hl(0, "SnacksPickerBorder", { fg = "#316c71", bg = "none", nocombine = true })
+    end,
+  })
+
 end
 
 return M

@@ -42,7 +42,7 @@ nnoremap <C-W><C-]> :call VSplitTag()<CR>
 nnoremap <C-W>] :call VSplitTag()<CR>
 
 nnoremap <C-W>f :vsplit<CR>gf
-nnoremap <leader>S :<C-U>Scratch<CR>
+" nnoremap <leader>S :<C-U>Scratch<CR>
 
 cabbrev <expr> %% expand('%:p:h')
 

@@ -181,10 +181,10 @@ M.setup = function()
                                    function(opts) M.find_files(opts.args) end,
                                    { nargs = 1, complete = 'dir', desc = 'Pick files' })
 
-  map('n', '<Space>/', function()
-    vim.cmd('Rooter')
-    live_grep_cb()
-  end, {})
+  -- map('n', '<Space>/', function()
+  --   vim.cmd('Rooter')
+  --   live_grep_cb()
+  -- end, {})
 
 end
 

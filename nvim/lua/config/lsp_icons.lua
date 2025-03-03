@@ -33,6 +33,8 @@ M.setup = function()
       Copilot = '',
     },
   })
+
+  vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6cc644" })
 end
 
 return M
