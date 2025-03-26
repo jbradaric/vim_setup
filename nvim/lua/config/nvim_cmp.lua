@@ -23,7 +23,26 @@ M.setup = function()
 
   vim.o.completeopt = 'menu,menuone,noselect'
 
-  require('copilot_cmp').setup()
+
+  local have_copilot, copilot_cmp = pcall(require, 'copilot_cmp')
+  if have_copilot then
+    copilot_cmp.setup()
+  end
+
+  local comparators = {
+    cmp.config.compare.sort_text,
+    cmp.config.compare_offset,
+    cmp.config.compare.exact,
+    cmp.config.compare.score,
+    cmp.config.compare.recently_used,
+    cmp.config.compare.locality,
+    cmp.config.compare.kind,
+    cmp.config.compare.length,
+    cmp.config.compare.order,
+  }
+  if have_copilot then
+    table.insert(comparators, 1, copilot_cmp.comparators.prioritize)
+  end
 
   cmp.setup({
     formatting = {
@@ -39,18 +58,7 @@ M.setup = function()
     },
     sorting = {
       priority_weight = 2,
-      comparators = {
-        require('copilot_cmp.comparators').prioritize,
-        cmp.config.compare.sort_text,
-        cmp.config.compare_offset,
-        cmp.config.compare.exact,
-        cmp.config.compare.score,
-        cmp.config.compare.recently_used,
-        cmp.config.compare.locality,
-        cmp.config.compare.kind,
-        cmp.config.compare.length,
-        cmp.config.compare.order,
-      },
+      comparators = comparators,
     },
     mapping = {
       ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),

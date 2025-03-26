@@ -448,7 +448,7 @@ return {
       })
     end,
   },
-  { "zbirenbaum/copilot-cmp" },
+  -- { "zbirenbaum/copilot-cmp" },
   { "miikanissi/modus-themes.nvim", priority = 1000 },
   { "alduraibi/telescope-glyph.nvim" },
   { "rest-nvim/rest.nvim" },
