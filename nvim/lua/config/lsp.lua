@@ -230,7 +230,7 @@ local function on_attach(client, bufnr)
 end
 
 local function get_capabilities()
-  return require('cmp_nvim_lsp').default_capabilities()
+  return require('blink.cmp').get_lsp_capabilities()
 end
 
 local function setup_ts_ls(capabilities, on_attach)
