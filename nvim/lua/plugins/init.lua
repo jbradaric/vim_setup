@@ -418,7 +418,7 @@ return {
       require("codecompanion").setup({
         display = {
           chat = {
-            show_settings = true,   -- Show LLM settings at the top of the chat buffer?
+            show_settings = false,   -- Show LLM settings at the top of the chat buffer?
           },
         },
         strategies = {
