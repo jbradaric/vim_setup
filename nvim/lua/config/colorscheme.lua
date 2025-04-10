@@ -1,7 +1,8 @@
 local M = {}
 
+local bg_color = '#1f1f1f'
+
 local function setup_vscode()
-  local bg_color = '#1f1f1f'
   require('vscode').setup({
     italic_comments = true,
     color_overrides = {
@@ -49,6 +50,7 @@ M.setup = function()
   local hint_fg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('NonText')), 'fg#')
   highlight('LspInlayHint', { fg = hint_fg, style = 'italic' })
   highlight('LspReferenceRead', { bg = '#24292e' })
+  highlight('FlashLabel', { fg = 'red' })
 
   -- highlight('SnacksNormal', { bg = '#141b1e' })
   -- highlight('SnacksPicker', { bg = '#141b1e' })

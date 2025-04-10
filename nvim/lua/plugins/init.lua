@@ -532,6 +532,42 @@ return {
     },
   },
   {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    ---@type Flash.Config
+    opts = {
+      modes = {
+        char = {
+          jump_labels = true,
+          keys = {
+            ['f'] = '<space>f',
+            ['F'] = '<space>F',
+            ['t'] = '<space>t',
+            ['T'] = '<space>T',
+          },
+        },
+        treesitter = {
+          label = {
+            style = 'overlay',
+          },
+        },
+        treesitter_search = {
+          label = {
+            style = 'overlay',
+          },
+        },
+      },
+    },
+    -- stylua: ignore
+    keys = {
+      { "<space>s", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+      { "<space>S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      { "<space>r", mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      { "<space>R", mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>",    mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
+    },
+  },
+  {
     "3rd/image.nvim",
     opts = {}
   },
