@@ -442,7 +442,15 @@ return {
     "zbirenbaum/copilot.lua",
     config = function()
       require('copilot').setup({
-        suggestion = { enabled = false },
+        copilot_model = 'claude-3.7-sonnet',
+        suggestion = {
+          enabled = true,
+          hide_during_completion = false,
+          auto_trigger = true,
+          keymap = {
+            accept = '<C-y>',
+          },
+        },
         panel = { enabled = false },
       })
     end,
