@@ -439,6 +439,15 @@ return {
     end,
   },
   {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    dependencies = {
+      { "zbirenbaum/copilot.lua" },
+      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+    },
+    build = "make tiktoken",
+    opts = {},
+  },
+  {
     "zbirenbaum/copilot.lua",
     config = function()
       require('copilot').setup({
