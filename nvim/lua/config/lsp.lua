@@ -157,7 +157,6 @@ end
 
 local common_keymaps = {
   { 'n', 'K',  vim.lsp.buf.hover },
-  { 'n', 'gD', vim.lsp.buf.implementation },
   { 'n', 'gd', vim.lsp.buf.declaration },
 }
 
@@ -171,6 +170,9 @@ local lsp_method_keymaps = {
   ['textDocument/formatting'] = {
     { 'n', '\\f', vim.lsp.buf.format },
     { 'v', '\\f', vim.lsp.buf.format },
+  },
+  ['textDocument/implementation'] = {
+    { 'n', 'gD', vim.lsp.buf.implementation },
   },
   ['textDocument/codeAction'] = {
     { { 'n', 'v' }, '\\a', vim.lsp.buf.code_action },
