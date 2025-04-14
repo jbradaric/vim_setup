@@ -44,118 +44,21 @@ return {
         {
           filter = {
             event = 'msg_show',
-            kind = '',
-            find = 'written',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = '',
-            find = 'change; before',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = '',
-            find = 'change; after',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = '',
-            find = 'changes; after',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = '',
-            find = 'line less',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = '',
-            find = 'more line',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = '',
-            find = 'more lines',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = '',
-            find = 'fewer lines',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = '',
-            find = 'lines yanked',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            kind = 'search_count',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = 'wmsg',
-            find = 'search hit',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = 'emsg',
-            find = 'Pattern not found',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = '',
-            find = 'lines to indent',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = '',
-            find = 'lines indented',
-          },
-          opts = { skip = true },
-        },
-        {
-          filter = {
-            event = 'msg_show',
-            kind = 'echo',
-            find = 'Hop',
+            any = {
+              { find = '%d+L, %d+B' },
+              { find = '^%d+ changes?; after #%d+' },
+              { find = '^%d+ changes?; before #%d+' },
+              { find = '^Hunk %d+ of %d+$' },
+              { find = '^%d+ fewer lines;?' },
+              { find = '^%d+ more lines?;?' },
+              { find = '^%d+ line less;?' },
+              { find = '^%d+ lines >ed %d+ times?' },
+              { find = '^%d+ lines <ed %d+ times?' },
+              { find = '^Already at newest change' },
+              { kind = 'wmsg' },
+              { kind = 'emsg', find = 'E486' },
+              { kind = 'quickfix' },
+            },
           },
           opts = { skip = true },
         },
