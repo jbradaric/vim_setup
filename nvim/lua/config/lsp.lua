@@ -253,8 +253,45 @@ local function setup_tailwindcss(capabilities)
   })
 end
 
+local function setup_formatting()
+  vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = { '*.py', '*.ts', '*.tsx', '*.js', '*.jsx', '*.cpp', '*.hpp', '*.c', '*.h' },
+    callback = function(args)
+      -- Disable with a global or buffer-local variable
+      if vim.g.disable_autoformat or vim.b[args.buf].disable_autoformat then
+        return
+      end
+
+      -- Only autoformat C++ files if they have a .clang-format file
+      if vim.bo[args.buf].filetype == 'cpp' or vim.bo[args.buf].filetype == 'c' then
+        local buf_path = vim.api.nvim_buf_get_name(args.buf)
+        local format_conf = vim.fs.find('.clang-format', { path = buf_path, upward = true })[1]
+        if format_conf == nil then
+          return
+        end
+      end
+
+      require("conform").format({ bufnr = args.buf, async = false })
+    end,
+  })
+
+  vim.api.nvim_create_user_command("Format", function(args)
+    local range = nil
+    if args.count ~= -1 then
+      local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+      range = {
+        start = { args.line1, 0 },
+        ["end"] = { args.line2, end_line:len() },
+      }
+    end
+    require("conform").format({ async = true, lsp_format = "fallback", range = range })
+  end, { range = true })
+
+end
+
 M.setup = function()
   setup_highlights()
+  setup_formatting()
 
   vim.opt.signcolumn = 'yes:1'
 
@@ -271,13 +308,6 @@ M.setup = function()
       on_attach = on_attach,
     },
   }
-
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { '*.py', '*.ts', '*.tsx', '*.js', '*.jsx' },
-    callback = function(args)
-      require("conform").format({ bufnr = args.buf, async = false })
-    end,
-  })
 
   vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(ev)

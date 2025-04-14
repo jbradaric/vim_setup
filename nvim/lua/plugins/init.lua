@@ -575,6 +575,8 @@ return {
     'stevearc/conform.nvim',
     opts = {
       formatters_by_ft = {
+        c = { 'clang-format', stop_after_first = true },
+        cpp = { 'clang-format', stop_after_first = true },
         lua = { "stylua" },
         -- Conform will run multiple formatters sequentially
         python = { "ruff" },
