@@ -199,7 +199,7 @@ local function setup_lsp_mappings(client, bufnr)
   end
 
   for lsp_method, mappings in pairs(lsp_method_keymaps) do
-    if client.supports_method(lsp_method) then
+    if client:supports_method(lsp_method) then
       for _, entry in ipairs(mappings) do
         vim.keymap.set(entry[1], entry[2], entry[3], opts)
       end
