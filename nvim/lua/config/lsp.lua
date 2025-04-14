@@ -3,12 +3,9 @@ local utils = require('config.utils')
 
 local M = {}
 
-local function setup_ccls(capabilities, on_attach)
+local function setup_ccls(capabilities)
   nvim_lsp.clangd.setup({
     capabilities = capabilities,
-    on_attach = function(client, bufnr)
-      on_attach(client, bufnr)
-    end,
     cmd = { 'clangd', '--log=verbose', '--fallback-style=file:/work/data/src/local/py-cef/.clang-format' },
     init_options = {
       -- compilationDatabaseDirectory = 'build',
@@ -22,11 +19,10 @@ local function setup_ccls(capabilities, on_attach)
   })
 end
 
-local function setup_pyright(capabilities, on_attach)
+local function setup_pyright(capabilities)
   local new_capabilities = vim.tbl_deep_extend('force', {}, capabilities)
   nvim_lsp.basedpyright.setup({
     capabilities = new_capabilities,
-    on_attach = on_attach,
     settings = {
       basedpyright = {
         analysis = {
@@ -104,14 +100,9 @@ local function setup_pyright(capabilities, on_attach)
   vim.lsp.handlers['textDocument/publishDiagnostics'] = on_publish_diagnostics
 end
 
-local function setup_ruff(capabilities, on_attach)
+local function setup_ruff(capabilities)
   nvim_lsp.ruff.setup({
     capabilities = capabilities,
-    on_attach = function(client, bufnr)
-      -- Disable hover in favor of Pyright
-      client.server_capabilities.hoverProvider = false
-      on_attach(client, bufnr)
-    end,
     init_options = {
       settings = {
         -- Any extra CLI arguments for `ruff` go here.
@@ -121,11 +112,10 @@ local function setup_ruff(capabilities, on_attach)
   })
 end
 
-local function setup_lua_language_server(capabilities, on_attach)
+local function setup_lua_language_server(capabilities)
   nvim_lsp.lua_ls.setup(
     {
       capabilities = capabilities,
-      on_attach = on_attach,
       single_file_support = true,
       settings = {
         Lua = {
@@ -165,35 +155,64 @@ local function setup_lua_language_server(capabilities, on_attach)
   )
 end
 
+local common_keymaps = {
+  { 'n', 'K',  vim.lsp.buf.hover },
+  { 'n', 'gD', vim.lsp.buf.implementation },
+  { 'n', 'gd', vim.lsp.buf.declaration },
+}
+
+local ft_keymaps = {
+  rust = {
+    { 'n', '\\a', '<cmd>RustLsp codeAction<CR>' },
+  },
+}
+
+local lsp_method_keymaps = {
+  ['textDocument/formatting'] = {
+    { 'n', '\\f', vim.lsp.buf.format },
+    { 'v', '\\f', vim.lsp.buf.format },
+  },
+  ['textDocument/codeAction'] = {
+    { { 'n', 'v' }, '\\a', vim.lsp.buf.code_action },
+  },
+}
+
 local function setup_highlights()
   utils.highlight('LspDiagnosticsErrorSign', { fg = 'Red', bg = '#000000' })
   utils.highlight('LspDiagnosticsWarningSign', { fg = 'Yellow', bg = '#000000' })
 end
 
-local function on_attach(client, bufnr)
-  vim.b.show_signs = true
-
+local function setup_lsp_mappings(client, bufnr)
   local opts = { noremap = true, silent = true, buffer = bufnr }
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', 'gD', vim.lsp.buf.implementation, opts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.declaration, opts)
+  for _, entry in ipairs(common_keymaps) do
+    vim.keymap.set(entry[1], entry[2], entry[3], opts)
+  end
+
+  for ft, mappings in pairs(ft_keymaps) do
+    if vim.bo.filetype == ft then
+      for _, entry in ipairs(mappings) do
+        vim.keymap.set(entry[1], entry[2], entry[3], opts)
+      end
+    end
+  end
+
+  for lsp_method, mappings in pairs(lsp_method_keymaps) do
+    if client.supports_method(lsp_method) then
+      for _, entry in ipairs(mappings) do
+        vim.keymap.set(entry[1], entry[2], entry[3], opts)
+      end
+    end
+  end
+
   vim.keymap.set('n', '\\i',
     function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
     end,
     opts)
-  if vim.bo[bufnr].filetype == 'rust' then
-    vim.keymap.set('n', '\\a', '<cmd>RustLsp codeAction<CR>')
-  end
-  if client.supports_method('textDocument/formatting') then
-    vim.keymap.set('n', '\\f', vim.lsp.buf.format, opts)
-    vim.keymap.set('v', '\\f', vim.lsp.buf.format, opts)
-  end
-  if client.supports_method('textDocument/codeAction') then
-    vim.keymap.set({ 'n', 'v' }, '\\a', function()
-      vim.lsp.buf.code_action()
-    end, opts)
-  end
+end
+
+local function setup_lsp_autocmds(client, bufnr)
+  -- Show variable references on hover
   if client.supports_method('textDocument/documentHighlight') then
     vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
       buffer = bufnr,
@@ -208,69 +227,29 @@ local function on_attach(client, bufnr)
       end,
     })
   end
+end
+
+local function on_attach(client, bufnr)
+  vim.b.show_signs = true
+
+  setup_lsp_mappings(client, bufnr)
+  setup_lsp_autocmds(client, bufnr)
+
   if client.name == 'ruff' then
-    vim.api.nvim_create_autocmd('BufWritePre', {
-      buffer = bufnr,
-      callback = function()
-        local buf_path = vim.api.nvim_buf_get_name(bufnr)
-        local root = vim.fs.dirname(vim.fs.find('.git', { path = buf_path, upward = true })[1])
-        if root == nil then
-          return
-        end
-        if vim.uv.fs_stat(table.concat({ root, 'ci-ruff.toml' }, '/')) then
-          vim.lsp.buf.format({
-            bufnr = bufnr,
-            async = false,
-            filter = function(c) return c.name == 'ruff' end,
-          })
-        end
-      end,
-    })
+    -- Disable hover in favor of Pyright
+    client.server_capabilities.hoverProvider = false
   end
 end
 
-local function get_capabilities()
-  return require('blink.cmp').get_lsp_capabilities()
-end
-
-local function setup_ts_ls(capabilities, on_attach)
+local function setup_ts_ls(capabilities)
   nvim_lsp.ts_ls.setup({
     capabilities = capabilities,
-    on_attach = on_attach,
   })
 end
 
-local function setup_cst_lsp(capabilities, on_attach)
-  local util = require 'lspconfig.util'
-  local configs = require 'lspconfig.configs'
-
-  configs.cst_lsp = {
-    default_config = {
-      cmd = { 'cst_lsp' },
-      filetypes = { 'python' },
-      root_dir = function(fname)
-        local root_files = {
-          'pyproject.toml',
-          'setup.py',
-          'setup.cfg',
-          'requirements.txt',
-          'Pipfile',
-        }
-        return util.root_pattern(unpack(root_files))(fname)
-            or vim.fs.dirname(vim.fs.find('.git', { path = fname, upward = true })[1])
-      end,
-      single_file_support = true,
-    },
-    docs = {
-      description = [[
-https://pypi.org/project/cst-lsp/
-    ]],
-    },
-  }
-
-  nvim_lsp.cst_lsp.setup({
+local function setup_tailwindcss(capabilities)
+  nvim_lsp.tailwindcss.setup({
     capabilities = capabilities,
-    on_attach = on_attach,
   })
 end
 
@@ -279,13 +258,13 @@ M.setup = function()
 
   vim.opt.signcolumn = 'yes:1'
 
-  local capabilities = get_capabilities()
-  setup_ccls(capabilities, on_attach)
-  setup_pyright(capabilities, on_attach)
-  -- setup_cst_lsp(capabilities, on_attach)
-  setup_ruff(capabilities, on_attach)
-  setup_lua_language_server(capabilities, on_attach)
-  setup_ts_ls(capabilities, on_attach)
+  local capabilities = require('blink.cmp').get_lsp_capabilities()
+  setup_ccls(capabilities)
+  setup_pyright(capabilities)
+  setup_ruff(capabilities)
+  setup_lua_language_server(capabilities)
+  setup_ts_ls(capabilities)
+  setup_tailwindcss(capabilities)
 
   vim.g.rustaceanvim = {
     server = {
@@ -294,57 +273,18 @@ M.setup = function()
   }
 
   vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { '*.ts', '*.tsx', '*.js', '*.jsx' },
+    pattern = { '*.py', '*.ts', '*.tsx', '*.js', '*.jsx' },
     callback = function(args)
       require("conform").format({ bufnr = args.buf, async = false })
     end,
   })
 
-  ---@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
-  local progress = vim.defaulttable()
-  local bla = false
-  vim.api.nvim_create_autocmd("LspProgress", {
-    ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+  vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(ev)
-      if not bla then
-        return
-      end
       local client = vim.lsp.get_client_by_id(ev.data.client_id)
-      local value = ev.data.params.value --[[@as {percentage?: number, title?: string, message?: string, kind: "begin" | "report" | "end"}]]
-      if not client or type(value) ~= "table" then
-        return
+      if client then
+        on_attach(client, vim.api.nvim_get_current_buf())
       end
-      local p = progress[client.id]
-
-      for i = 1, #p + 1 do
-        if i == #p + 1 or p[i].token == ev.data.params.token then
-          p[i] = {
-            token = ev.data.params.token,
-            msg = ("[%3d%%] %s%s"):format(
-              value.kind == "end" and 100 or value.percentage or 100,
-              value.title or "",
-              value.message and (" **%s**"):format(value.message) or ""
-            ),
-            done = value.kind == "end",
-          }
-          break
-        end
-      end
-
-      local msg = {} ---@type string[]
-      progress[client.id] = vim.tbl_filter(function(v)
-        return table.insert(msg, v.msg) or not v.done
-      end, p)
-
-      local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-      vim.notify(table.concat(msg, "\n"), "info", {
-        id = "lsp_progress",
-        title = client.name,
-        opts = function(notif)
-          notif.icon = #progress[client.id] == 0 and " "
-              or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
-        end,
-      })
     end,
   })
 
