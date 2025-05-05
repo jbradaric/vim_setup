@@ -371,6 +371,8 @@ return {
         { desc = 'Run current file' })
       vim.keymap.set('n', '<space>to', function() require('neotest').output.open({ enter = true, quiet = true, auto_close = true }) end,
         { desc = 'Show current test output' })
+      vim.keymap.set('n', '<space>ts', function() require('neotest').summary.toggle() end,
+        { desc = 'Toggle summary' })
     end,
     config = function()
       require('neotest').setup({
