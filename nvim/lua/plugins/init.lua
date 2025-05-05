@@ -386,6 +386,22 @@ return {
     end,
   },
   {
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    opts = {
+      start_in_insert = true,
+      persist_mode = false,
+      highlights = {
+        FloatBorder = {
+          guifg = '#569cd6',
+        },
+      },
+      float_opts = {
+        border = 'curved',
+      },
+    },
+  },
+  {
     'soulis-1256/eagle.nvim',
     -- config = true,
     init = function()

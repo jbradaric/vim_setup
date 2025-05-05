@@ -134,8 +134,22 @@ local function run_term(same_buffer)
 end
 
 local function setup_work_term()
-  vim.keymap.set('n', [[\t]], function() run_term(false) end, { noremap = true, silent = true })
-  vim.keymap.set('n', [[\T]], function() run_term(true) end, { noremap = true, silent = true })
+  vim.keymap.set('n', [[\T]], function()
+      local count = vim.v.count
+      if count == 0 then
+        count = 1
+      end
+      require('toggleterm').toggle(count, vim.o.columns / 2, nil, 'vertical')
+    end,
+    { noremap = true, silent = true })
+  vim.keymap.set('n', [[\t]], function()
+      local count = vim.v.count
+      if count == 0 then
+        count = 1
+      end
+      require('toggleterm').toggle(count, nil, nil, 'float')
+    end,
+    { noremap = true, silent = true })
 end
 
 setup_terminal()
