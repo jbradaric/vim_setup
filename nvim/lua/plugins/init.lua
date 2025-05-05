@@ -401,7 +401,7 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "nvim-telescope/telescope.nvim", -- Optional: For working with files with slash commands
     },
-    opts = require('config.codecompanion'),
+    opts = {},
     keys = {
       { '<leader>ai', '<cmd>CodeCompanion<cr>',        mode = { 'n', 'v' }, desc = 'Inline Prompt [zi]' },
       { '<leader>ac', '<cmd>CodeCompanionChat<cr>',    mode = { 'n', 'v' }, desc = 'Open Chat [zz]' },
