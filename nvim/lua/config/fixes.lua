@@ -1,16 +1,17 @@
 local winfixbuf_buftypes = {
-  'quickfix',
+  -- 'quickfix',
 }
 local winfixbuf_filetypes = {
-  'noice',
-  'git',
-  'fugitiveblame',
-  'dap-repl',
-  'dapui_scopes',
-  'dapui_stacks',
-  'dapui_watches',
-  'dapui_console',
-  'dapui_breakpoints',
+  'neotest-summary',
+  -- 'noice',
+  -- 'git',
+  -- 'fugitiveblame',
+  -- 'dap-repl',
+  -- 'dapui_scopes',
+  -- 'dapui_stacks',
+  -- 'dapui_watches',
+  -- 'dapui_console',
+  -- 'dapui_breakpoints',
 }
 
 local function contains(tbl, key)
