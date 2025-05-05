@@ -166,15 +166,6 @@ return {
     end,
   },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-  {
-    "ibhagwan/fzf-lua",
-    -- optional for icon support
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      -- calling `setup` is optional for customization
-      require("fzf-lua").setup({})
-    end
-  },
   { 'chrisbra/NrrwRgn', cmd = 'NRV' },
   {
     'mtth/scratch.vim',
