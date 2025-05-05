@@ -1,5 +1,5 @@
 local dap = require('dap')
-local dapui = require('dapui')
+-- local dapui = require('dapui')
 local dap_python = require('dap-python')
 local M = {}
 
@@ -80,11 +80,11 @@ local function open_in_tab()
   debug_tabnr = vim.api.nvim_tabpage_get_number(debug_tab)
 
   setup_mappings()
-  dapui.open()
+  -- dapui.open()
 end
 
 local function close_tab()
-  dapui.close()
+  -- dapui.close()
 
   if debug_tab and vim.api.nvim_tabpage_is_valid(debug_tab) then
     vim.api.nvim_exec2('tabclose ' .. debug_tabnr, { output = false })
@@ -107,15 +107,18 @@ local function create_command(name, callback, desc)
 end
 
 local function setup_dap_events()
-  -- Attach DAP UI to DAP events
-  dap.listeners.after.event_initialized['dapui_config'] = function()
-    open_in_tab()
+  local dv = require("dap-view")
+  dap.listeners.before.attach["dap-view-config"] = function()
+    dv.open()
   end
-  dap.listeners.before.event_terminated['dapui_config'] = function()
-    close_tab()
+  dap.listeners.before.launch["dap-view-config"] = function()
+    dv.open()
   end
-  dap.listeners.before.event_exited['dapui_config'] = function()
-    close_tab()
+  dap.listeners.before.event_terminated["dap-view-config"] = function()
+    dv.close()
+  end
+  dap.listeners.before.event_exited["dap-view-config"] = function()
+    dv.close()
   end
 end
 
@@ -140,31 +143,6 @@ M.setup = function()
   create_command('Down', function() dap.down() end, 'Go down')
   create_command('Break', function() dap.toggle_breakpoint() end, 'Toggle breakpoint')
 
-  local dapui_layout = {
-    {
-      elements = {
-        { id = 'scopes', size = 0.25 },
-        { id = 'stacks', size = 0.50 },
-        { id = 'watches', size = 0.25 },
-      },
-      position = 'left',
-      size = 50
-    },
-    {
-      elements = {
-        { id = 'repl', size = 0.5 },
-        { id = 'console', size = 0.5 },
-      },
-      position = 'bottom',
-      size = 20
-    }
-  }
-
-  dapui.setup({
-    layouts = dapui_layout,
-    icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
-    expand_lines = true,
-  })
   setup_dap_events()
 end
 

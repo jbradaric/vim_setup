@@ -2,7 +2,6 @@ local heirline = require('heirline')
 local conditions = require('heirline.conditions')
 local utils = require('heirline.utils')
 local rooter = require('rooter')
-local icons = require('dapui.config').controls.icons
 
 local M = {}
 
@@ -290,109 +289,6 @@ FileNameBlock = utils.insert(FileNameBlock,
   { provider = '%<' }                       -- this means that the statusline is cut here when there's not enough space
 )
 
-local DapMessages = {
-  condition = function()
-    local session = require('dap').session()
-    return session ~= nil
-  end,
-  {
-    provider = function()
-      local session = require('dap').session()
-      if not session or session.stopped_thread_id then
-        return ' ' .. icons.play .. ' '
-      else
-        return ' ' .. icons.pause .. ' '
-      end
-    end,
-    on_click = {
-      callback = function()
-        local session = require('dap').session()
-        if not session or session.stopped_thread_id then
-          require('dap').continue()
-        else
-          require('dap').pause()
-        end
-      end,
-      name = 'heirline_dap_continue',
-    },
-    hl = 'DapUIPlayPause'
-  },
-  Space,
-  {
-    provider = function()
-      return ' ' .. icons.step_into .. ' '
-    end,
-    on_click = {
-      callback = function()
-        require('dap').step_into()
-      end,
-      name = 'heirline_dap_step_into',
-    },
-    hl = 'DapUIStepInto'
-  },
-  Space,
-  {
-    provider = function()
-      return ' ' .. icons.step_over .. ' '
-    end,
-    on_click = {
-      callback = function()
-        require('dap').step_over()
-      end,
-      name = 'heirline_dap_step_over',
-    },
-    hl = 'DapUIStepOver'
-  },
-  Space,
-  {
-    provider = function()
-      return ' ' .. icons.step_out .. ' '
-    end,
-    on_click = {
-      callback = function()
-        require('dap').step_out()
-      end,
-      name = 'heirline_dap_step_out',
-    },
-    hl = 'DapUIStepOut'
-  },
-  Space,
-  {
-    provider = function()
-      return ' ' .. icons.run_last .. ' '
-    end,
-    on_click = {
-      callback = function()
-        require('dap').run_last()
-      end,
-      name = 'heirline_dap_run_last',
-    },
-    hl = 'DapUIRestart'
-  },
-  Space,
-  {
-    provider = function()
-      return ' ' .. icons.terminate .. ' '
-    end,
-    on_click = {
-      callback = function()
-        require('dap').terminate()
-      end,
-      name = 'heirline_dap_terminate',
-    },
-    hl = 'DapUIStop'
-  },
-
-  Align,
-
-  {
-    provider = function()
-      return ' ' .. require('dap').status() .. ' '
-    end,
-    hl = 'Debug',
-  },
-}
-
 local WinBars = {
   fallthrough = false,
   {   -- An inactive winbar for regular files
@@ -486,7 +382,7 @@ M.setup = function()
       Align,
       LSPMessages, Space, LSP, Space, GitBranchName, Space, RulerPercent, Space, ScrollBar,
     },
-    winbar = { WinBars, Align, DapMessages },
+    winbar = { WinBars },
     opts = {
       colors = colors,
       disable_winbar_cb = function(args)
@@ -497,48 +393,6 @@ M.setup = function()
       end,
     },
   })
-
-  -- local timer = nil
-  --
-  -- vim.api.nvim_create_autocmd('LspProgress', {
-  --   pattern = { '*' },
-  --   callback = function(args)
-  --     local bufnr = args.buf
-  --     if not vim.lsp.buf_is_attached(bufnr, args.data.client_id) then
-  --       return
-  --     end
-  --     local client = vim.lsp.get_client_by_id(args.data.client_id)
-  --     local msg = args.data.result
-  --     local status = nil
-  --     if msg == nil then
-  --       status = nil
-  --     elseif msg.value == nil then
-  --       status = nil
-  --     elseif msg.value.kind == 'end' or msg.value.kind == 'begin' then
-  --       status = nil
-  --     elseif msg.value.kind ~= 'report' then
-  --       status = nil
-  --     else
-  --       status = msg.value.message
-  --       local title = msg.value.title or ''
-  --       if title ~= '' and title ~= nil then
-  --         status = string.format('[%s] %s - %s', client.name, title, msg.value.message)
-  --       else
-  --         status = string.format('[%s] %s', client.name, msg.value.message)
-  --       end
-  --     end
-  --     vim.api.nvim_buf_set_var(bufnr, 'lsp_progress', status)
-  --     if timer == nil then
-  --       timer = vim.uv.new_timer()
-  --       timer:start(200, 0, function()
-  --         timer:stop()
-  --         timer:close()
-  --         vim.schedule(vim.cmd['redrawstatus'])
-  --         timer = nil
-  --       end)
-  --     end
-  --   end
-  -- })
 end
 
 return M

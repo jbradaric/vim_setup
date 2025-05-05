@@ -35,7 +35,6 @@ return {
     dependencies = {
       'lewis6991/gitsigns.nvim',
       'jbradaric/rooter.nvim',
-      'rcarriga/nvim-dap-ui',
     },
     config = function()
       require('config.statusline').setup()
@@ -281,16 +280,26 @@ return {
   },
   {
     'mfussenegger/nvim-dap',
+    dependencies = {
+      { "igorlfs/nvim-dap-view",
+        opts = {
+          winbar = {
+            sections = { 'watches', 'scopes', 'exceptions', 'breakpoints', 'threads', 'repl', 'console' },
+            default_section = 'scopes',
+            controls = {
+              enabled = true,
+            },
+          },
+          switchbuf = 'useopen',
+        },
+      },
+    },
     config = function()
       require('config.dap').setup()
     end
   },
   {
     'mfussenegger/nvim-dap-python',
-    dependencies = { 'mfussenegger/nvim-dap' },
-  },
-  {
-    'rcarriga/nvim-dap-ui',
     dependencies = { 'mfussenegger/nvim-dap' },
   },
   {
