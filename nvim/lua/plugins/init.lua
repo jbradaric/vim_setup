@@ -432,29 +432,13 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "nvim-telescope/telescope.nvim", -- Optional: For working with files with slash commands
     },
-    config = function()
-      require("codecompanion").setup({
-        display = {
-          chat = {
-            show_settings = false,   -- Show LLM settings at the top of the chat buffer?
-          },
-        },
-        strategies = {
-          chat = {
-            adapter = "copilot",
-          },
-          inline = {
-            adapter = "copilot",
-          },
-          agent = {
-            adapter = "copilot",
-          },
-        },
-        opts = {
-          log_level = "DEBUG",
-        },
-      })
-    end,
+    opts = require('config.codecompanion'),
+    keys = {
+      { '<leader>ai', '<cmd>CodeCompanion<cr>',        mode = { 'n', 'v' }, desc = 'Inline Prompt [zi]' },
+      { '<leader>ac', '<cmd>CodeCompanionChat<cr>',    mode = { 'n', 'v' }, desc = 'Open Chat [zz]' },
+      { '<leader>at', '<cmd>CodeCompanionChat Toggle<cr>',  mode = { 'n', 'v' }, desc = 'Toggle Chat [zt]' },
+      { '<leader>aa', '<cmd>CodeCompanionActions<cr>', mode = { 'n', 'v' }, desc = 'Actions [za]' },
+    },
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
