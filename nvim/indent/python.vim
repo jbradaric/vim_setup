@@ -20,6 +20,8 @@
 " <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 " Only load this indent file when no other was loaded.
+let b:did_indent = 0
+finish
 if exists('b:did_indent')
     finish
 endif

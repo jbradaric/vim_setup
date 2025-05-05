@@ -63,6 +63,9 @@ M.setup = function()
       use_languagetree = true,
       disable = { 'cpp', 'codecompanion' },
     },
+    indent = {
+      enable = { 'python' },
+    },
     refactor = {
       highlight_definitions = { enable = false },
       smart_rename = {
@@ -118,9 +121,6 @@ M.setup = function()
         end
         return require('nvim-yati.fallback').vim_auto(lnum, computed, bufnr)
       end,
-    },
-    indent = {
-      enable = false,
     },
   }
 
