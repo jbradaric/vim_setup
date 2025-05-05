@@ -24,7 +24,6 @@ return {
     },
     config = true,
   },
-  -- { 'stevearc/dressing.nvim' },
   {
     'folke/trouble.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -40,28 +39,6 @@ return {
       require('config.statusline').setup()
     end,
   },
-  -- {
-  --   'kana/vim-textobj-user',
-  --   config = function()
-  --     vim.fn['textobj#user#plugin']('quotes', {
-  --       quotes = {
-  --         pattern = { "'", '"' },
-  --         select = { 'aq', 'iq' },
-  --       },
-  --     })
-  --   end,
-  -- },
-  -- { 'kana/vim-textobj-indent', dependencies = { 'kana/vim-textobj-user' } },
-  -- { 'kana/vim-textobj-lastpat', dependencies = { 'kana/vim-textobj-user' } },
-  -- { 'kana/vim-textobj-underscore', dependencies = { 'kana/vim-textobj-user' } },
-  -- { 'michaeljsmith/vim-indent-object' },
-  -- {
-  --   'wellle/targets.vim',
-  --   init = function()
-  --     vim.g.targets_argOpening = '[({[]'
-  --     vim.g.targets_argClosing = '[]})]'
-  --   end,
-  -- },
   {
     'folke/paint.nvim',
     config = function()
@@ -381,7 +358,7 @@ return {
         },
         adapters = {
           require('neotest-python')({
-            python = '/home/jurica/.virtualenvs/local-py3.11/bin/python3',
+            python = '/work/data/.local/bin/debugger',
           }),
         },
       })
@@ -417,14 +394,6 @@ return {
     'nvim-pack/nvim-spectre',
     config = true,
   },
-  -- { -- deletes unused buffers
-  --   "chrisgrieser/nvim-early-retirement",
-  --   config = true,
-  --   event = "VeryLazy",
-  -- },
-  -- {
-  --   'github/copilot.vim',
-  -- }
   {
     "olimorris/codecompanion.nvim",
     dependencies = {
@@ -610,5 +579,23 @@ return {
       -- Your DBUI configuration
       vim.g.db_ui_use_nerd_fonts = 1
     end,
+  },
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+    },
+    keys = {
+      {
+        "<leader>?",
+        function()
+          require("which-key").show({ global = false })
+        end,
+        desc = "Buffer Local Keymaps (which-key)",
+      },
+    },
   },
 }
