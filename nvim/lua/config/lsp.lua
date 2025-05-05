@@ -206,6 +206,10 @@ local function setup_lsp_mappings(client, bufnr)
     end
   end
 
+  if client:supports_method('textDocument/documentColor') then
+    vim.lsp.document_color.enable(true, bufnr, { style = 'virtual' })
+  end
+
   vim.keymap.set('n', '\\i',
     function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
