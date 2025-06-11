@@ -6,7 +6,13 @@ local M = {}
 local function setup_ccls(capabilities)
   nvim_lsp.clangd.setup({
     capabilities = capabilities,
-    cmd = { 'clangd', '--log=verbose', '--fallback-style=file:/work/data/src/local/py-cef/.clang-format' },
+    cmd = {
+      'clangd',
+      '--header-insertion=never',
+      '--background-index',
+      '--clang-tidy',
+      '--clang-tidy-checks=-*,readability-*,-readability-identifier-naming',
+    },
     init_options = {
       -- compilationDatabaseDirectory = 'build',
       completion = {
