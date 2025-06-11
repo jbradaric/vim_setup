@@ -37,20 +37,30 @@ local keymaps = {
   }
 }
 
+local mappings_set = false
+
 local function setup_mappings()
+  if mappings_set then
+    return
+  end
   for mode, mappings in pairs(keymaps) do
     for key, callback in pairs(mappings) do
       vim.keymap.set(mode, key, callback)
     end
   end
+  mappings_set = true
 end
 
 local function teardown_mappings()
+  if not mappings_set then
+    return
+  end
   for mode, mappings in pairs(keymaps) do
     for key, _ in pairs(mappings) do
       vim.keymap.del(mode, key)
     end
   end
+  mappings_set = false
 end
 
 local function debug_file()
@@ -61,46 +71,6 @@ local function debug_current_function()
   require('dap-python').test_method()
 end
 
-local debug_win = nil
-local debug_tab = nil
-local debug_tabnr = nil
-
-local function open_in_tab()
-  if debug_win and vim.api.nvim_win_is_valid(debug_win) then
-    vim.api.nvim_set_current_win(debug_win)
-    return
-  end
-
-  vim.cmd('tabedit %')
-  debug_win = vim.fn.win_getid()
-  if debug_win == nil then
-    return
-  end
-  debug_tab = vim.api.nvim_win_get_tabpage(debug_win)
-  debug_tabnr = vim.api.nvim_tabpage_get_number(debug_tab)
-
-  setup_mappings()
-  -- dapui.open()
-end
-
-local function close_tab()
-  -- dapui.close()
-
-  if debug_tab and vim.api.nvim_tabpage_is_valid(debug_tab) then
-    vim.api.nvim_exec2('tabclose ' .. debug_tabnr, { output = false })
-  end
-
-  debug_win = nil
-  debug_tab = nil
-  debug_tabnr = nil
-end
-
-M.stop_debugging = function()
-  teardown_mappings()
-  dap.close()
-  close_tab()
-end
-
 local function create_command(name, callback, desc)
   local opts = { desc = desc, force = true }
   vim.api.nvim_create_user_command(name, callback, opts)
@@ -109,15 +79,19 @@ end
 local function setup_dap_events()
   local dv = require("dap-view")
   dap.listeners.before.attach["dap-view-config"] = function()
+    setup_mappings()
     dv.open()
   end
   dap.listeners.before.launch["dap-view-config"] = function()
+    setup_mappings()
     dv.open()
   end
   dap.listeners.before.event_terminated["dap-view-config"] = function()
+    teardown_mappings()
     dv.close()
   end
   dap.listeners.before.event_exited["dap-view-config"] = function()
+    teardown_mappings()
     dv.close()
   end
 end
