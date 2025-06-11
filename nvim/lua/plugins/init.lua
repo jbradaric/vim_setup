@@ -204,14 +204,14 @@ return {
   },
   { 'justinmk/vim-dirvish' },
   { 'tyru/open-browser.vim' },
-  -- {
-  --   "OXY2DEV/markview.nvim",
-  --   lazy = false,
-  --   dependencies = {
-  --     "nvim-treesitter/nvim-treesitter",
-  --     "nvim-tree/nvim-web-devicons"
-  --   }
-  -- },
+  {
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons"
+    }
+  },
   {
     'jbradaric/nvim-miniyank',
     init = function()
@@ -379,16 +379,6 @@ return {
         border = 'curved',
       },
     },
-  },
-  {
-    'soulis-1256/eagle.nvim',
-    -- config = true,
-    init = function()
-      require('eagle').setup({
-        border = 'single',
-      })
-      vim.opt.mousemoveevent = true
-    end,
   },
   {
     'nvim-pack/nvim-spectre',
@@ -581,21 +571,10 @@ return {
     end,
   },
   {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
+    'bngarren/checkmate.nvim',
+    ft = 'markdown',
     opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
-    },
-    keys = {
-      {
-        "<leader>?",
-        function()
-          require("which-key").show({ global = false })
-        end,
-        desc = "Buffer Local Keymaps (which-key)",
-      },
+      files = { 'tasks', 'todo.md' },
     },
   },
 }
