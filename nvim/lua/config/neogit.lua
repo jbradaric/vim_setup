@@ -19,6 +19,7 @@ end
 
 M.setup = function()
   vim.api.nvim_set_keymap('n', '<Space>m', ':<C-U>Neogit<CR>', { silent = true, noremap = true })
+  vim.api.nvim_set_keymap('n', '<Space>nb', ':<C-U>Neogit branch<CR>', { silent = true, noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>dvo', ':DiffviewOpen<CR>', { silent = true, noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>dvc', ':DiffviewClose<CR>', { silent = true, noremap = true })
 
