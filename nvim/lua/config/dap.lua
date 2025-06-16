@@ -76,6 +76,29 @@ local function create_command(name, callback, desc)
   vim.api.nvim_create_user_command(name, callback, opts)
 end
 
+local function focus_ghostty_on_breakpoint()
+  local ghostty_wm_class = "ghostty" -- Adjust this if necessary!
+
+  local command_str = string.format(
+    "sh -c 'WID=$(xdotool search --sync --onlyvisible --classname %s | head -n1); [ -n \"$WID\" ] && xdotool windowactivate --sync \"$WID\"'",
+    vim.fn.shellescape(ghostty_wm_class) -- Use shellescape for safety if class name could have special chars
+  )
+
+  vim.fn.jobstart(command_str, {
+    on_stderr = function(_, data, _)
+      if data and #data > 0 and data[1] ~= "" then
+        vim.schedule(function()
+          vim.notify(
+            "nvim-dap: Error focusing " .. ghostty_wm_class .. ": " .. table.concat(data, "\n"),
+            vim.log.levels.WARN
+          )
+        end)
+      end
+    end,
+  })
+end
+
+
 local function setup_dap_events()
   local dv = require("dap-view")
   dap.listeners.before.attach["dap-view-config"] = function()
@@ -93,6 +116,9 @@ local function setup_dap_events()
   dap.listeners.before.event_exited["dap-view-config"] = function()
     teardown_mappings()
     dv.close()
+  end
+  dap.listeners.after.event_stopped['auto_focus_ghostty'] = function()
+    focus_ghostty_on_breakpoint()
   end
 end
 
