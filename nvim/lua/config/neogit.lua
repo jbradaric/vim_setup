@@ -24,7 +24,7 @@ M.setup = function()
   vim.api.nvim_set_keymap('n', '<Space>dvc', ':DiffviewClose<CR>', { silent = true, noremap = true })
 
   neogit.setup({
-    graph_style = 'unicode',
+    graph_style = 'kitty',
     disable_commit_confirmation = true,
     sections = {
       stashes = {
@@ -36,6 +36,7 @@ M.setup = function()
       fzf_lua = false,
       mini_pick = false,
       diffview = true,
+      snacks = true,
     },
     mappings = {
       status = {
@@ -44,6 +45,23 @@ M.setup = function()
       },
     },
   })
+
+  -- Override the default rebase editor mappings
+  require('neogit.config').values.mappings.rebase_editor = {
+    ['<c-c><c-c>'] = 'Submit',
+    ['<c-c><c-k>'] = 'Abort',
+    ['<cr>'] = 'OpenCommit',
+    ['[c'] = 'OpenOrScrollUp',
+    [']c'] = 'OpenOrScrollDown',
+    ['q'] = 'Close',
+    ['<leader>p'] = 'Pick',
+    ['<leader>e'] = 'Edit',
+    ['<leader>s'] = 'Squash',
+    ['<leader>f'] = 'Fixup',
+    ['<leader>d'] = 'Drop',
+    ['<leader>r'] = 'Reword',
+    ['<leader>c'] = 'Comment',
+  }
 
   vim.api.nvim_create_user_command('CreateMR', function()
     local git_root = vim.fs.root(0, ".git")
