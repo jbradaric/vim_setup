@@ -169,7 +169,6 @@ M.setup = function()
   })
   require('telescope').load_extension('fzf')
 
-  map('n', '<C-p>', function() require('config.telescope').find_files(vim.fn.getcwd()) end, {})
   map('n', '<Leader>b', function() vim.cmd('Telescope buffers theme=dropdown previewer=false') end, {})
   map('n', '<Leader>l', function() vim.cmd('Telescope current_buffer_fuzzy_find skip_empty_lines=true theme=dropdown previewer=false') end,
       {})
@@ -180,12 +179,6 @@ M.setup = function()
   vim.api.nvim_create_user_command('Files',
                                    function(opts) M.find_files(opts.args) end,
                                    { nargs = 1, complete = 'dir', desc = 'Pick files' })
-
-  -- map('n', '<Space>/', function()
-  --   vim.cmd('Rooter')
-  --   live_grep_cb()
-  -- end, {})
-
 end
 
 return M

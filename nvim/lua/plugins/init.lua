@@ -120,6 +120,16 @@ return {
   { 'avakhov/vim-yaml', ft = 'yaml' },
   { 'cespare/vim-toml', ft = 'toml' },
   { 'nvim-lua/plenary.nvim' },
+  { 'sindrets/diffview.nvim',
+    opts = {
+      enhanced_diff_hl = true,
+      view = {
+        merge_tool = {
+          layout = 'diff3_mixed',
+        },
+      },
+    },
+  },
   {
     'NeogitOrg/neogit',
     branch = 'master',
@@ -208,7 +218,6 @@ return {
     "OXY2DEV/markview.nvim",
     lazy = false,
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons"
     }
   },
@@ -223,7 +232,10 @@ return {
   },
   {
     'nvim-treesitter/nvim-treesitter',
-    branch = 'fix/matches',
+    branch = 'master',
+    dependencies = {
+      "OXY2DEV/markview.nvim",
+    },
     config = function()
       require('config.treesitter').setup()
     end,
@@ -469,6 +481,9 @@ return {
       { "<space>/", function() Snacks.picker.grep({ layout = { preset = 'vscode' } }) end,
         desc = 'Grep in the current project'
       },
+      { "<c-p>", function() Snacks.picker.files({ layout = { preset = 'vscode' } }) end,
+        desc = 'Open file picker'
+      },
     },
     ---@type snacks.Config
     opts = {
@@ -480,6 +495,7 @@ return {
       input = { enabled = true },
       scratch = { enabled = true },
       notifier = { enabled = true },
+      image = { enabled = true },
       picker = {
         win = {
           input = {
@@ -529,10 +545,6 @@ return {
     },
   },
   {
-    "3rd/image.nvim",
-    opts = {}
-  },
-  {
     'stevearc/conform.nvim',
     opts = {
       formatters_by_ft = {
@@ -547,6 +559,9 @@ return {
         javascript = { "prettierd", "prettier", stop_after_first = true },
         typescript = { "prettierd", "prettier", stop_after_first = true },
         typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+        html = { "prettierd", "prettier", stop_after_first = true },
+        css = { "prettierd", "prettier", stop_after_first = true },
+        json = { "prettierd", "prettier", stop_after_first = true },
       },
     },
   },
@@ -576,5 +591,19 @@ return {
     opts = {
       files = { 'tasks', 'todo.md' },
     },
+  },
+  {
+    "harrisoncramer/gitlab.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "stevearc/dressing.nvim",                                 -- Recommended but not required. Better UI for pickers.
+      "nvim-tree/nvim-web-devicons",                            -- Recommended but not required. Icons in discussion tree.
+    },
+    build = function() require("gitlab.server").build(true) end, -- Builds the Go binary
+    config = function()
+      require("gitlab").setup()
+    end,
   },
 }
