@@ -133,9 +133,6 @@ local function setup_lua_language_server(capabilities)
           },
           diagnostics = {
             globals = { 'vim' },
-            neededFileStatus = {
-              ['codestyle-check'] = 'Any',
-            },
           },
           workspace = {
             library = vim.api.nvim_get_runtime_file('', true),
