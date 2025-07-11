@@ -403,7 +403,13 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "nvim-telescope/telescope.nvim", -- Optional: For working with files with slash commands
     },
-    opts = {},
+    config = function()
+      require('codecompanion').setup({
+        opts = {
+          -- Optional: Set the default system prompt
+          system_prompt = require('config.llm_prompts').get_prompt,
+        },})
+    end,
     keys = {
       { '<leader>ai', '<cmd>CodeCompanion<cr>',        mode = { 'n', 'v' }, desc = 'Inline Prompt [zi]' },
       { '<leader>ac', '<cmd>CodeCompanionChat<cr>',    mode = { 'n', 'v' }, desc = 'Open Chat [zz]' },
