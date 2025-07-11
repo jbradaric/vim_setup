@@ -4,6 +4,16 @@ return {
     opts = {},
   },
   {
+    'nvim-treesitter/nvim-treesitter',
+    branch = 'master',
+    dependencies = {
+      "OXY2DEV/markview.nvim",
+    },
+    config = function()
+      require('config.treesitter').setup()
+    end,
+  },
+  {
     'jbradaric/rooter.nvim',
     config = function()
       require('config.rooter').setup()
@@ -228,16 +238,6 @@ return {
       vim.cmd([[map P <Plug>(miniyank-autoPut)]])
       vim.cmd([[map <A-p> <Plug>(miniyank-cycle)]])
       vim.cmd([[map <A-n> <Plug>(miniyank-cycleback)]])
-    end,
-  },
-  {
-    'nvim-treesitter/nvim-treesitter',
-    branch = 'master',
-    dependencies = {
-      "OXY2DEV/markview.nvim",
-    },
-    config = function()
-      require('config.treesitter').setup()
     end,
   },
   {
