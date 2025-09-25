@@ -253,17 +253,6 @@ return {
     end,
   },
   {
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    priority = 1000,
-  },
-  {
-    'navarasu/onedark.nvim',
-    opts = {
-      style = 'warm',
-    },
-  },
-  {
     'mfussenegger/nvim-dap',
     dependencies = {
       { "igorlfs/nvim-dap-view",
@@ -421,21 +410,12 @@ return {
       { '<leader>at', '<cmd>CodeCompanionChat Toggle<cr>',  mode = { 'n', 'v' }, desc = 'Toggle Chat [zt]' },
       { '<leader>aa', '<cmd>CodeCompanionActions<cr>', mode = { 'n', 'v' }, desc = 'Actions [za]' },
     },
-  },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    dependencies = {
-      { "zbirenbaum/copilot.lua" },
-      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
-    },
-    build = "make tiktoken",
-    opts = {},
+    commands = { 'CodeCompanion', 'CodeCompanionChat', 'CodeCompanionActions' },
   },
   {
     "zbirenbaum/copilot.lua",
     config = function()
       require('copilot').setup({
-        copilot_model = 'claude-3.7-sonnet',
         suggestion = {
           enabled = true,
           hide_during_completion = false,
