@@ -370,7 +370,7 @@ return {
         },
         adapters = {
           require('neotest-python')({
-            python = '/work/data/.local/bin/debugger',
+            python = '/work/data/.local/bin/sdt',
           }),
         },
       })
