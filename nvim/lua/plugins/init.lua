@@ -1,9 +1,5 @@
 return {
   {
-    'folke/neodev.nvim',
-    opts = {},
-  },
-  {
     'nvim-treesitter/nvim-treesitter',
     branch = 'master',
     dependencies = {
@@ -32,11 +28,6 @@ return {
         vim.keymap.set('n', '[g', function() vim.schedule(gitsigns.prev_hunk) end, { buffer = bufnr })
       end,
     },
-    config = true,
-  },
-  {
-    'folke/trouble.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = true,
   },
   {
@@ -119,14 +110,6 @@ return {
     end,
   },
   { 'tpope/vim-eunuch' },
-  { 'tpope/vim-abolish' },
-  {
-    'tpope/vim-sleuth',
-    cmd = 'Sleuth',
-    init = function()
-      vim.g.sleuth_automatic = 0
-    end,
-  },
   { 'avakhov/vim-yaml', ft = 'yaml' },
   { 'cespare/vim-toml', ft = 'toml' },
   { 'nvim-lua/plenary.nvim' },
@@ -163,15 +146,6 @@ return {
     end,
   },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-  { 'chrisbra/NrrwRgn', cmd = 'NRV' },
-  {
-    'mtth/scratch.vim',
-    init = function()
-      vim.g.scratch_autohide = 0
-      vim.g.scratch_insert_autohide = 0
-      vim.g.scratch_no_mappings = 1
-    end,
-  },
   {
     'mbbill/undotree',
     cmd = 'UndotreeToggle',
@@ -329,12 +303,6 @@ return {
     end,
   },
   {
-    'ThePrimeagen/refactoring.nvim',
-    config = function()
-      require('config.refactoring').setup()
-    end
-  },
-  {
     dir = vim.fn.expand('~/src/misc/nvim-work-config'),
     cond = vim.uv.fs_stat(vim.fn.expand('~/src/misc/nvim-work-config')) or false,
   },
@@ -387,10 +355,6 @@ return {
     },
   },
   {
-    'nvim-pack/nvim-spectre',
-    config = true,
-  },
-  {
     "olimorris/codecompanion.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -428,10 +392,6 @@ return {
       })
     end,
   },
-  -- { "zbirenbaum/copilot-cmp" },
-  { "miikanissi/modus-themes.nvim", priority = 1000 },
-  { "alduraibi/telescope-glyph.nvim" },
-  { "rest-nvim/rest.nvim" },
   { 'stevearc/quicker.nvim',
     event = "FileType qf",
     opts = {
@@ -557,9 +517,6 @@ return {
     },
   },
   {
-    'tpope/vim-dadbod',
-  },
-  {
     'kristijanhusak/vim-dadbod-ui',
     dependencies = {
       { 'tpope/vim-dadbod',                     lazy = true },
@@ -574,27 +531,6 @@ return {
     init = function()
       -- Your DBUI configuration
       vim.g.db_ui_use_nerd_fonts = 1
-    end,
-  },
-  {
-    'bngarren/checkmate.nvim',
-    ft = 'markdown',
-    opts = {
-      files = { 'tasks', 'todo.md' },
-    },
-  },
-  {
-    "harrisoncramer/gitlab.nvim",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-      "sindrets/diffview.nvim",
-      "stevearc/dressing.nvim",                                 -- Recommended but not required. Better UI for pickers.
-      "nvim-tree/nvim-web-devicons",                            -- Recommended but not required. Icons in discussion tree.
-    },
-    build = function() require("gitlab.server").build(true) end, -- Builds the Go binary
-    config = function()
-      require("gitlab").setup()
     end,
   },
 }
