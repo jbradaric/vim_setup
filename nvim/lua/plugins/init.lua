@@ -376,22 +376,6 @@ return {
     },
     commands = { 'CodeCompanion', 'CodeCompanionChat', 'CodeCompanionActions' },
   },
-  {
-    "zbirenbaum/copilot.lua",
-    config = function()
-      require('copilot').setup({
-        suggestion = {
-          enabled = true,
-          hide_during_completion = false,
-          auto_trigger = true,
-          keymap = {
-            accept = '<C-y>',
-          },
-        },
-        panel = { enabled = false },
-      })
-    end,
-  },
   { 'stevearc/quicker.nvim',
     event = "FileType qf",
     opts = {

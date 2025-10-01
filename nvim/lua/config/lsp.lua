@@ -145,7 +145,9 @@ M.setup = function()
   })
 
   -- Enable all desired servers
-  vim.lsp.enable({ 'clangd', 'pyrefly', 'ruff', 'lua_ls', 'ts_ls', 'tailwindcss' })
+  vim.lsp.enable({ 'clangd', 'pyrefly', 'ruff', 'lua_ls', 'ts_ls', 'tailwindcss', 'copilot' })
+
+  vim.lsp.inline_completion.enable()
 
   -- Rust (delegated to rustaceanvim plugin)
   vim.g.rustaceanvim = { server = { on_attach = on_attach } }
