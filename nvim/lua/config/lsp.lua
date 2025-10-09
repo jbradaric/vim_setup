@@ -117,7 +117,12 @@ M.setup = function()
 
   vim.opt.signcolumn = 'yes:1'
 
-  local capabilities = require('blink.cmp').get_lsp_capabilities()
+  local capabilities = vim.tbl_deep_extend('force', require('blink.cmp').get_lsp_capabilities(), {
+    offsetEncoding = { 'utf-16' },
+    general = {
+      positionEncodings = { 'utf-16' },
+    },
+  })
 
   -- Apply base capabilities to all servers; on_attach handled via LspAttach below.
   vim.lsp.config('*', { capabilities = capabilities })
