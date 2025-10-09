@@ -147,7 +147,12 @@ M.setup = function()
   -- Enable all desired servers
   vim.lsp.enable({ 'clangd', 'pyrefly', 'ruff', 'lua_ls', 'ts_ls', 'tailwindcss', 'copilot' })
 
+  -- Enable inline completion
   vim.lsp.inline_completion.enable()
+  vim.keymap.set('i', '<C-y>', function() vim.lsp.inline_completion.get() end, { noremap = true, silent = true })
+  vim.keymap.set('i', '<M-[>', function() vim.lsp.inline_completion.select({ count = -1 }) end,
+    { noremap = true, silent = true })
+  vim.keymap.set('i', '<M-]>', function() vim.lsp.inline_completion.select() end, { noremap = true, silent = true })
 
   -- Rust (delegated to rustaceanvim plugin)
   vim.g.rustaceanvim = { server = { on_attach = on_attach } }

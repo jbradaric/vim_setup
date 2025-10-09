@@ -34,11 +34,7 @@ return {
       ['<Tab>'] = {
         'snippet_forward',
         function(cmp)
-          if require('sidekick').nes_jump_or_apply() then
-            return
-          elseif vim.lsp.inline_completion.get() then
-            return
-          elseif cmp.snippet_active() then
+          if cmp.snippet_active() then
             return cmp.accept()
           elseif cmp.is_menu_visible() then
             return cmp.select_next()
@@ -47,21 +43,6 @@ return {
           end
         end,
         'fallback',
-      },
-      ['<C-y>'] = {
-        function()
-          return vim.lsp.inline_completion.get()
-        end,
-      },
-      ['<M-Right>'] = {
-        function()
-          vim.lsp.inline_completion.select()
-        end,
-      },
-      ['<M-Left>'] = {
-        function()
-          vim.lsp.inline_completion.select({ count = -1 })
-        end,
       },
       ['<S-Tab>'] = { 'snippet_backward', 'select_prev', 'fallback' },
       ['<CR>'] = { 'select_and_accept', 'fallback' },
@@ -89,7 +70,7 @@ return {
     cmdline = { enabled = false },
 
     enabled = function()
-      if vim.tbl_contains({ 'gitcommit', }, vim.bo.filetype) then
+      if vim.tbl_contains({ 'gitcommit' }, vim.bo.filetype) then
         return false
       end
       return true
