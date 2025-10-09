@@ -368,6 +368,39 @@ return {
     },
     commands = { 'CodeCompanion', 'CodeCompanionChat', 'CodeCompanionActions' },
   },
+  {
+    "folke/sidekick.nvim",
+    opts = {
+      cli = {
+        win = {
+          layout = 'float',
+        },
+        mux = {
+          enabled = true,
+        },
+      },
+      nes = {
+        enabled = false,
+      },
+    },
+    keys = {
+      {
+        '\\so',
+        function()
+          require('sidekick.cli').toggle({ name = 'opencode', focus = true })
+        end,
+        desc = 'Toggle Sidekick',
+      },
+      {
+        '\\sp',
+        function()
+          require("sidekick.cli").prompt()
+        end,
+        desc = "Sidekick Ask Prompt",
+        mode = { "n", "v" },
+      },
+    },
+  },
   { 'stevearc/quicker.nvim',
     event = "FileType qf",
     opts = {
