@@ -146,14 +146,6 @@ return {
     end,
   },
   { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-  {
-    'mbbill/undotree',
-    cmd = 'UndotreeToggle',
-    init = function()
-      vim.g.undotree_WindowLayout = 2
-      vim.g.undotree_SetFocusWhenToggle = 1
-    end,
-  },
   { 'xolox/vim-misc' },
   {
     'xolox/vim-notes',
