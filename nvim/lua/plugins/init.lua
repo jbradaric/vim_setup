@@ -107,25 +107,10 @@ return {
     end,
   },
   { 'tpope/vim-eunuch' },
-  { 'avakhov/vim-yaml', ft = 'yaml' },
-  { 'cespare/vim-toml', ft = 'toml' },
   { 'nvim-lua/plenary.nvim' },
-  { 'sindrets/diffview.nvim',
-    opts = {
-      enhanced_diff_hl = true,
-      view = {
-        merge_tool = {
-          layout = 'diff3_mixed',
-        },
-      },
-    },
-  },
   {
     'NeogitOrg/neogit',
     branch = 'master',
-    dependencies = {
-      "sindrets/diffview.nvim",
-    },
     config = function()
       require('config.neogit').setup()
     end,
@@ -135,7 +120,6 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim',
       'nvim-treesitter/nvim-treesitter',
-      'nvim-treesitter/playground',
       'nvim-tree/nvim-web-devicons',
     },
     config = function()
@@ -150,13 +134,6 @@ return {
     init = function()
       vim.g.notes_directories = { '~/.config/nvim/notes' }
       vim.g.notes_title_sync = 'rename_file'
-    end,
-  },
-  {
-    'ludovicchabant/vim-gutentags',
-    init = function()
-      vim.g.gutentags_add_default_project_roots = 1
-      vim.g.gutentags_file_list_command = 'fd'
     end,
   },
   {
@@ -233,7 +210,6 @@ return {
       setopt = true,
     },
   },
-  { 'MunifTanjim/nui.nvim' },
   {
     'echasnovski/mini.nvim',
     dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
@@ -286,9 +262,9 @@ return {
   {
     'nvim-neotest/neotest',
     dependencies = {
+      'nvim-neotest/nvim-nio',
       'nvim-lua/plenary.nvim',
       'nvim-treesitter/nvim-treesitter',
-      'nvim-neotest/nvim-nio',
       -- 'antoinemadec/FixCursorHold.nvim',
       'nvim-neotest/neotest-python',
     },
@@ -473,22 +449,5 @@ return {
         json = { "prettierd", "prettier", stop_after_first = true },
       },
     },
-  },
-  {
-    'kristijanhusak/vim-dadbod-ui',
-    dependencies = {
-      { 'tpope/vim-dadbod',                     lazy = true },
-      { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true }, -- Optional
-    },
-    cmd = {
-      'DBUI',
-      'DBUIToggle',
-      'DBUIAddConnection',
-      'DBUIFindBuffer',
-    },
-    init = function()
-      -- Your DBUI configuration
-      vim.g.db_ui_use_nerd_fonts = 1
-    end,
   },
 }
