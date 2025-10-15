@@ -100,12 +100,6 @@ return {
   },
   { 'tpope/vim-git' },
   { 'tpope/vim-repeat' },
-  {
-    'tpope/vim-surround',
-    init = function()
-      vim.g.surround_no_insert_mappings = 1
-    end,
-  },
   { 'tpope/vim-eunuch' },
   { 'nvim-lua/plenary.nvim' },
   {
@@ -251,6 +245,17 @@ return {
           }),
           u = ai.gen_spec.function_call(),
           U = ai.gen_spec.function_call({ name_pattern = '[%w_]' })
+        },
+      })
+
+      require('mini.surround').setup({
+        mappings = {
+          add = 'ys',
+          delete = 'ds',
+          replace = 'cs',
+          find = '',
+          find_left = '',
+          highlight = '',
         },
       })
     end,
