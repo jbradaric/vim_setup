@@ -258,6 +258,12 @@ return {
           highlight = '',
         },
       })
+
+      -- Remove 'ys' mapping in visual mode to avoid conflict with yank mapping
+      vim.keymap.del('x', 'ys')
+      -- Map "surround selection" to S, like in vim-surround
+      vim.keymap.set('x', 'S', [[:<C-u>lua MiniSurround.add('visual')<CR>]],
+        { silent = true, desc = 'Add surrounding to selection' })
     end,
   },
   {
