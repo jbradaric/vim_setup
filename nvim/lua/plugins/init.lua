@@ -329,7 +329,7 @@ return {
       require('codecompanion').setup({
         opts = {
           -- Optional: Set the default system prompt
-          system_prompt = require('config.llm_prompts').get_prompt,
+          -- system_prompt = require('config.llm_prompts').get_prompt,
         },})
     end,
     keys = {
