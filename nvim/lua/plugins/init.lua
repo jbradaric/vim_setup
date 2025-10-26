@@ -150,6 +150,9 @@ return {
       'nvim-treesitter/nvim-treesitter',
       'nvim-tree/nvim-web-devicons'
     },
+    keys = {
+      { '<space>a', '<cmd>AerialToggle<cr>', desc = 'Toggle Aerial' },
+    },
   },
   {
     'onsails/lspkind-nvim',
