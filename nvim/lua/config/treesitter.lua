@@ -22,112 +22,104 @@ endfun
   ]])
 end
 
-local function setup_context()
-  require('treesitter-context').setup({
-    max_lines = 3,
-  })
-end
+local highlight_fts = {
+  'c',
+  'css',
+  'groovy',
+  'html',
+  'lua',
+  'markdown',
+  'markdown',
+  'python',
+  'typescript',
+  'typescript',
+  'yaml',
+  'zsh',
+}
+
+local ensure_installed = {
+  'bash',
+  'c',
+  'cpp',
+  'css',
+  'groovy',
+  'helm',
+  'html',
+  'http',
+  'javascript',
+  'lua',
+  'markdown',
+  'markdown_inline',
+  'nginx',
+  'python',
+  'query',
+  'regex',
+  'rust',
+  'sql',
+  'tsx',
+  'typescript',
+  'typescript',
+  'vim',
+  'vimdoc',
+  'xml',
+  'yaml',
+}
+
+local indent_fts = {
+  'python',
+}
 
 M.setup = function()
-  local tm_fts = { 'python' }
+  require('nvim-treesitter').install(ensure_installed)
 
-  require('nvim-treesitter.configs').setup {
-    ensure_installed = {
-      'bash',
-      'c',
-      'cpp',
-      'lua',
-      'python',
-      'rust',
-      'typescript',
-      'vimdoc',
-      'vim',
-      'markdown',
-      'markdown_inline',
-      'query',
-      'regex',
-      'sql',
-      'tsx',
-      'typescript',
-      'xml',
-      'yaml',
-      'css',
-      'groovy',
-      'helm',
-      'html',
-      'http',
-      'javascript',
-      'nginx',
-    },
-    highlight = {
-      enable = true,
-      use_languagetree = true,
-      disable = { 'cpp', 'codecompanion' },
-    },
-    indent = {
-      enable = { 'python' },
-    },
-    refactor = {
-      highlight_definitions = { enable = false },
-      smart_rename = {
-        enable = true,
-        keymaps = {
-          smart_rename = 'grr',
-        },
-      },
-      navigation = {
-        enable = true,
-        keymaps = {
-          goto_definition_lsp_fallback = '<C-]>',
-          list_definitions = 'gnD',
-          list_definitions_toc = 'gO',
-        },
-      },
-    },
-    textobjects = {
-      lsp_interop = {
-        enable = true,
-        peek_definition_code = {
-          ['gdf'] = '@function.outer',
-          ['gdF'] = '@class.outer',
-        },
-      },
-      select = {
-        enable = true,
-        keymaps = {
-          ['af'] = '@function.outer',
-          ['if'] = '@function.inner',
-          ['ac'] = '@class.outer',
-          ['ic'] = '@class.inner',
-          ['ib'] = '@block.inner',
-          ['ab'] = '@block.outer',
-        },
-      },
-      swap = {
-        enable = true,
-        swap_next = {
-          ['<leader>a'] = '@parameter.inner',
-        },
-        swap_previous = {
-          ['<leader>A'] = '@parameter.inner',
-        },
-      },
-    },
-    yati = {
-      enable = true,
-      default_lazy = true,
-      default_fallback = function(lnum, computed, bufnr)
-        if vim.tbl_contains(tm_fts, vim.bo[bufnr].filetype) then
-          return require('tmindent').get_indent(lnum, bufnr) + computed
-        end
-        return require('nvim-yati.fallback').vim_auto(lnum, computed, bufnr)
-      end,
-    },
-  }
+  vim.treesitter.language.register('bash', 'zsh')
+
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = { '*' },
+    callback = function()
+      if vim.tbl_contains(highlight_fts, vim.bo.filetype) then
+        vim.treesitter.start()
+      end
+    end,
+  })
+
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = { '*' },
+    callback = function()
+      if vim.tbl_contains(indent_fts, vim.bo.filetype) then
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end
+    end,
+  })
+
+  require('nvim-treesitter-textobjects').setup({})
+
+  vim.keymap.set({ 'x', 'o' }, 'af', function()
+    require('nvim-treesitter-textobjects.select').select_textobject('@function.outer', 'textobjects')
+  end)
+  vim.keymap.set({ 'x', 'o' }, 'if', function()
+    require('nvim-treesitter-textobjects.select').select_textobject('@function.inner', 'textobjects')
+  end)
+  vim.keymap.set({ 'x', 'o' }, 'ac', function()
+    require('nvim-treesitter-textobjects.select').select_textobject('@class.outer', 'textobjects')
+  end)
+  vim.keymap.set({ 'x', 'o' }, 'ic', function()
+    require('nvim-treesitter-textobjects.select').select_textobject('@class.inner', 'textobjects')
+  end)
+  -- You can also use captures from other query groups like `locals.scm`
+  vim.keymap.set({ 'x', 'o' }, 'as', function()
+    require('nvim-treesitter-textobjects.select').select_textobject('@local.scope', 'locals')
+  end)
+
+  vim.keymap.set('n', '<leader>a', function()
+    require('nvim-treesitter-textobjects.swap').swap_next('@parameter.inner')
+  end)
+  vim.keymap.set('n', '<leader>A', function()
+    require('nvim-treesitter-textobjects.swap').swap_previous('@parameter.outer')
+  end)
 
   setup_highlights()
   setup_utils()
-  -- setup_context()
 end
 
 return M
