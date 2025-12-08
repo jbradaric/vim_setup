@@ -127,18 +127,6 @@ return {
       require('config.neogit').setup()
     end,
   },
-  {
-    'nvim-telescope/telescope.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-treesitter/nvim-treesitter',
-      'nvim-tree/nvim-web-devicons',
-    },
-    config = function()
-      require('config.telescope').setup()
-    end,
-  },
-  { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   { 'xolox/vim-misc' },
   {
     'xolox/vim-notes',
@@ -344,14 +332,22 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
-      "nvim-telescope/telescope.nvim", -- Optional: For working with files with slash commands
+      -- "nvim-telescope/telescope.nvim", -- Optional: For working with files with slash commands
     },
     config = function()
       require('codecompanion').setup({
         opts = {
-          -- Optional: Set the default system prompt
-          -- system_prompt = require('config.llm_prompts').get_prompt,
-        },})
+        },
+      })
+
+      -- Override slash commands to use Snacks as the provider
+      vim.tbl_map(
+        function(cmd)
+          if cmd.opts then
+            cmd.opts.provider = 'snacks'
+          end
+        end,
+        require('codecompanion.config').config.strategies.chat.slash_commands)
     end,
     keys = {
       { '<leader>ai', '<cmd>CodeCompanion<cr>',        mode = { 'n', 'v' }, desc = 'Inline Prompt [zi]' },
