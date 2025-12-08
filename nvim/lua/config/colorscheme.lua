@@ -59,24 +59,6 @@ M.setup = function()
   -- highlight('@lsp.mod.readonly', { style = 'italic' })
   -- vim.api.nvim_set_hl(0, '@lsp.type.method', { link = '@method', default = true })
 
-  vim.api.nvim_create_autocmd("LspTokenUpdate", {
-    callback = function(args)
-      local token = args.data.token
-      if token.type == 'decorator' then
-        vim.lsp.semantic_tokens.highlight_token(
-          token, args.buf, args.data.client_id, '@lsp.type.decorator.python',
-          { priority = 120 }
-        )
-      end
-
-      -- if token.modifiers.builtin and token.modifiers.readonly then
-      --   vim.lsp.semantic_tokens.highlight_token(
-      --     token, args.buf, args.data.client_id, '@lsp.mod.builtin'
-      --   )
-      -- end
-    end,
-  })
-
   -- Make Sncaks.picker look more similar to telescope
   vim.api.nvim_create_autocmd("ColorScheme", {
     pattern = "*",
