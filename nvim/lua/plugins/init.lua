@@ -110,7 +110,7 @@ return {
   {
     'tpope/vim-fugitive',
     init = function()
-      vim.keymap.set('n', '<leader>gco', '<cmd>Telescope git_branches<cr>', { silent = true })
+      vim.keymap.set('n', '<leader>gco', function() Snacks.picker.git_branches() end, { silent = true })
       vim.keymap.set('n', '<leader>gcm', '<cmd>Git checkout master<cr>', { silent = true })
       vim.keymap.set('n', '<leader>gpl', '<cmd>Git pull<cr>', { silent = true })
       vim.keymap.set('n', '<leader>gpu', '<cmd>Git push<cr>', { silent = true })
@@ -437,6 +437,29 @@ return {
       { "<c-p>", function() Snacks.picker.files({ layout = { preset = 'vscode' } }) end,
         desc = 'Open file picker'
       },
+      { "<space>r", function() Snacks.picker.resume() end, desc = 'Resume last picker' },
+      { "<leader>b", function() Snacks.picker.buffers({ layout = { preset = 'vscode' } }) end,
+        desc = 'Select buffer'
+      },
+      { "<leader>l", function() Snacks.picker.lines({ layout = { preset = 'vscode' } }) end,
+        desc = 'Search lines in the current buffer'
+      },
+      {
+        "<leader>f",
+        function()
+          local opts = { filter = { default = { 'Function' } }, layout = { preset = 'vscode' } }
+          Snacks.picker.treesitter(opts)
+        end,
+        desc = 'Select function from treesitter'
+      },
+      {
+        "<leader>t",
+        function()
+          local opts = { filter = { default = { 'Class', 'Enum', 'Struct', 'Trait' } }, layout = { preset = 'vscode' } }
+          Snacks.picker.treesitter(opts)
+        end,
+        desc = 'Select type from treesitter'
+      },
     },
     ---@type snacks.Config
     opts = {
@@ -460,6 +483,15 @@ return {
         },
       },
     },
+    config = function(_, opts)
+      require('snacks').setup(opts)
+
+      vim.api.nvim_create_user_command('Files',
+        function(func_args)
+          require('snacks').picker.files({ dirs = { func_args.args }, layout = { preset = 'vscode' }})
+        end,
+        { nargs = 1, complete = 'dir', desc = 'Pick files' })
+    end,
   },
   {
     'stevearc/conform.nvim',
