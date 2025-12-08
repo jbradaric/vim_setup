@@ -63,6 +63,7 @@ local ensure_installed = {
   'vimdoc',
   'xml',
   'yaml',
+  'zsh',
 }
 
 local indent_fts = {
@@ -71,8 +72,6 @@ local indent_fts = {
 
 M.setup = function()
   require('nvim-treesitter').install(ensure_installed)
-
-  vim.treesitter.language.register('bash', 'zsh')
 
   vim.api.nvim_create_autocmd('FileType', {
     pattern = { '*' },
