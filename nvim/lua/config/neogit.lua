@@ -2,21 +2,6 @@ local neogit = require('neogit')
 
 local M = {}
 
-local function extract_url_from_command_output(output)
-  -- Look for the URL pattern in lines starting with "remote:"
-  -- The pattern matches "https://" followed by any non-whitespace characters
-  for line in output:gmatch("[^\r\n]+") do
-    if line:match("^remote:%s+https://") then
-      local url = line:match("(https://[%w%p]+)")
-      if url then
-        return url
-      end
-    end
-  end
-
-  return nil -- Return nil if no URL is found
-end
-
 M.setup = function()
   vim.api.nvim_set_keymap('n', '<Space>m', ':<C-U>Neogit<CR>', { silent = true, noremap = true })
   vim.api.nvim_set_keymap('n', '<Space>nb', ':<C-U>Neogit branch<CR>', { silent = true, noremap = true })
@@ -63,32 +48,20 @@ M.setup = function()
     ['<leader>c'] = 'Comment',
   }
 
-  vim.api.nvim_create_user_command('CreateMR', function()
-    local git_root = vim.fs.root(0, ".git")
-    if type(git_root) ~= "string" then
-        vim.notify("Not in a repository", vim.log.levels.ERROR)
-        return
-    end
+  require("gitlab-mr-cherry-pick").setup({
+    remote = "origin",
+    base_branch = "master",
+    draft = false,
+  })
 
-    local function on_exit(obj)
-      vim.schedule(function()
-        if obj.code ~= 0 then
-          vim.notify("Command failed with exit code: " .. obj.code, vim.log.levels.ERROR)
-          return
-        end
-        local url = extract_url_from_command_output(obj.stderr)
-        if url ~= nil then
-          vim.notify("Merge request created: " .. url, vim.log.levels.INFO)
-          vim.fn['openbrowser#open'](url)
-        else
-          vim.notify("No merge request URL found in command output.", vim.log.levels.WARN)
-        end
-      end)
-    end
+  -- Key mappings
+  vim.keymap.set("n", "<leader>gmr", function()
+    require("gitlab-mr-cherry-pick").create_mr_from_current_line()
+  end, { desc = "Create GitLab MR from current commit" })
 
-    local cmd = { 'git', 'lab', 'review' }
-    vim.system(cmd, { text = true }, on_exit)
-  end, {})
+  vim.keymap.set("v", "<leader>gmr", function()
+    require("gitlab-mr-cherry-pick").create_mr_from_selection()
+  end, { desc = "Create GitLab MR from selected commits" })
 end
 
 return M
