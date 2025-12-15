@@ -337,9 +337,28 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       -- "nvim-telescope/telescope.nvim", -- Optional: For working with files with slash commands
+      "ravitemer/codecompanion-history.nvim",
     },
     config = function()
+      require('codecompanion.providers').pickers = 'snacks'
       require('codecompanion').setup({
+        extensions = {
+          history = {
+            enabled = true,
+            opts = {
+              title_generation_opts = {
+                adapter = 'copilot',
+                model = 'gpt-4o',
+              },
+              summary = {
+                generation_opts = {
+                  adapter = 'copilot',
+                  model = 'gpt-4o',
+                },
+              },
+            },
+          },
+        },
         opts = {
         },
       })
