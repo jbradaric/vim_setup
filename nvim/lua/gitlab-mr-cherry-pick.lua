@@ -390,6 +390,37 @@ local create_merge_request_async = async.void(function(commits, opts)
   output:append_success("Checked out to " .. current_branch)
   output:append_separator()
 
+  -- Check for uncommitted changes before proceeding with commit removal
+  -- We only care about tracked files (staged or unstaged), not untracked files
+  output:append_section("Checking for uncommitted changes")
+  local status_result = git({ "status", "--porcelain" }, nil)
+
+  local has_uncommitted = false
+  if status_result and #vim.trim(status_result.stdout) > 0 then
+    -- Check each line - ignore lines starting with '??' (untracked files)
+    for _, line in ipairs(vim.split(status_result.stdout, "\n")) do
+      if #vim.trim(line) > 0 and not line:match("^%?%?") then
+        has_uncommitted = true
+        break
+      end
+    end
+  end
+
+  if has_uncommitted then
+    output:append_warning("Uncommitted changes detected")
+    output:append_info("Cannot safely remove commits with uncommitted changes", 2)
+    output:append_info("Please commit or stash your changes first", 2)
+    output:append_separator()
+    output:append_divider()
+    output:append_info("✨ MR created! Press 'q' to close this window", 2)
+    output:append_divider()
+    notify("⚠ Skipped commit removal - uncommitted changes detected", vim.log.levels.WARN)
+    return
+  end
+
+  output:append_success("No uncommitted changes")
+  output:append_separator()
+
   -- Confirm and remove commits
   local confirmed = confirm("Ready to remove " .. #commits .. " commit(s) from " .. current_branch .. "?")
   if not confirmed then
@@ -402,86 +433,113 @@ local create_merge_request_async = async.void(function(commits, opts)
     return
   end
 
-  -- Remove commits using interactive rebase
+  -- Remove commits
   output:append_section("Removing commits from " .. current_branch)
 
-  -- Create a list of short hashes to drop
-  local hashes_to_drop = {}
-  for _, info in ipairs(commit_infos) do
-    table.insert(hashes_to_drop, info.hash:sub(1, 7))
-  end
+  -- Check if we're removing commits at HEAD
+  local head_hash_result = git({ "rev-parse", "HEAD" }, nil)
+  local head_hash = head_hash_result and vim.trim(head_hash_result.stdout) or ""
+  local last_commit_is_head = (commit_infos[#commit_infos].hash == head_hash)
 
-  -- Create a temporary script that modifies the rebase todo list
-  local script_path = vim.fn.tempname()
-  local grep_pattern = table.concat(hashes_to_drop, "|")
-  local script_content = string.format([[#!/bin/bash
+  if last_commit_is_head then
+    -- Commits are at HEAD, use reset (simpler and works for single commit)
+    output:append_info("Commits are at HEAD, using reset")
+    local reset_target = commit_infos[1].hash .. "^"
+    output:append_info("Resetting to " .. reset_target:sub(1, 7))
+    output:append_separator()
+
+    success = git({ "reset", "--hard", reset_target }, output)
+
+    if success then
+      output:append_success("Commits removed from " .. current_branch)
+      notify("✓ Commits removed from " .. current_branch, vim.log.levels.INFO)
+    else
+      output:append_error("Failed to remove commits")
+      output:append_warning("You may need to manually remove them")
+      notify("Failed to remove commits", vim.log.levels.ERROR)
+    end
+  else
+    -- Commits are in the middle of history, use interactive rebase
+    output:append_info("Commits are in history, using interactive rebase")
+
+    -- Create a list of short hashes to drop
+    local hashes_to_drop = {}
+    for _, info in ipairs(commit_infos) do
+      table.insert(hashes_to_drop, info.hash:sub(1, 7))
+    end
+
+    -- Create a temporary script that modifies the rebase todo list
+    local script_path = vim.fn.tempname()
+    local grep_pattern = table.concat(hashes_to_drop, "|")
+    local script_content = string.format([[#!/bin/bash
 # Remove selected commits from the rebase todo list
 grep -v -E '%s' "$1" > "$1.tmp" && mv "$1.tmp" "$1"
 ]], grep_pattern)
 
-  local script_file = io.open(script_path, "w")
-  if script_file then
-    script_file:write(script_content)
-    script_file:close()
-    vim.fn.system("chmod +x " .. script_path)
-  end
+    local script_file = io.open(script_path, "w")
+    if script_file then
+      script_file:write(script_content)
+      script_file:close()
+      vim.fn.system("chmod +x " .. script_path)
+    end
 
-  -- Run interactive rebase with our custom editor
-  local rebase_base = commit_infos[1].hash .. "^"
-  local env = {
-    GIT_SEQUENCE_EDITOR = script_path,
-  }
+    -- Run interactive rebase with our custom editor
+    local rebase_base = commit_infos[1].hash .. "^"
+    local env = {
+      GIT_SEQUENCE_EDITOR = script_path,
+    }
 
-  output:append_info("Rebasing from " .. rebase_base:sub(1, 7))
-  output:append_info("Dropping commits: " .. table.concat(hashes_to_drop, ", "))
-  output:append_separator()
+    output:append_info("Rebasing from " .. rebase_base:sub(1, 7))
+    output:append_info("Dropping commits: " .. table.concat(hashes_to_drop, ", "))
+    output:append_separator()
 
-  -- Use vim.system with custom environment
-  local rebase_success = async.wrap(function(callback)
-    vim.system(
-      { "git", "rebase", "-i", rebase_base },
-      {
-        text = true,
-        env = env,
-      },
-      function(result)
-        vim.schedule(function()
-          -- Clean up temp script
-          vim.fn.delete(script_path)
+    -- Use vim.system with custom environment
+    local rebase_success = async.wrap(function(callback)
+      vim.system(
+        { "git", "rebase", "-i", rebase_base },
+        {
+          text = true,
+          env = env,
+        },
+        function(result)
+          vim.schedule(function()
+            -- Clean up temp script
+            vim.fn.delete(script_path)
 
-          if output then
-            if result.stdout and #vim.trim(result.stdout) > 0 then
-              for _, line in ipairs(vim.split(result.stdout, "\n")) do
-                if #vim.trim(line) > 0 then
-                  output:append_info(line, 4)
+            if output then
+              if result.stdout and #vim.trim(result.stdout) > 0 then
+                for _, line in ipairs(vim.split(result.stdout, "\n")) do
+                  if #vim.trim(line) > 0 then
+                    output:append_info(line, 4)
+                  end
                 end
               end
-            end
-            if result.stderr and #vim.trim(result.stderr) > 0 then
-              for _, line in ipairs(vim.split(result.stderr, "\n")) do
-                if #vim.trim(line) > 0 then
-                  output:append_info(line, 4)
+              if result.stderr and #vim.trim(result.stderr) > 0 then
+                for _, line in ipairs(vim.split(result.stderr, "\n")) do
+                  if #vim.trim(line) > 0 then
+                    output:append_info(line, 4)
+                  end
                 end
               end
+              output:append_separator()
             end
-            output:append_separator()
-          end
 
-          callback(result.code == 0, result)
-        end)
-      end
-    )
-  end, 1)
+            callback(result.code == 0, result)
+          end)
+        end
+      )
+    end, 1)
 
-  success = rebase_success()
+    success = rebase_success()
 
-  if success then
-    output:append_success("Commits removed from " .. current_branch)
-    notify("✓ Commits removed from " .. current_branch, vim.log.levels.INFO)
-  else
-    output:append_error("Failed to remove commits")
-    output:append_warning("You may need to manually remove them or resolve conflicts")
-    notify("Failed to remove commits", vim.log.levels.ERROR)
+    if success then
+      output:append_success("Commits removed from " .. current_branch)
+      notify("✓ Commits removed from " .. current_branch, vim.log.levels.INFO)
+    else
+      output:append_error("Failed to remove commits")
+      output:append_warning("You may need to manually remove them or resolve conflicts")
+      notify("Failed to remove commits", vim.log.levels.ERROR)
+    end
   end
 
   output:append_separator()
@@ -499,7 +557,35 @@ local function extract_commit_hash(line)
 end
 
 local function extract_commit_subject(line)
-  return line:match("^%w+%s+(.+)$") or ""
+  -- Neogit format: "hash  [branch_name] subject" or "hash  subject"
+  -- Branch names can be: "master", "origin/master", or absent
+
+  -- Remove the hash and initial whitespace
+  local rest = line:match("^%w+%s+(.*)$")
+  if not rest then
+    return ""
+  end
+
+  -- Check if it starts with a branch name pattern (word or origin/word)
+  -- Branch names are typically: word, origin/word, or similar patterns
+  -- The subject usually starts with a capital letter or special char
+
+  -- Try to match: optional_branch_name followed by the subject
+  -- If first word is all lowercase/contains '/', it's likely a branch name
+  local maybe_branch, subject = rest:match("^(%S+)%s+(.+)$")
+
+  if maybe_branch and subject then
+    -- Check if maybe_branch looks like a branch name
+    -- (lowercase, contains /, or common branch names)
+    if maybe_branch:match("^[a-z]") or
+        maybe_branch:match("/") or
+        maybe_branch == "HEAD" then
+      return subject
+    end
+  end
+
+  -- No branch name detected, everything is the subject
+  return rest
 end
 
 function M.create_mr_from_selection()
