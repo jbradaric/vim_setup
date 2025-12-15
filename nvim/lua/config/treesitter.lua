@@ -91,7 +91,16 @@ M.setup = function()
     end,
   })
 
-  require('nvim-treesitter-textobjects').setup({})
+  require('nvim-treesitter-textobjects').setup({
+    select = {
+      selection_modes = {
+        ['@function.outer'] = 'V', -- linewise
+        ['@function.inner'] = 'V', -- linewise
+        ['@class.outer'] = 'V', -- linewise
+        ['@class.inner'] = 'V', -- linewise
+      },
+    },
+  })
 
   vim.keymap.set({ 'x', 'o' }, 'af', function()
     require('nvim-treesitter-textobjects.select').select_textobject('@function.outer', 'textobjects')
@@ -104,10 +113,6 @@ M.setup = function()
   end)
   vim.keymap.set({ 'x', 'o' }, 'ic', function()
     require('nvim-treesitter-textobjects.select').select_textobject('@class.inner', 'textobjects')
-  end)
-  -- You can also use captures from other query groups like `locals.scm`
-  vim.keymap.set({ 'x', 'o' }, 'as', function()
-    require('nvim-treesitter-textobjects.select').select_textobject('@local.scope', 'locals')
   end)
 
   vim.keymap.set('n', '<leader>a', function()
