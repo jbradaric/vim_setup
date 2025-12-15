@@ -84,8 +84,8 @@ return {
       local mc = require('multicursor-nvim')
       mc.setup()
 
-      vim.keymap.set({'n', 'x'}, '<C-d>', function() mc.matchAddCursor(1) end, { desc = 'Add cursor' })
-      vim.keymap.set({'n', 'x'}, '<C-q>', function() mc.matchSkipCursor(1) end, { desc = 'Skip cursor' })
+      vim.keymap.set({ 'n', 'x' }, '<C-d>', function() mc.matchAddCursor(1) end, { desc = 'Add cursor' })
+      vim.keymap.set({ 'n', 'x' }, '<C-q>', function() mc.matchSkipCursor(1) end, { desc = 'Skip cursor' })
 
 
       mc.addKeymapLayer(function(layerSet)
@@ -103,7 +103,8 @@ return {
   {
     'jbradaric/vim-interestingwords',
     init = function()
-      vim.g.interestingWordsGUIColors = { '#99B3FF', '#B399FF', '#E699FF', '#FF99B3', '#99FFE6', '#FFD65C', '#99FFB3', '#E6FF99', '#FFB399', '#5CD6FF', '#99FF99', '#FFF6CC' }
+      vim.g.interestingWordsGUIColors = { '#99B3FF', '#B399FF', '#E699FF', '#FF99B3', '#99FFE6', '#FFD65C', '#99FFB3',
+        '#E6FF99', '#FFB399', '#5CD6FF', '#99FF99', '#FFF6CC' }
       vim.keymap.set('n', '<C-k>', '<cmd>call InterestingWords("n")<cr>', { silent = true })
     end,
   },
@@ -186,7 +187,8 @@ return {
   {
     'mfussenegger/nvim-dap',
     dependencies = {
-      { "igorlfs/nvim-dap-view",
+      {
+        "igorlfs/nvim-dap-view",
         opts = {
           winbar = {
             sections = { 'watches', 'scopes', 'exceptions', 'breakpoints', 'threads', 'repl', 'console' },
@@ -290,10 +292,12 @@ return {
     },
     init = function()
       vim.keymap.set('n', '<space>tt', function() require('neotest').run.run() end, { desc = 'Run nearest test' })
-      vim.keymap.set('n', '<space>td', function() require('neotest').run.run({ strategy = 'dap' }) end, { desc = 'Debug nearest test' })
+      vim.keymap.set('n', '<space>td', function() require('neotest').run.run({ strategy = 'dap' }) end,
+        { desc = 'Debug nearest test' })
       vim.keymap.set('n', '<space>tf', function() require('neotest').run.run(vim.fn.expand('%')) end,
         { desc = 'Run current file' })
-      vim.keymap.set('n', '<space>to', function() require('neotest').output.open({ enter = true, quiet = true, auto_close = true }) end,
+      vim.keymap.set('n', '<space>to',
+        function() require('neotest').output.open({ enter = true, quiet = true, auto_close = true }) end,
         { desc = 'Show current test output' })
       vim.keymap.set('n', '<space>ts', function() require('neotest').summary.toggle() end,
         { desc = 'Toggle summary' })
@@ -350,10 +354,10 @@ return {
         require('codecompanion.config').config.strategies.chat.slash_commands)
     end,
     keys = {
-      { '<leader>ai', '<cmd>CodeCompanion<cr>',        mode = { 'n', 'v' }, desc = 'Inline Prompt [zi]' },
-      { '<leader>ac', '<cmd>CodeCompanionChat<cr>',    mode = { 'n', 'v' }, desc = 'Open Chat [zz]' },
-      { '<leader>at', '<cmd>CodeCompanionChat Toggle<cr>',  mode = { 'n', 'v' }, desc = 'Toggle Chat [zt]' },
-      { '<leader>aa', '<cmd>CodeCompanionActions<cr>', mode = { 'n', 'v' }, desc = 'Actions [za]' },
+      { '<leader>ai', '<cmd>CodeCompanion<cr>',            mode = { 'n', 'v' }, desc = 'Inline Prompt [zi]' },
+      { '<leader>ac', '<cmd>CodeCompanionChat<cr>',        mode = { 'n', 'v' }, desc = 'Open Chat [zz]' },
+      { '<leader>at', '<cmd>CodeCompanionChat Toggle<cr>', mode = { 'n', 'v' }, desc = 'Toggle Chat [zt]' },
+      { '<leader>aa', '<cmd>CodeCompanionActions<cr>',     mode = { 'n', 'v' }, desc = 'Actions [za]' },
     },
     commands = { 'CodeCompanion', 'CodeCompanionChat', 'CodeCompanionActions' },
   },
@@ -390,7 +394,8 @@ return {
       },
     },
   },
-  { 'stevearc/quicker.nvim',
+  {
+    'stevearc/quicker.nvim',
     event = "FileType qf",
     opts = {
       keys = {
@@ -416,28 +421,42 @@ return {
     priority = 1000,
     lazy = false,
     keys = {
-      { "<leader>.", function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+      { "<leader>.", function() Snacks.scratch() end,        desc = "Toggle Scratch Buffer" },
       { "<leader>S", function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
-      { "<space>ss", function() Snacks.picker.lsp_symbols({ layout = { preset = 'vscode' } }) end,
+      {
+        "<space>ss",
+        function() Snacks.picker.lsp_symbols({ layout = { preset = 'vscode' } }) end,
         desc = 'Open LSP symbol picker'
       },
-      { "<space>sd", function() Snacks.picker.diagnostics_buffer({ layout = { preset = 'vscode' } }) end,
+      {
+        "<space>sd",
+        function() Snacks.picker.diagnostics_buffer({ layout = { preset = 'vscode' } }) end,
         desc = 'Open diagnostics picker'
       },
-      { "<space>sl", function() Snacks.picker.lines({ layout = { preset = 'vscode' } }) end,
+      {
+        "<space>sl",
+        function() Snacks.picker.lines({ layout = { preset = 'vscode' } }) end,
         desc = 'Search lines in the current buffer'
       },
-      { "<space>/", function() Snacks.picker.grep({ layout = { preset = 'vscode' } }) end,
+      {
+        "<space>/",
+        function() Snacks.picker.grep({ layout = { preset = 'vscode' } }) end,
         desc = 'Grep in the current project'
       },
-      { "<c-p>", function() Snacks.picker.files({ layout = { preset = 'vscode' } }) end,
+      {
+        "<c-p>",
+        function() Snacks.picker.files({ layout = { preset = 'vscode' } }) end,
         desc = 'Open file picker'
       },
       { "<space>r", function() Snacks.picker.resume() end, desc = 'Resume last picker' },
-      { "<leader>b", function() Snacks.picker.buffers({ layout = { preset = 'vscode' } }) end,
+      {
+        "<leader>b",
+        function() Snacks.picker.buffers({ layout = { preset = 'vscode' } }) end,
         desc = 'Select buffer'
       },
-      { "<leader>l", function() Snacks.picker.lines({ layout = { preset = 'vscode' } }) end,
+      {
+        "<leader>l",
+        function() Snacks.picker.lines({ layout = { preset = 'vscode' } }) end,
         desc = 'Search lines in the current buffer'
       },
       {
@@ -484,7 +503,7 @@ return {
 
       vim.api.nvim_create_user_command('Files',
         function(func_args)
-          require('snacks').picker.files({ dirs = { func_args.args }, layout = { preset = 'vscode' }})
+          require('snacks').picker.files({ dirs = { func_args.args }, layout = { preset = 'vscode' } })
         end,
         { nargs = 1, complete = 'dir', desc = 'Pick files' })
     end,
