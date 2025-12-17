@@ -55,13 +55,24 @@ M.setup = function()
   })
 
   -- Key mappings
-  vim.keymap.set("n", "<leader>gmr", function()
-    require("gitlab-mr-cherry-pick").create_mr_from_current_line()
-  end, { desc = "Create GitLab MR from current commit" })
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "NeogitLogView", "NeogitStatus" },
+    callback = function(args)
+      vim.keymap.set("n", "<leader>gmr", function()
+        require("gitlab-mr-cherry-pick").create_mr_from_current_line()
+      end, {
+        buffer = args.buf,
+        desc = "Create GitLab MR from current commit",
+      })
 
-  vim.keymap.set("v", "<leader>gmr", function()
-    require("gitlab-mr-cherry-pick").create_mr_from_selection()
-  end, { desc = "Create GitLab MR from selected commits" })
+      vim.keymap.set("v", "<leader>gmr", function()
+        require("gitlab-mr-cherry-pick").create_mr_from_selection()
+      end, {
+        buffer = args.buf,
+        desc = "Create GitLab MR from selected commits",
+      })
+    end,
+  })
 end
 
 return M
