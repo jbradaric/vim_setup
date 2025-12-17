@@ -393,15 +393,20 @@ local create_merge_request_async = async.void(function(commits, opts)
   -- Check for uncommitted changes before proceeding with commit removal
   -- We only care about tracked files (staged or unstaged), not untracked files
   output:append_section("Checking for uncommitted changes")
-  local status_result = git({ "status", "--porcelain" }, nil)
+
+  -- For status check, we need both success and result, so capture both
+  local status_success, status_result = git({ "status", "--porcelain" }, nil)
 
   local has_uncommitted = false
-  if status_result and #vim.trim(status_result.stdout) > 0 then
-    -- Check each line - ignore lines starting with '??' (untracked files)
-    for _, line in ipairs(vim.split(status_result.stdout, "\n")) do
-      if #vim.trim(line) > 0 and not line:match("^%?%?") then
-        has_uncommitted = true
-        break
+  if status_success and status_result and status_result.stdout then
+    local status_output = vim.trim(status_result.stdout)
+    if #status_output > 0 then
+      -- Check each line - ignore lines starting with '??' (untracked files)
+      for _, line in ipairs(vim.split(status_output, "\n")) do
+        if #vim.trim(line) > 0 and not line:match("^%?%?") then
+          has_uncommitted = true
+          break
+        end
       end
     end
   end
@@ -437,8 +442,11 @@ local create_merge_request_async = async.void(function(commits, opts)
   output:append_section("Removing commits from " .. current_branch)
 
   -- Check if we're removing commits at HEAD
-  local head_hash_result = git({ "rev-parse", "HEAD" }, nil)
-  local head_hash = head_hash_result and vim.trim(head_hash_result.stdout) or ""
+  local head_success, head_result = git({ "rev-parse", "HEAD" }, nil)
+  local head_hash = ""
+  if head_success and head_result and head_result.stdout then
+    head_hash = vim.trim(head_result.stdout)
+  end
   local last_commit_is_head = (commit_infos[#commit_infos].hash == head_hash)
 
   if last_commit_is_head then
