@@ -148,13 +148,6 @@ local Diagnostics = {
 
   update = { 'DiagnosticChanged', 'BufEnter' },
 
-  on_click = {
-    callback = function()
-      require('trouble').toggle({ mode = 'document_diagnostics' })
-    end,
-    name = 'heirline_diagnostics',
-  },
-
   {
     provider = function(self)
       -- 0 is just another output, we can decide to print it or not!
@@ -388,7 +381,7 @@ M.setup = function()
       disable_winbar_cb = function(args)
         return conditions.buffer_matches({
           buftype = { 'prompt', 'nofile', 'help', 'quickfix', 'terminal', },
-          filetype = { '^git.*', 'Trouble' },
+          filetype = { '^git.*' },
         }, args.buf)
       end,
     },

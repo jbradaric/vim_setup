@@ -29,5 +29,3 @@ vim.keymap.set('n', ']d',
     vim.diagnostic.jump({ count = 1, float = false })
   end,
   add_desc(opts, 'Go to previous diagnostic message'))
-vim.keymap.set('n', '<leader>q', function() require('trouble').open('document_diagnostics') end,
-  add_desc(opts, 'Open list of diagnostics for the current document'))
