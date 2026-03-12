@@ -124,6 +124,8 @@ M.setup = function()
     },
   })
 
+  capabilities = vim.tbl_deep_extend('force', capabilities, vim.lsp.protocol.make_client_capabilities())
+
   -- Apply base capabilities to all servers; on_attach handled via LspAttach below.
   vim.lsp.config('*', { capabilities = capabilities })
 
