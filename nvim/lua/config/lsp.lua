@@ -152,7 +152,13 @@ M.setup = function()
   })
 
   -- Enable all desired servers
-  vim.lsp.enable({ 'clangd', 'pyrefly', 'ruff', 'lua_ls', 'ts_ls', 'tailwindcss', 'copilot' })
+  local lsp_servers = { 'clangd', 'ruff', 'lua_ls', 'ts_ls', 'tailwindcss', 'copilot' }
+  if vim.env.NVIM_USE_TY == '1' then
+    table.insert(lsp_servers, 'ty')
+  else
+    table.insert(lsp_servers, 'pyrefly')
+  end
+  vim.lsp.enable(lsp_servers)
 
   -- Enable inline completion
   vim.lsp.inline_completion.enable()
