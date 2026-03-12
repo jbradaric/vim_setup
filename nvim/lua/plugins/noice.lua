@@ -43,6 +43,13 @@ return {
       routes = {
         {
           filter = {
+            event = "msg_show",
+            kind = "progress",
+          },
+          opts = { skip = true, stop = true },
+        },
+        {
+          filter = {
             event = 'msg_show',
             any = {
               { find = '%d+L, %d+B' },
@@ -63,6 +70,7 @@ return {
               { kind = 'wmsg' },
               { kind = 'emsg', find = 'E486' },
               { kind = 'quickfix' },
+              { kind = 'progress' },
             },
           },
           opts = { skip = true },
