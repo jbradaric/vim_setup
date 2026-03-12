@@ -386,9 +386,15 @@ return {
       cli = {
         win = {
           layout = 'float',
+          float = {
+            border = 'rounded',
+          },
         },
         mux = {
           enabled = true,
+        },
+        tools = {
+          copilot = { cmd = { 'copilot' } },
         },
       },
       nes = {
@@ -399,17 +405,15 @@ return {
       {
         '\\so',
         function()
-          require('sidekick.cli').toggle({ name = 'opencode', focus = true })
+          require('sidekick.cli').select()
         end,
         desc = 'Toggle Sidekick',
       },
       {
-        '\\sp',
-        function()
-          require("sidekick.cli").prompt()
-        end,
-        desc = "Sidekick Ask Prompt",
-        mode = { "n", "v" },
+        "\\sv",
+        function() require("sidekick.cli").send({ msg = "{selection}" }) end,
+        mode = { "x" },
+        desc = "Send Visual Selection",
       },
     },
   },
