@@ -332,55 +332,6 @@ return {
     },
   },
   {
-    "olimorris/codecompanion.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-      -- "nvim-telescope/telescope.nvim", -- Optional: For working with files with slash commands
-      "ravitemer/codecompanion-history.nvim",
-    },
-    config = function()
-      require('codecompanion.providers').pickers = 'snacks'
-      require('codecompanion').setup({
-        extensions = {
-          history = {
-            enabled = true,
-            opts = {
-              title_generation_opts = {
-                adapter = 'copilot',
-                model = 'gpt-4o',
-              },
-              summary = {
-                generation_opts = {
-                  adapter = 'copilot',
-                  model = 'gpt-4o',
-                },
-              },
-            },
-          },
-        },
-        opts = {
-        },
-      })
-
-      -- Override slash commands to use Snacks as the provider
-      vim.tbl_map(
-        function(cmd)
-          if cmd.opts then
-            cmd.opts.provider = 'snacks'
-          end
-        end,
-        require('codecompanion.config').config.interactions.chat.slash_commands)
-    end,
-    keys = {
-      { '<leader>ai', '<cmd>CodeCompanion<cr>',            mode = { 'n', 'v' }, desc = 'Inline Prompt [zi]' },
-      { '<leader>ac', '<cmd>CodeCompanionChat<cr>',        mode = { 'n', 'v' }, desc = 'Open Chat [zz]' },
-      { '<leader>at', '<cmd>CodeCompanionChat Toggle<cr>', mode = { 'n', 'v' }, desc = 'Toggle Chat [zt]' },
-      { '<leader>aa', '<cmd>CodeCompanionActions<cr>',     mode = { 'n', 'v' }, desc = 'Actions [za]' },
-    },
-    commands = { 'CodeCompanion', 'CodeCompanionChat', 'CodeCompanionActions' },
-  },
-  {
     "folke/sidekick.nvim",
     opts = {
       cli = {
