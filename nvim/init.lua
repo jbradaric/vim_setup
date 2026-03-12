@@ -17,6 +17,7 @@ require('config.options')
 require('config.filetypes')
 require('config.diagnostics')
 require('config.fixes')
+require('config.notes').setup()
 
 require('lazy').setup('plugins')
 
