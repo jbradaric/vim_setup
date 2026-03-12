@@ -370,7 +370,7 @@ return {
             cmd.opts.provider = 'snacks'
           end
         end,
-        require('codecompanion.config').config.strategies.chat.slash_commands)
+        require('codecompanion.config').config.interactions.chat.slash_commands)
     end,
     keys = {
       { '<leader>ai', '<cmd>CodeCompanion<cr>',            mode = { 'n', 'v' }, desc = 'Inline Prompt [zi]' },
