@@ -20,20 +20,6 @@ return {
   },
   { 'nvim-tree/nvim-web-devicons', lazy = true },
   {
-    'lewis6991/gitsigns.nvim',
-    opts = {
-      signcolumn = false,
-      numhl = true,
-      current_line_blame = false,
-      on_attach = function(bufnr)
-        local gitsigns = package.loaded.gitsigns
-        vim.keymap.set('n', ']g', function() vim.schedule(gitsigns.next_hunk) end, { buffer = bufnr })
-        vim.keymap.set('n', '[g', function() vim.schedule(gitsigns.prev_hunk) end, { buffer = bufnr })
-      end,
-    },
-    config = true,
-  },
-  {
     'rebelot/heirline.nvim',
     dependencies = {
       'lewis6991/gitsigns.nvim',
@@ -124,17 +110,11 @@ return {
   {
     'NeogitOrg/neogit',
     branch = 'master',
+    dependencies = {
+      'sindrets/diffview.nvim',
+    },
     config = function()
       require('config.neogit').setup()
-    end,
-  },
-  { 'xolox/vim-misc' },
-  {
-    'xolox/vim-notes',
-    cmd = { 'Note', 'NoteFromSelectedText' },
-    init = function()
-      vim.g.notes_directories = { '~/.config/nvim/notes' }
-      vim.g.notes_title_sync = 'rename_file'
     end,
   },
   {
