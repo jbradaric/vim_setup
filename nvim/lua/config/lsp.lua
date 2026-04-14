@@ -51,7 +51,7 @@ local function setup_lsp_mappings(client, bufnr)
     end
   end
   if client:supports_method('textDocument/documentColor') then
-    vim.lsp.document_color.enable(true, bufnr, { style = 'virtual' })
+    vim.lsp.document_color.enable(true, { bufnr = bufnr }, { style = 'virtual' })
   end
   vim.keymap.set('n', '\\i', function()
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
@@ -192,9 +192,10 @@ M.setup = function()
 
         -- :h LspProgress
         vim.api.nvim_echo({ { msg } }, false, {
-          id = "lsp",
+          id = "lsp." .. ev.data.params.token,
           kind = "progress",
           title = value.title,
+          source = "vim.lsp",
           status = value.kind ~= "end" and "running" or "success",
           percent = value.percentage,
         })
