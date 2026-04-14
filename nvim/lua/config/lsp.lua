@@ -152,7 +152,7 @@ M.setup = function()
   })
 
   -- Enable all desired servers
-  local lsp_servers = { 'clangd', 'ruff', 'lua_ls', 'ts_ls', 'tailwindcss', 'copilot' }
+  local lsp_servers = { 'clangd', 'ruff', 'lua_ls', 'tailwindcss', 'copilot' }
   if vim.env.NVIM_USE_TY == '1' then
     table.insert(lsp_servers, 'ty')
   else
