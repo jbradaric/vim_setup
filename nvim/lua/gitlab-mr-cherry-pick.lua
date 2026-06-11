@@ -390,6 +390,16 @@ local create_merge_request_async = async.void(function(commits, opts)
   output:append_success("Checked out to " .. current_branch)
   output:append_separator()
 
+  -- Delete local temporary branch (remote branch is kept for the MR)
+  output:append_section("Deleting local temporary branch")
+  local del_success = git({ "branch", "-D", temp_branch }, output)
+  if del_success then
+    output:append_success("Deleted local branch " .. temp_branch)
+  else
+    output:append_warning("Could not delete local branch " .. temp_branch)
+  end
+  output:append_separator()
+
   -- Check for uncommitted changes before proceeding with commit removal
   -- We only care about tracked files (staged or unstaged), not untracked files
   output:append_section("Checking for uncommitted changes")
