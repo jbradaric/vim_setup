@@ -20,7 +20,7 @@ M.setup = function()
       telescope = false,
       fzf_lua = false,
       mini_pick = false,
-      diffview = true,
+      diffview = false,
       snacks = true,
     },
     mappings = {

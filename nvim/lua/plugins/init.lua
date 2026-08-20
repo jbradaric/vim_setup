@@ -111,7 +111,7 @@ return {
     'NeogitOrg/neogit',
     branch = 'master',
     dependencies = {
-      'sindrets/diffview.nvim',
+      'barrettruth/diffs.nvim',
     },
     config = function()
       require('config.neogit').setup()

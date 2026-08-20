@@ -42,6 +42,7 @@ local ensure_installed = {
   'c',
   'cpp',
   'css',
+  'diff',
   'groovy',
   'helm',
   'html',

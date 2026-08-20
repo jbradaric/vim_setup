@@ -46,3 +46,11 @@ for name, value in pairs(options) do
     vim.opt[name] = value
   end
 end
+
+vim.g.diffs = {
+  integrations = {
+    fugitive = true,
+    neogit = true,
+    difftastic = true,
+  }
+}
