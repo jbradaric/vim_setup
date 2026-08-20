@@ -146,7 +146,6 @@ return {
     version = '^5',
     ft = { 'rust' },
   },
-  { 'justinmk/vim-dirvish' },
   { 'tyru/open-browser.vim' },
   {
     'jbradaric/nvim-miniyank',
