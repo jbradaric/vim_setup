@@ -311,43 +311,6 @@ return {
     },
   },
   {
-    "folke/sidekick.nvim",
-    opts = {
-      cli = {
-        win = {
-          layout = 'float',
-          float = {
-            border = 'rounded',
-          },
-        },
-        mux = {
-          enabled = true,
-        },
-        tools = {
-          copilot = { cmd = { 'copilot' } },
-        },
-      },
-      nes = {
-        enabled = false,
-      },
-    },
-    keys = {
-      {
-        '\\so',
-        function()
-          require('sidekick.cli').select()
-        end,
-        desc = 'Toggle Sidekick',
-      },
-      {
-        "\\sv",
-        function() require("sidekick.cli").send({ msg = "{selection}" }) end,
-        mode = { "x" },
-        desc = "Send Visual Selection",
-      },
-    },
-  },
-  {
     'stevearc/quicker.nvim',
     event = "FileType qf",
     opts = {
