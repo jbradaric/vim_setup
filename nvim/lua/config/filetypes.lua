@@ -6,10 +6,5 @@ vim.filetype.add({
       end
       return 'c'
     end,
-  },
-  proj = 'zip',
-  elem = 'zip',
-  icons = 'zip',
-  debug = 'zip',
-  datapool = 'zip',
+  }
 })
