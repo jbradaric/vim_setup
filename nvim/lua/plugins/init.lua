@@ -158,7 +158,8 @@ return {
   },
   {
     'Mofiqul/vscode.nvim',
-    priority = 10000,
+    priority = 1000,
+    lazy = false,
     config = function()
       require('config.colorscheme').setup()
     end,
