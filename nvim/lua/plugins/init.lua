@@ -111,7 +111,7 @@ return {
     'NeogitOrg/neogit',
     branch = 'master',
     dependencies = {
-      'barrettruth/diffs.nvim',
+      'https://forge.barrettruth.com/barrettruth/diffs.nvim',
     },
     config = function()
       require('config.neogit').setup()
